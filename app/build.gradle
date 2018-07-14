@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: "androidx.navigation.safeargs"
+
 apply plugin: 'kotlin-kapt'
 
 ext.anko_version = '0.10.5'
@@ -62,6 +64,7 @@ dependencies {
 
     def lifecycle_version = "1.1.1"
     def room_version = "1.1.0"
+    def nav_version = "1.0.0-alpha01"
 
     // Room
     implementation "android.arch.persistence.room:runtime:$room_version"
@@ -70,4 +73,11 @@ dependencies {
     // ViewModel + LiveData
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+
+    // Fuel
+    implementation 'com.github.kittinunf.fuel:fuel-coroutines:1.14.0'
 }

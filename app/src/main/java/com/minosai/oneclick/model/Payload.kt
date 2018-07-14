@@ -7,5 +7,5 @@ data class Payload (
         @SerializedName("password") val password: String
 ) {
     @SerializedName("serviceName") val serviceName = "ProntoAuthentication"
-    @SerializedName("Submit22") val submit22 = "Login"
+//    @SerializedName("Submit22") val submit22 = "Login"
 }

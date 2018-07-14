@@ -9,9 +9,9 @@ import retrofit2.http.POST
 
 interface WebService {
 
-    @POST("authlogin")
+    @POST("authlogin?URI=http://www.msftncsi.com/redirect")
     fun loginUser(@Body payload: Payload): Deferred<Response<Any>>
 
-    @GET("authlogout?")
+    @GET("authlogout")
     fun logoutUser(): Deferred<Response<Any>>
 }

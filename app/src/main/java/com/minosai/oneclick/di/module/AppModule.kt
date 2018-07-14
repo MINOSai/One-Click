@@ -27,7 +27,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideWebService(): WebService = Retrofit.Builder()
-            .baseUrl("http://api.coinmarketcap.com/v2/ticker/")
+            .baseUrl("http://phc.prontonetworks.com/cgi-bin/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
