@@ -1,4 +1,4 @@
-package com.minosai.oneclick.ui
+package com.minosai.oneclick
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
