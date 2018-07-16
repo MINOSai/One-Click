@@ -2,12 +2,17 @@ package com.minosai.oneclick.di
 
 import android.app.Activity
 import android.app.Application
+import android.app.Service
+import android.content.BroadcastReceiver
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import com.minosai.oneclick.OneClickApp
+import com.minosai.oneclick.util.receiver.WifiReceiver
+import com.minosai.oneclick.util.service.OneClickTileService
 import dagger.android.AndroidInjection
+import dagger.android.HasServiceInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 

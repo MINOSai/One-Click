@@ -1,19 +1,18 @@
 package com.minosai.oneclick
 
-import android.content.SharedPreferences
+import android.content.BroadcastReceiver
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import androidx.navigation.Navigation
-import com.minosai.oneclick.R
-import com.minosai.oneclick.model.Payload
-import com.minosai.oneclick.network.WebService
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
+import android.net.wifi.WifiManager
+import android.content.IntentFilter
+import com.minosai.oneclick.util.receiver.WifiReceiver
+import dagger.android.HasBroadcastReceiverInjector
+
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
@@ -25,6 +24,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+        registerReceiver(WifiReceiver(), intentFilter)
     }
 
     override fun onSupportNavigateUp(): Boolean = Navigation.findNavController(this, R.id.fragment_nav_host).navigateUp()

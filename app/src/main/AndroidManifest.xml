@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.minosai.oneclick">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -19,6 +21,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="com.minosai.oneclick.util.service.OneClickTileService"
+            android:icon="@drawable/ic_login"
+            android:label="One Click"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+
+        </service>
+
+        <!--<receiver android:name=".util.receiver.WifiReceiver" android:enabled="true">-->
+            <!--<intent-filter android:priority="100">-->
+                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED_ACTION" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
     </application>
 
 </manifest>
