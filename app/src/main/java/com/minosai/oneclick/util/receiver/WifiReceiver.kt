@@ -31,6 +31,8 @@ class WifiReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
+        Log.d(TAG, "wifireceiver - onreceive()")
+
         AndroidInjection.inject(this, context)
 
         intent?.let { intent ->

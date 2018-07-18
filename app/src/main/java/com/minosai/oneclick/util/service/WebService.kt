@@ -19,6 +19,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
     fun login(userName: String, password: String) {
+        //TODO: Check if VOLSBB or VIT2.4G OR VIT5G
         Constants.URL_LOGIN.httpPost(listOf(
                 "userId" to userName,
                 "password" to password,
@@ -63,7 +64,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
         launch {
             try {
                 Thread.sleep(500)
-                val timeoutMs = 1500
+                val timeoutMs = 1000
                 val sock = Socket()
                 val sockaddr = InetSocketAddress("8.8.8.8", 53)
 
