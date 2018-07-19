@@ -3,20 +3,29 @@ package com.minosai.oneclick.util.service
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.drawable.Icon
-import android.net.wifi.WifiManager
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.support.annotation.RequiresApi
 import android.util.Log
 import com.minosai.oneclick.R
-import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
+import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
+import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.receiver.WifiReceiver
+import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
+import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
+import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
-class OneClickTileService : TileService() {
+class OneClickTileService :
+        TileService(),
+        InternetConnectivityListener,
+        WifiConnectivityListener,
+        LoginLogoutListener {
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
@@ -25,29 +34,56 @@ class OneClickTileService : TileService() {
     @Inject
     lateinit var webService: WebService
 
-    private var wifiReceiver = WifiReceiver()
-    var isReceivingWifiStatus = false
+    private lateinit var wifiReceiver: WifiReceiver
+    private lateinit var loginLogoutReceiver: LoginLogoutReceiver
+    private lateinit var mInternetAvailabilityChecker:InternetAvailabilityChecker
 
-    private var isLogged = false
     private var isWifiConnected = false
     private var isOnline = false
 
-    private var userName = ""
-    private var password = ""
-
-    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { preferences, key ->
-        when(key) {
-            Constants.PREF_ISWIFICONNECTED -> isWifiConnected = preferences.getBoolean(Constants.PREF_ISWIFICONNECTED, false)
-            Constants.PREF_ISONLINE -> isOnline = preferences.getBoolean(Constants.PREF_ISONLINE, false)
-            Constants.PREF_ISLOGGED -> isLogged = preferences.getBoolean(Constants.PREF_ISLOGGED, false)
-        }
-        updateState()
-    }
-
     override fun onCreate() {
         super.onCreate()
-        AndroidInjection.inject(this)
 
+        AndroidInjection.inject(this)
+        InternetAvailabilityChecker.init(this)
+
+        wifiReceiver = WifiReceiver(this)
+        loginLogoutReceiver = LoginLogoutReceiver(this)
+
+        registerWifiReceiver()
+        registerLoginLogoutReceiver()
+    }
+
+    override fun onStartListening() {
+        super.onStartListening()
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+        mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+    }
+
+    override fun onClick() {
+        var type = ""
+        when(qsTile.state) {
+            Tile.STATE_ACTIVE -> type = "LOGOUT"
+            Tile.STATE_INACTIVE -> type = "LOGIN"
+        }
+        LoginLogoutBroadcastHelper.sendLoginLogoutBroadcast(this, type)
+//        updateState()
+    }
+
+    override fun onStopListening() {
+        mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        super.onStopListening()
+    }
+
+    override fun onDestroy() {
+        unregisterWifiReceiver()
+        unregisterLoginLogoutReceiver()
+
+        super.onDestroy()
+    }
+
+
+    private fun registerWifiReceiver() {
         try {
             val intentFilter = IntentFilter()
             with(intentFilter) {
@@ -56,7 +92,7 @@ class OneClickTileService : TileService() {
                 addAction("android.net.wifi.supplicant.CONNECTION_CHANGE")
                 addAction("android.net.wifi.STATE_CHANGE")
             }
-            registerReceiver(WifiReceiver(), intentFilter)
+            registerReceiver(wifiReceiver, intentFilter)
             Log.d(TAG, "WifiReceiver registered")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -64,50 +100,50 @@ class OneClickTileService : TileService() {
         }
     }
 
-    override fun onDestroy() {
+    private fun unregisterWifiReceiver() {
         try {
-            applicationContext.unregisterReceiver(wifiReceiver)
-            Log.d(TAG, "WifiReceiver UNregistered")
+            unregisterReceiver(wifiReceiver)
         } catch (e: Exception) {
             // already unregistered
-            Log.d(TAG, "WifiReceiver already UNregistered")
         }
-        super.onDestroy()
     }
 
-    override fun onClick() {
-        super.onClick()
-        when(qsTile.state) {
-            Tile.STATE_ACTIVE -> webService.logout()
-            Tile.STATE_INACTIVE -> webService.login(userName, password)
+    private fun registerLoginLogoutReceiver() {
+        try {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(LoginLogoutBroadcastHelper.LOGIN_LOGOUT_ACTION)
+            registerReceiver(loginLogoutReceiver, intentFilter)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+    private fun unregisterLoginLogoutReceiver() {
+        try {
+            unregisterReceiver(loginLogoutReceiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        isOnline = isConnected
         updateState()
     }
 
-    override fun onStartListening() {
-        super.onStartListening()
-        preferences.registerOnSharedPreferenceChangeListener(listener)
-        getStoredValues()
-    }
-
-    override fun onStopListening() {
-        super.onStopListening()
-        preferences.unregisterOnSharedPreferenceChangeListener(listener)
-    }
-
-    private fun getStoredValues() {
-        with(preferences) {
-            isLogged = getBoolean(Constants.PREF_ISLOGGED, false)
-            isWifiConnected = getBoolean(Constants.PREF_ISWIFICONNECTED, false)
-            isOnline = getBoolean(Constants.PREF_ISONLINE, false)
-            userName = getString(Constants.PREF_USERNAME, "")
-            password = getString(Constants.PREF_PASSWORD, "")
-        }
+    override fun onWifiStateChanged(isConnectedToWifi: Boolean) {
+        isWifiConnected = isConnectedToWifi
         updateState()
     }
+
+    override fun onLoggedListener(isLogged: Boolean) {
+        isOnline = isLogged
+        updateState()
+    }
+
 
     private fun updateState() {
-        //TODO: Check if online here because loggin into other device logs out here and we will not know
         if (isWifiConnected) {
             if (isOnline) changeStateLogout() else changeStateLogin()
         } else {
@@ -133,23 +169,5 @@ class OneClickTileService : TileService() {
         icon = Icon.createWithResource(this@OneClickTileService, R.drawable.ic_logout)
         label = "Logout"
         updateTile()
-    }
-
-    override fun onTileAdded() {
-        super.onTileAdded()
-//        if (!isReceivingWifiStatus) {
-//            val intentFilter = IntentFilter()
-//            intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-//            registerReceiver(wifiReceiver, intentFilter)
-//            isReceivingWifiStatus = true
-//        }
-    }
-
-    override fun onTileRemoved() {
-//        if (isReceivingWifiStatus) {
-//            unregisterReceiver(wifiReceiver)
-//            isReceivingWifiStatus = false
-//        }
-        super.onTileRemoved()
     }
 }

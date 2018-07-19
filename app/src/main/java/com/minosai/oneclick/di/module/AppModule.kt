@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.minosai.oneclick.util.service.WebService
-import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.helper.Constants
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

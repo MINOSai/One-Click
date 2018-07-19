@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.util.service.WebService
-import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.helper.Constants
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class MainFragment : Fragment(), Injectable {
         button_login.setOnClickListener {
             val userName = input_userid.text.toString()
             val password = input_password.text.toString()
-            webService.login(userName, password)
+            webService.login()
             saveUser(userName,  password)
         }
 

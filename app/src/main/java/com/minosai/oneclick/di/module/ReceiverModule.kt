@@ -1,6 +1,7 @@
 package com.minosai.oneclick.di.module
 
 import com.minosai.oneclick.util.receiver.AlarmReceiver
+import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -13,4 +14,7 @@ abstract class ReceiverModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAlarmReceiver(): AlarmReceiver
+
+    @ContributesAndroidInjector
+    abstract fun contributesLoginLogoutRecaiver(): LoginLogoutReceiver
 }

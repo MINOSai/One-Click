@@ -1,4 +1,4 @@
-package com.minosai.oneclick.util
+package com.minosai.oneclick.util.helper
 
 object Constants {
 
