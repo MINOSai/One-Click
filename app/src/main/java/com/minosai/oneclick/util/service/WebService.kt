@@ -8,16 +8,21 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
 import javax.inject.Inject
 
 class WebService @Inject constructor(val context: Context, val preferences: SharedPreferences) {
+
+    companion object {
+        enum class RequestType { LOGIN, LOGOUT }
+    }
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
     private var userName = preferences.getString(Constants.PREF_USERNAME, "")
     private var password = preferences.getString(Constants.PREF_PASSWORD, "")
 
-    fun login(): Boolean {
+    fun login(loginLogoutListener: LoginLogoutListener): Boolean {
         //TODO: Check if VOLSBB or VIT2.4G OR VIT5G
         var isLoggedIn = false
         Constants.URL_LOGIN.httpPost(listOf(
@@ -29,6 +34,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
             when (result) {
                 is Result.Failure -> {
                     Log.i(TAG, "Did NOT log in")
+                    loginLogoutListener.onLoggedListener(RequestType.LOGIN, false)
                 }
                 is Result.Success -> {
                     Log.i(TAG, "Logged in")
@@ -37,19 +43,20 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
 //                            .putBoolean(Constants.PREF_ISLOGGED, true)
 //                            .putBoolean(Constants.PREF_ISONLINE, true)
 //                            .apply()
-                    isLoggedIn = false
+                    loginLogoutListener.onLoggedListener(RequestType.LOGIN, true)
                 }
             }
         }
         return isLoggedIn
     }
 
-    fun logout(): Boolean {
+    fun logout(loginLogoutListener: LoginLogoutListener): Boolean {
         var isLoggedOut = false
         Constants.URL_LOGOUT.httpGet().response { _, _, result ->
             when (result) {
                 is Result.Failure -> {
                     Log.i(TAG, "Did NOT Log out")
+                    loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false)
                 }
                 is Result.Success -> {
                     Log.i(TAG, "Logged out")
@@ -58,36 +65,11 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
 //                            .putBoolean(Constants.PREF_ISLOGGED, false)
 //                            .putBoolean(Constants.PREF_ISONLINE, false)
 //                            .apply()
-                    isLoggedOut = true
+                    loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true)
                 }
             }
         }
         return isLoggedOut
     }
-
-//    fun isOnline() {
-//        launch {
-//            try {
-//                Thread.sleep(500)
-//                val timeoutMs = 1000
-//                val sock = Socket()
-//                val sockaddr = InetSocketAddress("8.8.8.8", 53)
-//
-//                sock.connect(sockaddr, timeoutMs)
-//                sock.close()
-//
-//                setOnlineState(true)
-//            } catch (e: IOException) {
-//                setOnlineState(false)
-//            }
-//        }
-//    }
-//
-//    private fun setOnlineState(isOnline: Boolean) {
-//        Log.i(TAG, "isOnline : $isOnline")
-//        preferences.edit()
-//                .putBoolean(Constants.PREF_ISONLINE, isOnline)
-//                .apply()
-//    }
 
 }

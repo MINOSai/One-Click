@@ -10,10 +10,11 @@ import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
-class MainFragment : Fragment(), Injectable {
+class MainFragment : Fragment(), Injectable, LoginLogoutListener {
 
     @Inject
     lateinit var preferences: SharedPreferences
@@ -34,11 +35,11 @@ class MainFragment : Fragment(), Injectable {
         button_login.setOnClickListener {
             val userName = input_userid.text.toString()
             val password = input_password.text.toString()
-            webService.login()
+            webService.login(this)
             saveUser(userName,  password)
         }
 
-        button_logout.setOnClickListener { webService.logout() }
+        button_logout.setOnClickListener { webService.logout(this) }
     }
 
     private fun saveUser(userName: String, password: String) {
@@ -46,6 +47,10 @@ class MainFragment : Fragment(), Injectable {
                 .putString(Constants.PREF_USERNAME, userName)
                 .putString(Constants.PREF_PASSWORD, password)
                 .apply()
+    }
+
+    override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
+
     }
 
 }

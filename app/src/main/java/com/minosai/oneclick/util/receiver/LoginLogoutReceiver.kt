@@ -27,8 +27,8 @@ class LoginLogoutReceiver(val mLoginLogoutListener: LoginLogoutListener) : Broad
         intent?.let { intent ->
             val type = intent.getStringExtra(LoginLogoutBroadcastHelper.EXTRA_TYPE)
             when(type) {
-                "LOGIN" -> mLoginLogoutListener.onLoggedListener(webService.login())
-                "LOGOUT" -> mLoginLogoutListener.onLoggedListener(!webService.logout())
+//                "LOGIN" -> mLoginLogoutListener.onLoggedListener(!webService.login())
+//                "LOGOUT" -> mLoginLogoutListener.onLoggedListener(webService.logout())
             }
         }
     }

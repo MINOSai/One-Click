@@ -9,6 +9,7 @@ import android.service.quicksettings.TileService
 import android.support.annotation.RequiresApi
 import android.util.Log
 import com.minosai.oneclick.R
+import com.minosai.oneclick.util.service.WebService.Companion.RequestType
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
@@ -51,7 +52,7 @@ class OneClickTileService :
         loginLogoutReceiver = LoginLogoutReceiver(this)
 
         registerWifiReceiver()
-        registerLoginLogoutReceiver()
+//        registerLoginLogoutReceiver()
     }
 
     override fun onStartListening() {
@@ -61,13 +62,18 @@ class OneClickTileService :
     }
 
     override fun onClick() {
-        var type = ""
-        when(qsTile.state) {
-            Tile.STATE_ACTIVE -> type = "LOGOUT"
-            Tile.STATE_INACTIVE -> type = "LOGIN"
-        }
-        LoginLogoutBroadcastHelper.sendLoginLogoutBroadcast(this, type)
+//        var type = ""
+//        when(qsTile.state) {
+//            Tile.STATE_ACTIVE -> type = "LOGOUT"
+//            Tile.STATE_INACTIVE -> type = "LOGIN"
+//        }
+//        LoginLogoutBroadcastHelper.sendLoginLogoutBroadcast(this, type)
 //        updateState()
+
+        when(qsTile.state) {
+            Tile.STATE_ACTIVE -> webService.login(this)
+            Tile.STATE_INACTIVE -> webService.logout(this)
+        }
     }
 
     override fun onStopListening() {
@@ -77,8 +83,7 @@ class OneClickTileService :
 
     override fun onDestroy() {
         unregisterWifiReceiver()
-        unregisterLoginLogoutReceiver()
-
+//        unregisterLoginLogoutReceiver()
         super.onDestroy()
     }
 
@@ -137,8 +142,18 @@ class OneClickTileService :
         updateState()
     }
 
-    override fun onLoggedListener(isLogged: Boolean) {
+    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean) {
         isOnline = isLogged
+        when(requestType) {
+            RequestType.LOGIN -> {
+                isOnline = isLogged
+            }
+            RequestType.LOGOUT -> {
+                if (isOnline && isLogged) {
+                    isOnline = false
+                }
+            }
+        }
         updateState()
     }
 
