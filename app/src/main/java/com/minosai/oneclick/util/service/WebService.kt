@@ -22,9 +22,8 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     private var userName = preferences.getString(Constants.PREF_USERNAME, "")
     private var password = preferences.getString(Constants.PREF_PASSWORD, "")
 
-    fun login(loginLogoutListener: LoginLogoutListener): Boolean {
+    fun login(loginLogoutListener: LoginLogoutListener) {
         //TODO: Check if VOLSBB or VIT2.4G OR VIT5G
-        var isLoggedIn = false
         Constants.URL_LOGIN.httpPost(listOf(
                 "userId" to userName,
                 "password" to password,
@@ -39,19 +38,13 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                 is Result.Success -> {
                     Log.i(TAG, "Logged in")
                     Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
-//                    preferences.edit()
-//                            .putBoolean(Constants.PREF_ISLOGGED, true)
-//                            .putBoolean(Constants.PREF_ISONLINE, true)
-//                            .apply()
                     loginLogoutListener.onLoggedListener(RequestType.LOGIN, true)
                 }
             }
         }
-        return isLoggedIn
     }
 
-    fun logout(loginLogoutListener: LoginLogoutListener): Boolean {
-        var isLoggedOut = false
+    fun logout(loginLogoutListener: LoginLogoutListener) {
         Constants.URL_LOGOUT.httpGet().response { _, _, result ->
             when (result) {
                 is Result.Failure -> {
@@ -61,15 +54,10 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                 is Result.Success -> {
                     Log.i(TAG, "Logged out")
                     Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
-//                    preferences.edit()
-//                            .putBoolean(Constants.PREF_ISLOGGED, false)
-//                            .putBoolean(Constants.PREF_ISONLINE, false)
-//                            .apply()
                     loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true)
                 }
             }
         }
-        return isLoggedOut
     }
 
 }

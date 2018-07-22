@@ -18,7 +18,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,6 +43,12 @@
         <!--</receiver>-->
 
         <!-- <service android:name=".util.service.WifiService"> </service> -->
+
+        <receiver android:name=".util.receiver.LoginLogoutReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.minosai.oneclick.action.LOGIN_LOGOUT_ACTION"/>
+            </intent-filter>
+        </receiver>
 
         <receiver android:name=".ui.widget.OneClickWidget">
             <intent-filter>

@@ -49,7 +49,7 @@ class OneClickTileService :
         InternetAvailabilityChecker.init(this)
 
         wifiReceiver = WifiReceiver(this)
-        loginLogoutReceiver = LoginLogoutReceiver(this)
+//        loginLogoutReceiver = LoginLogoutReceiver(this)
 
         registerWifiReceiver()
 //        registerLoginLogoutReceiver()
