@@ -10,6 +10,7 @@ import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
@@ -40,6 +41,12 @@ class MainFragment : Fragment(), Injectable, LoginLogoutListener {
         }
 
         button_logout.setOnClickListener { webService.logout(this) }
+
+        button_loginlogout.setOnClickListener {
+            context?.let {
+                val intent = LoginLogoutBroadcastHelper.getIntent(context!!)
+            }
+        }
     }
 
     private fun saveUser(userName: String, password: String) {

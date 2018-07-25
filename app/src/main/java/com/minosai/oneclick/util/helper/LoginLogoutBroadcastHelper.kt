@@ -19,8 +19,10 @@ object LoginLogoutBroadcastHelper {
     }
 
     fun getPendingIntent(context: Context): PendingIntent {
-        val intent = Intent(context, LoginLogoutReceiver::class.java)
+        val intent = getIntent(context)
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
+
+    fun getIntent(context: Context) = Intent(context, LoginLogoutReceiver::class.java)
 
 }

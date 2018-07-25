@@ -7,16 +7,22 @@ import android.content.SharedPreferences
 import android.net.wifi.WifiManager
 import android.net.NetworkInfo
 import android.util.Log
+import android.widget.Toast
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 
-class WifiReceiver(private val wifiConnectivityListener: WifiConnectivityListener) : BroadcastReceiver() {
+class WifiReceiver() : BroadcastReceiver() {
+
+    constructor(wifiConnectivityListener: WifiConnectivityListener): this() {
+        this.wifiConnectivityListener = wifiConnectivityListener
+    }
 
     @Inject
     lateinit var preferences: SharedPreferences
@@ -25,35 +31,30 @@ class WifiReceiver(private val wifiConnectivityListener: WifiConnectivityListene
 
     private val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    companion object {
+        private val SSID_LIST = listOf("\"VIT2.4G\"", "\"VIT5G\"", "\"VOLSBB\"")
+    }
 
-//        Log.d(TAG, "wifireceiver - onreceive()")
+    private var wifiConnectivityListener: WifiConnectivityListener? = null
+
+    override fun onReceive(context: Context?, intent: Intent?) {
 
         AndroidInjection.inject(this, context)
 
         intent?.let { intent ->
+
             if (intent.action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION, true)) {
+
                 val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
-                val isConnected = info.isConnected
-                Log.i(TAG, "isConnected : $isConnected")
-//                wifiConnectivityListener.onWifiStateChanged(isConnected)
-                isConnectedToPronto()
-                //TODO: auto login based on user preference
-            }
-        }
-    }
+                Log.i(TAG, "isConnected : ${info.isConnected} to network: ${info.extraInfo}")
 
-    private fun isConnectedToPronto() {
-        Constants.URL_LOGIN.httpGet().timeout(500).responseString { request, response, result ->
-            when (result) {
-                is Result.Failure -> {
-                    wifiConnectivityListener.onWifiStateChanged(false)
-                }
-                is Result.Success -> {
-                    wifiConnectivityListener.onWifiStateChanged(true)
+                if (info.isConnected && info.extraInfo in SSID_LIST) {
+                    wifiConnectivityListener?.onWifiStateChanged(true)
+                    //TODO: auto login based on user preference
+                } else {
+                    wifiConnectivityListener?.onWifiStateChanged(false)
                 }
             }
         }
     }
-
 }

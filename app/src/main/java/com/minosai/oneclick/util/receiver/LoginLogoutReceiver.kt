@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.util.Log
+import android.widget.Toast
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.helper.Constants
@@ -44,10 +45,12 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
 
     private fun isWifiConnected(context: Context) {
 //        val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
-//        //FIXME: info is null
 //        if (info.isConnected) {
 //            isConnectedToPronto()
 //        }
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info: NetworkInfo = connectivityManager.activeNetworkInfo
+        Toast.makeText(context, "isConnected : ${info.isConnected} to network: ${info.extraInfo}", Toast.LENGTH_SHORT).show()
         val wifiManager = context.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         if (wifiManager.isWifiEnabled) {
             isConnectedToPronto()
@@ -68,7 +71,7 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
     }
 
     private fun checkInternet() {
-        "https://www.google.com".httpGet().timeout(500).response { _, _, result ->
+        "https://www.example.com".httpGet().timeout(500).response { _, _, result ->
             when(result) {
                 is Result.Failure -> {
                     webService.login(this)

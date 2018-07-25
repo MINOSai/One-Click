@@ -42,7 +42,7 @@
             <!--</intent-filter>-->
         <!--</receiver>-->
 
-        <!-- <service android:name=".util.service.WifiService"> </service> -->
+         <!--<service android:name=".util.service.WifiService"> </service>-->
 
         <receiver android:name=".util.receiver.LoginLogoutReceiver" android:exported="true">
             <intent-filter>

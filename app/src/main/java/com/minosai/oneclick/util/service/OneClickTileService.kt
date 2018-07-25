@@ -71,8 +71,8 @@ class OneClickTileService :
 //        updateState()
 
         when(qsTile.state) {
-            Tile.STATE_ACTIVE -> webService.login(this)
-            Tile.STATE_INACTIVE -> webService.logout(this)
+            Tile.STATE_INACTIVE -> webService.login(this)
+            Tile.STATE_ACTIVE -> webService.logout(this)
         }
     }
 
