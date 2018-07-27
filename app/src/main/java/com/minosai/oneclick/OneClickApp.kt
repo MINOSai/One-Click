@@ -5,6 +5,8 @@ import android.app.Application
 import android.app.Service
 import android.content.BroadcastReceiver
 import com.minosai.oneclick.di.AppInjector
+import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
+import com.minosai.oneclick.util.service.WebService
 import dagger.android.*
 import javax.inject.Inject
 
@@ -27,6 +29,8 @@ class OneClickApp : Application(), HasActivityInjector, HasBroadcastReceiverInje
         super.onCreate()
 //        initDagger()
         AppInjector.init(this)
+
+        LoginLogoutBroadcastHelper.sendLoginLogoutBroadcast(this, WebService.Companion.RequestType.LOGOUT)
     }
 
 }

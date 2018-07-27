@@ -16,5 +16,6 @@ object Constants {
 
     val URL_LOGIN = "http://phc.prontonetworks.com/cgi-bin/authlogin"
     val URL_LOGOUT = "http://phc.prontonetworks.com/cgi-bin/authlogout"
+    val DB_NAME = "oneclickdatabase.db"
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<shortcut-->
+        <!--android:shortcutId="shortcut_login_logout"-->
+        <!--android:enabled="true"-->
+        <!--android:icon="@drawable/ic_login"-->
+        <!--android:shortcutShortLabel="@string/app_name"-->
+        <!--android:shortcutLongLabel="@string/app_name">-->
+        <!--<intent-->
+            <!--android:action="com.minosai.oneclick.action.LOGIN_LOGOUT_ACTION"-->
+            <!--android:targetPackage="com.minosai.oneclick"-->
+            <!--android:targetClass="com.minosai.oneclick.util.receiver.LoginLogoutReceiver" />-->
+        <!--&lt;!&ndash; If your shortcut is associated with multiple intents, include them-->
+             <!--here. The last intent in the list determines what the user sees when-->
+             <!--they launch this shortcut. &ndash;&gt;-->
+        <!--<categories android:name="android.shortcut.conversation" />-->
+    <!--</shortcut>-->
+    <!-- Specify more shortcuts here. -->
+</shortcuts>

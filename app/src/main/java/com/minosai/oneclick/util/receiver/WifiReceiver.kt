@@ -32,7 +32,7 @@ class WifiReceiver() : BroadcastReceiver() {
     private val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
     companion object {
-        private val SSID_LIST = listOf("\"VIT2.4G\"", "\"VIT5G\"", "\"VOLSBB\"")
+        val SSID_LIST = listOf("\"VIT2.4G\"", "\"VIT5G\"", "\"VOLSBB\"")
     }
 
     private var wifiConnectivityListener: WifiConnectivityListener? = null

@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.receiver.WifiReceiver.Companion.SSID_LIST
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.service.WebService.Companion.RequestType
 import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
@@ -44,29 +45,10 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
     }
 
     private fun isWifiConnected(context: Context) {
-//        val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
-//        if (info.isConnected) {
-//            isConnectedToPronto()
-//        }
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info: NetworkInfo = connectivityManager.activeNetworkInfo
-        Toast.makeText(context, "isConnected : ${info.isConnected} to network: ${info.extraInfo}", Toast.LENGTH_SHORT).show()
-        val wifiManager = context.applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
-        if (wifiManager.isWifiEnabled) {
-            isConnectedToPronto()
-        }
-    }
-
-    private fun isConnectedToPronto() {
-        Constants.URL_LOGIN.httpGet().timeout(500).responseString { _, _, result ->
-            when (result) {
-                is Result.Failure -> {
-
-                }
-                is Result.Success -> {
-                    checkInternet()
-                }
-            }
+        if (info.isConnected && info.extraInfo in SSID_LIST) {
+            checkInternet()
         }
     }
 

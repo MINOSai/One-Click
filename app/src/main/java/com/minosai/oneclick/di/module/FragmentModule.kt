@@ -1,6 +1,6 @@
 package com.minosai.oneclick.di.module
 
-import com.minosai.oneclick.ui.MainFragment
+import com.minosai.oneclick.ui.fragment.MainFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

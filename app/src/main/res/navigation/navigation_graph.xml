@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.minosai.oneclick.ui.MainFragment"
+        android:name="com.minosai.oneclick.ui.fragment.MainFragment"
         android:label="MainFragment" />
 </navigation>

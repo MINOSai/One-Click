@@ -1,4 +1,4 @@
-package com.minosai.oneclick.ui
+package com.minosai.oneclick.ui.fragment
 
 import android.content.SharedPreferences
 import android.os.Bundle
