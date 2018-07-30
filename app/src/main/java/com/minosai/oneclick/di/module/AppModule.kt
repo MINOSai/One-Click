@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.minosai.oneclick.db.OneClickDao
 import com.minosai.oneclick.db.OneClickDatabase
+import com.minosai.oneclick.repo.OneClickRepo
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.helper.Constants
 import dagger.Module
@@ -39,5 +40,9 @@ class AppModule {
     @Provides
     @Singleton
     fun providesDao(database: OneClickDatabase): OneClickDao = database.oneClickDao()
+
+    @Provides
+    @Singleton
+    fun provideRepo(dao: OneClickDao, preferences: SharedPreferences): OneClickRepo = OneClickRepo(dao, preferences)
 
 }

@@ -4,9 +4,11 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.minosai.oneclick.di.key.ViewModelKey
 import com.minosai.oneclick.ui.FactoryViewModel
-import com.minosai.oneclick.ui.fragment.MainViewModel
+import com.minosai.oneclick.ui.fragment.credentials.CredentialsViewModel
+import com.minosai.oneclick.ui.fragment.main.MainViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
 
 @Module
@@ -16,6 +18,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CredentialsViewModel::class)
+    abstract fun bindCredentialsViewModel(credentialsViewModel: CredentialsViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: FactoryViewModel): ViewModelProvider.Factory

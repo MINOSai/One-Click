@@ -15,4 +15,10 @@ interface OneClickDao {
     @Query("SELECT * FROM accountinfo")
     fun getAllAccounts(): DataSource.Factory<Int, AccountInfo>
 
+    @Query("UPDATE accountinfo SET isactiveaccount='false' WHERE 1=1")
+    fun resetAccounts()
+
+    @Query("UPDATE accountinfo SET isactiveaccount='true' WHERE username LIKE :userName")
+    fun setActiveAccount(userName: String)
+
 }

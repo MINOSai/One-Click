@@ -6,5 +6,6 @@ import android.arch.persistence.room.PrimaryKey
 @Entity
 data class AccountInfo(
         @PrimaryKey val username: String,
-        val password: String
+        val password: String,
+        var isActiveAccount: Boolean
 )

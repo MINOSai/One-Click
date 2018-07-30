@@ -15,9 +15,12 @@
 
         <Button
             android:id="@+id/widget_button"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Login  Logout" />
+            android:layout_margin="8dp"
+            android:background="@drawable/gradient_drawable"
+            android:text="Login | Logout"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>

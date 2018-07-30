@@ -8,14 +8,12 @@ object Constants {
 
     val PREF_USERNAME = "$PACKAGE_NAME.pref.username"
     val PREF_PASSWORD = "$PACKAGE_NAME.pref.password"
-
-    val PREF_ISLOGGED = "$PACKAGE_NAME.pref.isloggedin"
-    val PREF_ISWIFICONNECTED = "$PACKAGE_NAME.pref.iswificonnected"
-    val PREF_ISONLINE = "$PACKAGE_NAME.pref.isonline"
-    val PREF_ISRECEIVINGWIFI = "$PACKAGE_NAME.pref.isreceivingwifi"
+    val PREF_IS_FIRST_TIME = "$PACKAGE_NAME.pref.isfirsttime"
+    val PREF_DISPLAY_NAME = "$PACKAGE_NAME.pref.displayname"
 
     val URL_LOGIN = "http://phc.prontonetworks.com/cgi-bin/authlogin"
     val URL_LOGOUT = "http://phc.prontonetworks.com/cgi-bin/authlogout"
+
     val DB_NAME = "oneclickdatabase.db"
 
 }

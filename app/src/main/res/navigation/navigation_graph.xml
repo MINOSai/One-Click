@@ -5,6 +5,14 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.minosai.oneclick.ui.fragment.MainFragment"
-        android:label="MainFragment" />
+        android:name="com.minosai.oneclick.ui.fragment.main.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_credentialsFragment2"
+            app:destination="@id/credentialsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/credentialsFragment"
+        android:name="com.minosai.oneclick.ui.fragment.credentials.CredentialsFragment"
+        android:label="CredentialsFragment" ></fragment>
 </navigation>

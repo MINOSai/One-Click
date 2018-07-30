@@ -87,4 +87,5 @@ dependencies {
 
     // Internet connection checker
     implementation 'com.treebo:internetavailabilitychecker:1.0.1'
+    implementation 'com.android.support:cardview-v7:28.0.0-alpha3'
 }

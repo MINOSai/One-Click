@@ -2,10 +2,7 @@ package com.minosai.oneclick.di
 
 import android.app.Application
 import com.minosai.oneclick.OneClickApp
-import com.minosai.oneclick.di.module.ActivityModule
-import com.minosai.oneclick.di.module.AppModule
-import com.minosai.oneclick.di.module.ReceiverModule
-import com.minosai.oneclick.di.module.ServiceModule
+import com.minosai.oneclick.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -17,7 +14,8 @@ import javax.inject.Singleton
     AppModule::class,
     ActivityModule::class,
     ReceiverModule::class,
-    ServiceModule::class
+    ServiceModule::class,
+    ViewModelModule::class
 ])
 interface AppComponent {
 
