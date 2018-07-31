@@ -10,6 +10,7 @@ import com.minosai.oneclick.db.OneClickDatabase
 import com.minosai.oneclick.repo.OneClickRepo
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.helper.PreferenceHelper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,11 +24,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providePreferences(application: Application): SharedPreferences = application.getSharedPreferences(Constants.PREF_KEY, Context.MODE_PRIVATE)
+    fun providePreferences(application: Application): SharedPreferences = PreferenceHelper.defaultPrefs(application)
 
     @Provides
     @Singleton
-    fun provideWebService(application: Application, preferences: SharedPreferences): WebService = WebService(application, preferences)
+    fun provideWebService(application: Application, preferences: SharedPreferences, repo: OneClickRepo): WebService = WebService(application, preferences, repo)
 
     @Provides
     @Singleton

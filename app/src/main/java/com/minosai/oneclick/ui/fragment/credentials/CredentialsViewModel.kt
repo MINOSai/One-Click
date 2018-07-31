@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class CredentialsViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
 
-    fun addAccount(userName: String, password: String, isActiveAccount: Boolean) = repo.addAccount(userName, password, isActiveAccount)
+    fun addAccount(userName: String, password: String, isActiveAccount: Boolean) = repo.addAccount(userName, password, "", "", isActiveAccount)
 
     fun changeFirstOpenBoolean() = repo.changeFirstOpenBoolean()
 
