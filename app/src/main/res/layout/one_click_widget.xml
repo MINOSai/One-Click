@@ -15,11 +15,15 @@
 
         <Button
             android:id="@+id/widget_button"
-            android:layout_width="150dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/button_gradient_drawable"
-            android:text="Login | Logout"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:text="One Click"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
