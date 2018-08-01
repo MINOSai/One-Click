@@ -5,21 +5,19 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.content.SharedPreferences
-import android.database.sqlite.SQLiteConstraintException
 import com.minosai.oneclick.db.OneClickDao
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
-import com.minosai.oneclick.util.service.WebService
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: SharedPreferences) {
 
-    lateinit var allAccountInfo: LiveData<PagedList<AccountInfo>>
-    var activeAccount = MutableLiveData<AccountInfo>()
+    lateinit var allAccountInfo: LiveData<List<AccountInfo>>
+    var liveActiveAccount: MutableLiveData<AccountInfo> = MutableLiveData()
+    lateinit var activeAccount: AccountInfo
 
     init {
         fetchAccounts()
@@ -27,17 +25,19 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     }
 
     private fun fetchAccounts() {
-        val pagedListConfig = PagedList.Config.Builder().setEnablePlaceholders(true)
-                .setPrefetchDistance(20)
-                .setPageSize(25)
-                .build()
-        allAccountInfo = LivePagedListBuilder(dao.getAllAccounts(), pagedListConfig)
-                .build()
+        launch {
+            allAccountInfo = dao.getAllAccounts()
+        }
     }
 
     fun refreshActiveAccount() {
         launch {
-            activeAccount.value = dao.getActiveAccount()
+            try {
+                activeAccount = dao.getActiveAccount()
+                liveActiveAccount.value = activeAccount
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -60,8 +60,8 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         launch {
             dao.resetAccounts()
             dao.setActiveAccount(userName)
+            refreshActiveAccount()
         }
-        refreshActiveAccount()
     }
 
     fun changeFirstOpenBoolean() {
@@ -76,8 +76,30 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         return preferences[Constants.PREF_DISPLAY_NAME] ?: ""
     }
 
-    fun updateUsage() {
-//        activeAccount.value?.
+    fun updateUsage(usage: String) {
+        launch {
+            val userName = activeAccount.username ?: ""
+            try {
+                dao.updateUsage(userName, usage)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun setSessionLink(sessionLink: String?) {
+        preferences[Constants.PREF_SESSION_LINK] = sessionLink
+    }
+
+    fun getSessionLink(): String? = preferences[Constants.PREF_SESSION_LINK]
+
+    fun isAutoUpdateUsage(): Boolean {
+        // TODO: Change default value to false
+        return preferences[Constants.PREF_AUTOUPDATE_USAGE, true] ?: true
+    }
+
+    fun setAutoUpdateUsage(boolean: Boolean) {
+        preferences[Constants.PREF_AUTOUPDATE_USAGE] = boolean
     }
 
 }

@@ -28,10 +28,6 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideWebService(application: Application, preferences: SharedPreferences, repo: OneClickRepo): WebService = WebService(application, preferences, repo)
-
-    @Provides
-    @Singleton
     fun provideDatabase(application: Application): OneClickDatabase = Room.databaseBuilder(
             application,
             OneClickDatabase::class.java,
@@ -45,5 +41,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideRepo(dao: OneClickDao, preferences: SharedPreferences): OneClickRepo = OneClickRepo(dao, preferences)
+
+    @Provides
+    @Singleton
+    fun provideWebService(application: Application, preferences: SharedPreferences, repo: OneClickRepo): WebService = WebService(application, preferences, repo)
+
 
 }

@@ -25,6 +25,7 @@ import com.minosai.oneclick.ui.fragment.main.MainFragment
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
+import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.receiver.WifiReceiver
 import com.minosai.oneclick.util.service.WifiService
 import dagger.android.HasBroadcastReceiverInjector
@@ -74,7 +75,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         findNavController(R.id.fragment_nav_host).addOnNavigatedListener { controller, destination ->
             when(destination.id) {
                 R.id.mainFragment -> {
-                    if (preferences.getBoolean(Constants.PREF_IS_FIRST_TIME, true)) {
+                    val isFirstTime = preferences[Constants.PREF_IS_FIRST_TIME, true] ?: true
+                    if (isFirstTime) {
                         controller.navigate(R.id.action_mainFragment_to_credentialsFragment2)
                     }
                 }

@@ -1,17 +1,20 @@
 package com.minosai.oneclick.ui.fragment.main
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
+import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
@@ -27,11 +30,10 @@ class MainFragment : Fragment(), Injectable, LoginLogoutListener {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var preferences: SharedPreferences
-
-    lateinit var mainViewModel: MainViewModel
-
     @Inject
     lateinit var webService: WebService
+
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -43,10 +45,21 @@ class MainFragment : Fragment(), Injectable, LoginLogoutListener {
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
-        text_home_username.text = preferences.getString(Constants.PREF_USERNAME, "")
+//        text_home_username.text = preferences.getString(Constants.PREF_USERNAME, "")
 
-        input_userid.setText(preferences.getString(Constants.PREF_USERNAME, ""))
-        input_password.setText(preferences.getString(Constants.PREF_PASSWORD, ""))
+//        mainViewModel.getLiveActiveAccount().observe(this, Observer { info ->
+//            info?.let {
+//                text_home_username.text = it.username
+//                text_home_usage.text = it.usage
+//            }
+//        })
+
+        mainViewModel.getAllAccounts().observe(this, Observer { allAccounts ->
+            updateUi(allAccounts ?: listOf())
+        })
+
+//        input_userid.setText(preferences.getString(Constants.PREF_USERNAME, ""))
+//        input_password.setText(preferences.getString(Constants.PREF_PASSWORD, ""))
 
         button_login.setOnClickListener {
             val userName = input_userid.text.toString()
@@ -56,6 +69,18 @@ class MainFragment : Fragment(), Injectable, LoginLogoutListener {
         }
 
         button_logout.setOnClickListener { webService.logout(this) }
+    }
+
+    private fun updateUi(accounts: List<AccountInfo>) {
+        accounts.forEach { info ->
+            if (info.isActiveAccount) {
+                with(info) {
+                    text_home_username.text = username
+                    text_home_usage.text = usage
+                    text_home_usage.text = usage
+                }
+            }
+        }
     }
 
     private fun saveUser(userName: String, password: String) {

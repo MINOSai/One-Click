@@ -123,7 +123,6 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    android:text="16BCE0587-yaswant"
                     android:textStyle="bold" />
 
                 <TextView
@@ -135,8 +134,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="11.8 GB" />
+                    android:gravity="center" />
             </LinearLayout>
 
         </LinearLayout>

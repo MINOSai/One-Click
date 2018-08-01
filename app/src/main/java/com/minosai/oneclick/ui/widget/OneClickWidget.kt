@@ -39,7 +39,7 @@ class OneClickWidget :
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
         preferences = context.getSharedPreferences(Constants.PREF_KEY, Context.MODE_PRIVATE)
-        webService = WebService(context, preferences)
+//        webService = WebService(context, preferences)
     }
 
     override fun onDisabled(context: Context) {
