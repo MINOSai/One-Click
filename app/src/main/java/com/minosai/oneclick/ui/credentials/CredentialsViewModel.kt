@@ -1,4 +1,4 @@
-package com.minosai.oneclick.ui.fragment.credentials
+package com.minosai.oneclick.ui.credentials
 
 import android.arch.lifecycle.ViewModel
 import com.minosai.oneclick.repo.OneClickRepo

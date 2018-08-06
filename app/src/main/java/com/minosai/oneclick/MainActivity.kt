@@ -1,6 +1,5 @@
 package com.minosai.oneclick
 
-import android.content.BroadcastReceiver
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -9,8 +8,6 @@ import androidx.navigation.Navigation
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
-import android.net.wifi.WifiManager
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -18,21 +15,11 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.minosai.oneclick.ui.fragment.credentials.CredentialsFragment
-import com.minosai.oneclick.ui.fragment.main.MainFragment
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
-import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.util.service.WifiService
-import dagger.android.HasBroadcastReceiverInjector
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {

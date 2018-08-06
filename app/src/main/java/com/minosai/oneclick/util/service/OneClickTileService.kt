@@ -22,8 +22,7 @@ import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
-class OneClickTileService :
-        TileService(),
+class OneClickTileService :TileService(),
         InternetConnectivityListener,
         WifiConnectivityListener,
         LoginLogoutListener {
@@ -137,7 +136,7 @@ class OneClickTileService :
         updateState()
     }
 
-    override fun onWifiStateChanged(isConnectedToWifi: Boolean) {
+    override fun onWifiStateChanged(isConnectedToWifi: Boolean, ssid: String) {
         isWifiConnected = isConnectedToWifi
         updateState()
     }

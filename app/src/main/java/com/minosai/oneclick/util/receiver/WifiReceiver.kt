@@ -49,10 +49,10 @@ class WifiReceiver() : BroadcastReceiver() {
                 Log.i(TAG, "isConnected : ${info.isConnected} to network: ${info.extraInfo}")
 
                 if (info.isConnected && info.extraInfo in SSID_LIST) {
-                    wifiConnectivityListener?.onWifiStateChanged(true)
+                    wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
                     //TODO: auto login based on user preference
                 } else {
-                    wifiConnectivityListener?.onWifiStateChanged(false)
+                    wifiConnectivityListener?.onWifiStateChanged(false, "")
                 }
             }
         }

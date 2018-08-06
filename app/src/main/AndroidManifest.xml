@@ -18,10 +18,13 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
+
+            <meta-data
+                android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
 
@@ -35,23 +38,25 @@
             </intent-filter>
         </service>
 
-        <!--<receiver android:name=".util.receiver.WifiReceiver">-->
-            <!--<intent-filter android:priority="999">-->
-                <!--<action android:name="android.net.wifi.STATE_CHANGE" />-->
-                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-                <!--<action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver android:name=".util.receiver.WifiReceiver"> -->
+        <!-- <intent-filter android:priority="999"> -->
+        <!-- <action android:name="android.net.wifi.STATE_CHANGE" /> -->
+        <!-- <action android:name="android.net.wifi.WIFI_STATE_CHANGED" /> -->
+        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+        <!-- <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
-         <!--<service android:name=".util.service.WifiService"> </service>-->
 
-        <receiver android:name=".util.receiver.LoginLogoutReceiver" android:exported="true">
+        <!-- <service android:name=".util.service.WifiService"> </service> -->
+
+        <receiver
+            android:name=".util.receiver.LoginLogoutReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.minosai.oneclick.action.LOGIN_LOGOUT_ACTION"/>
+                <action android:name="com.minosai.oneclick.action.LOGIN_LOGOUT_ACTION" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".ui.widget.OneClickWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -62,6 +67,7 @@
                 android:resource="@xml/one_click_widget_info" />
         </receiver>
 
+        <activity android:name=".ui.preferences.SettinngsActivity"></activity>
     </application>
 
 </manifest>

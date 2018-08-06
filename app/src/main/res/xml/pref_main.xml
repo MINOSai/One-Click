@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="General">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_auto_refresh_usage"
+            android:summary="@string/summary_auto_refresh_usage"
+            android:title="@string/title_auto_refresh_usage" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
