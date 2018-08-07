@@ -13,16 +13,12 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var isOnline = false
     var ssid = ""
 
-    lateinit var activeAccount: AccountInfo
-
-    init {
-        this.activeAccount = repo.activeAccount
-    }
-
     fun getLiveActiveAccount() = repo.liveActiveAccount
 
-    fun refresh() = repo.refreshActiveAccount()
-
     fun getAllAccounts() = repo.allAccountInfo
+
+    fun getActiveAccount() = repo.getActiveAccount()
+
+    fun isAutoUpdateUsage() = repo.isAutoUpdateUsage()
 
 }

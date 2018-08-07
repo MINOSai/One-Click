@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.work.WorkManager
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
@@ -43,6 +44,8 @@ class MainFragment : Fragment(),
     private lateinit var wifiReceiver: WifiReceiver
     private lateinit var loginLogoutReceiver: LoginLogoutReceiver
     private lateinit var mInternetAvailabilityChecker: InternetAvailabilityChecker
+    private var activeAccount: AccountInfo? = null
+    private var isLoading = false
 
     lateinit var mainViewModel: MainViewModel
 
@@ -55,31 +58,51 @@ class MainFragment : Fragment(),
 
         wifiReceiver = WifiReceiver(this)
         registerWifiReceiver()
-        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
-        mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+//        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+//        mInternetAvailabilityChecker.addInternetConnectivityListener(this)
 
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-
         text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
 
-        mainViewModel.getAllAccounts().observe(this, Observer { allAccounts ->
-            updateUi(allAccounts ?: listOf())
+        addObservers()
+        setClicks()
+    }
+
+    override fun onDestroyView() {
+//        mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        unregisterWifiReceiver()
+        super.onDestroyView()
+    }
+
+    private fun addObservers() {
+
+        mainViewModel.getAllAccounts().observe(this, Observer {
+            activeAccount = mainViewModel.getActiveAccount()
+            updateUi()
         })
+
+        WorkManager.getInstance().getStatusById(WebService.usageWork.id)
+                .observe(this, Observer { workStatus ->
+                    if (workStatus != null && workStatus.state.isFinished) {
+                        stopLoading()
+                    }
+                })
+    }
+
+    private fun setClicks() {
 
         button_login.setOnClickListener {
             val userName = input_userid.text.toString()
             val password = input_password.text.toString()
-            webService.login(this)
+            webService.login(this, activeAccount)
             saveUser(userName,  password)
+            startLoading()
         }
 
-        button_logout.setOnClickListener { webService.logout(this) }
-    }
-
-    override fun onDestroyView() {
-        mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
-        unregisterWifiReceiver()
-        super.onDestroyView()
+        button_logout.setOnClickListener {
+            webService.logout(this)
+            startLoading()
+        }
     }
 
     private fun registerWifiReceiver() {
@@ -107,15 +130,12 @@ class MainFragment : Fragment(),
         }
     }
 
-    private fun updateUi(accounts: List<AccountInfo>) {
-        accounts.forEach { info ->
-            if (info.isActiveAccount) {
-                with(info) {
-                    text_home_username.text = username
-                    text_home_usage.text = usage
-                    text_home_usage.text = usage
-                }
-            }
+    private fun updateUi() {
+
+        activeAccount?.let {
+            text_home_username.text = it.username
+            text_home_usage.text = it.usage
+            text_home_usage.text = it.usage
         }
     }
 
@@ -138,10 +158,17 @@ class MainFragment : Fragment(),
     }
 
     override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
+        stopLoading()
         mainViewModel.isOnline = isLogged
         when(requestType) {
             WebService.Companion.RequestType.LOGIN -> {
                 mainViewModel.isOnline = isLogged
+                if (isLogged) {
+                    if (mainViewModel.isAutoUpdateUsage()) {
+                        startLoading()
+                        webService.startUsageWorker()
+                    }
+                }
             }
             WebService.Companion.RequestType.LOGOUT -> {
                 if (mainViewModel.isOnline && isLogged) {
@@ -161,6 +188,28 @@ class MainFragment : Fragment(),
             }
         } else {
             text_home_state.text = "Not connected to prontonetwork"
+        }
+    }
+
+    private fun toggleLoading() {
+        if (isLoading) {
+            stopLoading()
+        } else {
+            startLoading()
+        }
+    }
+
+    private fun startLoading() {
+        if (!isLoading) {
+            isLoading = true
+            //TODO: Start loading animation
+        }
+    }
+
+    private fun stopLoading() {
+        if (isLoading) {
+            isLoading = false
+            //TODO: Stop loading animation
         }
     }
 

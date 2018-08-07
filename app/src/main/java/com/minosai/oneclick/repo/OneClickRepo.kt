@@ -17,29 +17,27 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     lateinit var allAccountInfo: LiveData<List<AccountInfo>>
     var liveActiveAccount: MutableLiveData<AccountInfo> = MutableLiveData()
-    lateinit var activeAccount: AccountInfo
+//    lateinit var activeAccount: AccountInfo
 
     init {
         fetchAccounts()
-        refreshActiveAccount()
+//        refreshActiveAccount()
     }
 
     private fun fetchAccounts() {
-        launch {
-            allAccountInfo = dao.getAllAccounts()
-        }
+        allAccountInfo = dao.getAllAccounts()
     }
 
-    fun refreshActiveAccount() {
-        launch {
-            try {
-                activeAccount = dao.getActiveAccount()
-                liveActiveAccount.value = activeAccount
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
+//    fun refreshActiveAccount() {
+//        launch {
+//            try {
+//                activeAccount = dao.getActiveAccount()
+//                liveActiveAccount.value = activeAccount
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
     fun addAccount(userName: String, password: String, usage: String, renewalDate: String, isActiveAccount: Boolean) {
         launch {
@@ -60,7 +58,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         launch {
             dao.resetAccounts()
             dao.setActiveAccount(userName)
-            refreshActiveAccount()
+//            refreshActiveAccount()
         }
     }
 
@@ -78,7 +76,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     fun updateUsage(usage: String) {
         launch {
-            val userName = activeAccount.username ?: ""
+            val userName = getActiveAccount()?.username ?: ""
             try {
                 dao.updateUsage(userName, usage)
             } catch (e: Exception) {
@@ -100,6 +98,15 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     fun setAutoUpdateUsage(boolean: Boolean) {
         preferences[Constants.PREF_AUTOUPDATE_USAGE] = boolean
+    }
+
+    fun getActiveAccount(): AccountInfo? {
+        allAccountInfo.value?.forEach { info ->
+            if (info.isActiveAccount) {
+                return info
+            }
+        }
+        return null
     }
 
 }

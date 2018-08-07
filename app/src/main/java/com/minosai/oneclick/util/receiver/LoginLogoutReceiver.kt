@@ -12,6 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
+import com.minosai.oneclick.repo.OneClickRepo
 import com.minosai.oneclick.util.helper.Constants
 import com.minosai.oneclick.util.receiver.WifiReceiver.Companion.SSID_LIST
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
@@ -28,6 +29,8 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
     lateinit var preferences: SharedPreferences
     @Inject
     lateinit var webService: WebService
+    @Inject
+    lateinit var repo: OneClickRepo
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
@@ -41,7 +44,9 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
     }
 
     override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
-
+        if (requestType == RequestType.LOGIN && isLogged && repo.isAutoUpdateUsage()) {
+            webService.startUsageWorker()
+        }
     }
 
     private fun isWifiConnected(context: Context) {
@@ -56,7 +61,7 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
         "https://www.example.com".httpGet().timeout(500).response { _, _, result ->
             when(result) {
                 is Result.Failure -> {
-                    webService.login(this)
+                    webService.login(this, repo.getActiveAccount())
                 }
                 is Result.Success -> {
                     webService.logout(this)

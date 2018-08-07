@@ -4,36 +4,32 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
+import androidx.work.*
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import com.minosai.oneclick.repo.OneClickRepo
+import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
-import com.minosai.oneclick.util.helper.PreferenceHelper.get
-import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import javax.inject.Inject
 
-class WebService @Inject constructor(val context: Context, val preferences: SharedPreferences, val repo: OneClickRepo) {
+class WebService @Inject constructor(val context: Context, val preferences: SharedPreferences) {
 
     companion object {
         enum class RequestType { LOGIN, LOGOUT }
+        val usageWork: OneTimeWorkRequest = OneTimeWorkRequestBuilder<UsageWorker>().build()
     }
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
-    private var userName: String? = preferences[Constants.PREF_USERNAME]
-    private var password: String? = preferences[Constants.PREF_PASSWORD]
-
-    fun login(loginLogoutListener: LoginLogoutListener) {
+    fun login(loginLogoutListener: LoginLogoutListener, activeAccount: AccountInfo?) {
         //TODO: Check if VOLSBB or VIT2.4G OR VIT5G
-        val accountInfo = repo.activeAccount
-        if (accountInfo != null) {
+        if (activeAccount != null) {
             Constants.URL_LOGIN.httpPost(listOf(
-                    "userId" to accountInfo.username,
-                    "password" to accountInfo.password,
+                    "userId" to activeAccount.username,
+                    "password" to activeAccount.password,
                     "serviceName" to "ProntoAuthentication",
                     "Submit22" to "Login"
             )).responseString { request, response, result ->
@@ -66,39 +62,40 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                     Log.i(TAG, "Logged out")
                     Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
                     loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true)
-                    repo.setSessionLink(null)
+                    preferences[Constants.PREF_SESSION_LINK] = null
                 }
             }
         }
     }
 
-    fun setSessionLink(webpage: String) {
+    fun setSessionLink(webpage: String): String? {
         if (webpage.contains("Check Your Account Details", true)) {
             val sessionLink = Jsoup.parse(webpage).getElementsByClass("orangeText10")[1].attr("href")
             Log.d(TAG, "HTML String : $sessionLink")
-            repo.setSessionLink(sessionLink)
-            val boolean = repo.isAutoUpdateUsage()
-            if (boolean) {
-                getUsage()
-            }
+            preferences[Constants.PREF_SESSION_LINK] = sessionLink
+            return sessionLink
+        } else {
+            return null
         }
     }
 
-    fun getUsage() {
-        launch {
-            try {
-                val sessionLink = repo.getSessionLink()
-                sessionLink?.let { link ->
-                    val document = Jsoup.connect(link).get()
-                    val subTexts: Elements = document.getElementsByClass("subTextRight")
-                    val usageElement = subTexts[subTexts.size -1]
-                    val usage: String = usageElement.child(0).text()
-                    repo.updateUsage(usage)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    fun startUsageWorker() {
+        WorkManager.getInstance().enqueue(usageWork)
     }
+
+//    fun getUsage(): String {
+//        try {
+//            val sessionLink: String? = preferences[Constants.PREF_SESSION_LINK]
+//            sessionLink?.let { link ->
+//                val document = Jsoup.connect(link).get()
+//                val subTexts: Elements = document.getElementsByClass("subTextRight")
+//                val usageElement = subTexts[subTexts.size -1]
+//                val usage: String = usageElement.child(0).text()
+//                return usage
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//    }
 
 }

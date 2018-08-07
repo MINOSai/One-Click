@@ -33,7 +33,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -67,6 +66,7 @@ dependencies {
     def room_version = "1.1.0"
     def nav_version = "1.0.0-alpha01"
     def paging_version = "1.0.0"
+    def work_version = "1.0.0-alpha02"
 
     // Room
     implementation "android.arch.persistence.room:runtime:$room_version"
@@ -82,6 +82,9 @@ dependencies {
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+
+    // WorkManager
+    implementation "android.arch.work:work-runtime-ktx:$work_version"
 
     // Fuel
     implementation 'com.github.kittinunf.fuel:fuel-android:1.14.0'
