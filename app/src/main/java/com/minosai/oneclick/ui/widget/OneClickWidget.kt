@@ -3,19 +3,11 @@ package com.minosai.oneclick.ui.widget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.*
-import android.util.Log
 import android.widget.RemoteViews
 import com.minosai.oneclick.R
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
-import com.minosai.oneclick.util.service.WebService.Companion.RequestType
-import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
-import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
-import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
-import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
-import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 
 /**
  * Implementation of App Widget functionality.

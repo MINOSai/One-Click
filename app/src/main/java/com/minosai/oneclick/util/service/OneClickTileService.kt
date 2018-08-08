@@ -8,11 +8,11 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.support.annotation.RequiresApi
 import android.util.Log
-import androidx.work.WorkManager
 import com.minosai.oneclick.R
 import com.minosai.oneclick.repo.OneClickRepo
 import com.minosai.oneclick.util.service.WebService.Companion.RequestType
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
@@ -36,7 +36,7 @@ class OneClickTileService :TileService(),
     @Inject
     lateinit var webService: WebService
     @Inject
-    lateinit var repo: OneClickRepo
+    lateinit var repoInterface: RepoInterface
 
     private lateinit var wifiReceiver: WifiReceiver
     private lateinit var loginLogoutReceiver: LoginLogoutReceiver
@@ -61,19 +61,27 @@ class OneClickTileService :TileService(),
 
     override fun onStartListening() {
         super.onStartListening()
-        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
-        mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+        try {
+            mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+            mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onClick() {
         when(qsTile.state) {
-            Tile.STATE_INACTIVE -> webService.login(this, repo.getActiveAccount())
+            Tile.STATE_INACTIVE -> webService.login(this, repoInterface.activeAccount)
             Tile.STATE_ACTIVE -> webService.logout(this)
         }
     }
 
     override fun onStopListening() {
-        mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        try {
+            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         super.onStopListening()
     }
 
@@ -145,8 +153,10 @@ class OneClickTileService :TileService(),
             RequestType.LOGIN -> {
                 isOnline = isLogged
                 if (isLogged) {
-                    if (repo.isAutoUpdateUsage()) {
-                        webService.startUsageWorker()
+                    if (repoInterface.isAutoUpdateUsage) {
+                        webService.getUsage { usage ->
+                            repoInterface.updateUsage(usage)
+                        }
                     }
                 }
             }

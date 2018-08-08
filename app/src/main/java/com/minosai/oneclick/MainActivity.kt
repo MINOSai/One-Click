@@ -16,7 +16,7 @@ import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import androidx.navigation.findNavController
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.helper.PreferenceHelper.get

@@ -7,14 +7,10 @@ import android.content.SharedPreferences
 import android.net.wifi.WifiManager
 import android.net.NetworkInfo
 import android.util.Log
-import android.widget.Toast
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 

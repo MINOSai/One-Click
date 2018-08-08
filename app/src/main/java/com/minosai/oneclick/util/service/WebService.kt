@@ -9,10 +9,13 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.model.AccountInfo
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
+import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
+import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 import javax.inject.Inject
 
 class WebService @Inject constructor(val context: Context, val preferences: SharedPreferences) {
@@ -83,19 +86,21 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
         WorkManager.getInstance().enqueue(usageWork)
     }
 
-//    fun getUsage(): String {
-//        try {
-//            val sessionLink: String? = preferences[Constants.PREF_SESSION_LINK]
-//            sessionLink?.let { link ->
-//                val document = Jsoup.connect(link).get()
-//                val subTexts: Elements = document.getElementsByClass("subTextRight")
-//                val usageElement = subTexts[subTexts.size -1]
-//                val usage: String = usageElement.child(0).text()
-//                return usage
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
+    fun getUsage(updateUsage: (usage: String) -> Unit) {
+        launch {
+            try {
+                val sessionLink: String? = preferences[Constants.PREF_SESSION_LINK]
+                sessionLink?.let { link ->
+                    val document = Jsoup.connect(link).get()
+                    val subTexts: Elements = document.getElementsByClass("subTextRight")
+                    val usageElement = subTexts[subTexts.size -1]
+                    val usage: String = usageElement.child(0).text()
+                    updateUsage(usage)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 }

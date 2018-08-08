@@ -21,4 +21,6 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
 
     fun isAutoUpdateUsage() = repo.isAutoUpdateUsage()
 
+    fun updateUsage(usage: String) = repo.updateUsage(usage)
+
 }

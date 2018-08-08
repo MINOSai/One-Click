@@ -2,12 +2,10 @@ package com.minosai.oneclick.repo
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
 import android.content.SharedPreferences
 import com.minosai.oneclick.db.OneClickDao
 import com.minosai.oneclick.model.AccountInfo
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import kotlinx.coroutines.experimental.launch
@@ -108,5 +106,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         }
         return null
     }
+
+    fun getActiveAccountFromDb(): AccountInfo = dao.getActiveAccount()
 
 }

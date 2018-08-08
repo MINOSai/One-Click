@@ -16,7 +16,7 @@ import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.service.WebService
-import com.minosai.oneclick.util.helper.Constants
+import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
 import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
@@ -58,8 +58,12 @@ class MainFragment : Fragment(),
 
         wifiReceiver = WifiReceiver(this)
         registerWifiReceiver()
-//        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
-//        mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+        try {
+            mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+            mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
@@ -69,7 +73,12 @@ class MainFragment : Fragment(),
     }
 
     override fun onDestroyView() {
-//        mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        try {
+            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         unregisterWifiReceiver()
         super.onDestroyView()
     }
@@ -166,7 +175,9 @@ class MainFragment : Fragment(),
                 if (isLogged) {
                     if (mainViewModel.isAutoUpdateUsage()) {
                         startLoading()
-                        webService.startUsageWorker()
+                        webService.getUsage {  usage ->
+                            mainViewModel.updateUsage(usage)
+                        }
                     }
                 }
             }
