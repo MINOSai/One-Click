@@ -61,12 +61,14 @@ class OneClickTileService :TileService(),
 
     override fun onStartListening() {
         super.onStartListening()
-        try {
+/*        try {
             mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
             mInternetAvailabilityChecker.addInternetConnectivityListener(this)
         } catch (e: Exception) {
             e.printStackTrace()
-        }
+        }*/
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+        mInternetAvailabilityChecker.addInternetConnectivityListener(this)
     }
 
     override fun onClick() {
@@ -77,11 +79,12 @@ class OneClickTileService :TileService(),
     }
 
     override fun onStopListening() {
-        try {
-            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//        try {
+//            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+        mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
         super.onStopListening()
     }
 
