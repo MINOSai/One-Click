@@ -95,4 +95,5 @@ dependencies {
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.3'
+
 }

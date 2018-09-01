@@ -1,4 +1,4 @@
-package com.minosai.oneclick.util.receiver.listener
+package com.minosai.oneclick.util.listener
 
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.service.WebService.Companion.RequestType

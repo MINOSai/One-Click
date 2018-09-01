@@ -12,7 +12,7 @@ import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
-import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
+import com.minosai.oneclick.util.listener.LoginLogoutListener
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements

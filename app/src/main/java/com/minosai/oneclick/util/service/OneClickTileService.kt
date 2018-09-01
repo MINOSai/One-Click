@@ -15,9 +15,9 @@ import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
-import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
+import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
+import com.minosai.oneclick.util.listener.LoginLogoutListener
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import dagger.android.AndroidInjection

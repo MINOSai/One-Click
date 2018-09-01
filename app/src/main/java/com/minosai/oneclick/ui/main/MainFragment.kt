@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.BottomSheetDialog
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,14 +17,18 @@ import androidx.work.WorkManager
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
+import com.minosai.oneclick.ui.main.bottomsheets.IncognitoBottomSheetFragment
+import com.minosai.oneclick.ui.main.bottomsheets.NewUserBottomSheetFragment
 import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
-import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
+import com.minosai.oneclick.util.listener.LoginLogoutListener
+import com.minosai.oneclick.util.listener.NewUserSheetListener
+import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
+import kotlinx.android.synthetic.main.fragment_bottom_sheet_incognito.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
@@ -30,7 +36,8 @@ class MainFragment : Fragment(),
         Injectable,
         InternetConnectivityListener,
         WifiConnectivityListener,
-        LoginLogoutListener {
+        LoginLogoutListener,
+        NewUserSheetListener {
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
@@ -46,6 +53,9 @@ class MainFragment : Fragment(),
     private lateinit var mInternetAvailabilityChecker: InternetAvailabilityChecker
     private var activeAccount: AccountInfo? = null
     private var isLoading = false
+
+    private val incognitoSheet = IncognitoBottomSheetFragment()
+    private val newUserSheet = NewUserBottomSheetFragment()
 
     lateinit var mainViewModel: MainViewModel
 
@@ -89,28 +99,34 @@ class MainFragment : Fragment(),
             activeAccount = mainViewModel.getActiveAccount()
             updateUi()
         })
-
-        WorkManager.getInstance().getStatusById(WebService.usageWork.id)
-                .observe(this, Observer { workStatus ->
-                    if (workStatus != null && workStatus.state.isFinished) {
-                        stopLoading()
-                    }
-                })
     }
 
     private fun setClicks() {
 
         button_login.setOnClickListener {
-            val userName = input_userid.text.toString()
-            val password = input_password.text.toString()
+            //            val userName = input_userid.text.toString()
+//            val password = input_password.text.toString()
             webService.login(this, activeAccount)
-            saveUser(userName,  password)
+//            saveUser(userName,  password)
             startLoading()
         }
 
         button_logout.setOnClickListener {
             webService.logout(this)
             startLoading()
+        }
+
+        button_incognito.setOnClickListener {
+            incognitoSheet.show(fragmentManager, incognitoSheet.tag)
+        }
+
+        button_newuser.setOnClickListener {
+            newUserSheet.listener = this
+            newUserSheet.show(fragmentManager, newUserSheet.tag)
+        }
+
+        button_sleep_timer.setOnClickListener {
+            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -169,13 +185,13 @@ class MainFragment : Fragment(),
     override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
         stopLoading()
         mainViewModel.isOnline = isLogged
-        when(requestType) {
+        when (requestType) {
             WebService.Companion.RequestType.LOGIN -> {
                 mainViewModel.isOnline = isLogged
                 if (isLogged) {
                     if (mainViewModel.isAutoUpdateUsage()) {
                         startLoading()
-                        webService.getUsage {  usage ->
+                        webService.getUsage { usage ->
                             mainViewModel.updateUsage(usage)
                         }
                     }
@@ -190,15 +206,20 @@ class MainFragment : Fragment(),
         updateState()
     }
 
+    override fun onAddNewUser(userName: String, password: String, isActiveAccount: Boolean) {
+        // TODO: remove this comment to add users innto DB
+//        mainViewModel.addUser(userName, password, isActiveAccount)
+    }
+
     private fun updateState() {
         if (mainViewModel.isWifiConnected) {
             if (mainViewModel.isOnline) {
-                text_home_state.text = "${mainViewModel.ssid } • Logged in"
+                button_main.text = "Logged in"
             } else {
-                text_home_state.text = "${mainViewModel.ssid } • Not logged in"
+                button_main.text = "Not logged in"
             }
         } else {
-            text_home_state.text = "Not connected to prontonetwork"
+            button_main.text = "Not connected"
         }
     }
 

@@ -13,7 +13,7 @@ import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.receiver.WifiReceiver.Companion.SSID_LIST
 import com.minosai.oneclick.util.service.WebService.Companion.RequestType
-import com.minosai.oneclick.util.receiver.listener.LoginLogoutListener
+import com.minosai.oneclick.util.listener.LoginLogoutListener
 import com.minosai.oneclick.util.service.WebService
 import dagger.android.AndroidInjection
 import javax.inject.Inject

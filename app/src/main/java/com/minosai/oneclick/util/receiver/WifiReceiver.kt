@@ -8,7 +8,7 @@ import android.net.wifi.WifiManager
 import android.net.NetworkInfo
 import android.util.Log
 import com.minosai.oneclick.util.Constants
-import com.minosai.oneclick.util.receiver.listener.WifiConnectivityListener
+import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
 import dagger.android.AndroidInjection
 import javax.inject.Inject

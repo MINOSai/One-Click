@@ -1,4 +1,4 @@
-package com.minosai.oneclick.util.receiver.listener
+package com.minosai.oneclick.util.listener
 
 interface WifiConnectivityListener {
 
