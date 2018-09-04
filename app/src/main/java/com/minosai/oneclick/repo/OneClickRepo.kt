@@ -60,6 +60,10 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         }
     }
 
+    fun setActiveUser(userName: String) = launch {
+        dao.setActiveAccount(userName)
+    }
+
     fun changeFirstOpenBoolean() {
         preferences[Constants.PREF_IS_FIRST_TIME] = false
     }

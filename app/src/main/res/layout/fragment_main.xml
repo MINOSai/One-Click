@@ -61,18 +61,6 @@
             </android.support.v7.widget.CardView>
 
             <TextView
-                android:id="@+id/text_home_displayname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:text="Hello, Yaswant"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_sleep_timer" />
-
-            <TextView
                 android:id="@+id/button_sleep_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,6 +111,18 @@
                 app:layout_constraintStart_toEndOf="@+id/button_sleep_timer"
                 app:layout_constraintTop_toTopOf="@+id/button_sleep_timer" />
 
+            <TextView
+                android:id="@+id/text_home_displayname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Hello, Yaswant"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_sleep_timer" />
+
             <android.support.v7.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="0dp"
@@ -130,10 +130,9 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
                 android:backgroundTint="@android:color/holo_green_light"
+                android:visibility="gone"
                 app:cardCornerRadius="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_home_displayname">
@@ -210,6 +209,16 @@
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_accounts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="128dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                tools:listitem="@layout/account_row_layout" />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -220,7 +229,9 @@
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

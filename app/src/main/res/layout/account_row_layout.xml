@@ -10,9 +10,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@android:color/holo_green_light"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/account_item_primary_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -49,13 +50,24 @@
                     android:id="@+id/account_item_toggle_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:padding="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_chevron_down" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/account_item_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Login and refresh to see your usage and renewal date"
+                android:visibility="gone" />
+
             <LinearLayout
+                android:id="@+id/account_item_details_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -73,7 +85,6 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_item_username"
                     tools:text="18th Aug 2019" />
@@ -91,7 +102,6 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
                     app:layout_constraintBottom_toBottomOf="@+id/account_item_date"
                     app:layout_constraintStart_toEndOf="@+id/account_item_date"
                     app:layout_constraintTop_toTopOf="@+id/account_item_date"
@@ -102,7 +112,8 @@
                 android:id="@+id/account_item_actions_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:padding="16dp"
                         app:srcCompat="@drawable/ic_content_copy_black_24dp" />
@@ -124,7 +135,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:padding="16dp"
                         app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
 
@@ -133,7 +145,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:padding="16dp"
                         app:srcCompat="@drawable/ic_edit_black_24dp" />
 
@@ -142,13 +155,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:padding="16dp"
                         app:srcCompat="@drawable/ic_delete_sweep_black_24dp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/account_oayout_makeprimary_layout"
+                    android:id="@+id/accounnt_item_makeprimary_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">

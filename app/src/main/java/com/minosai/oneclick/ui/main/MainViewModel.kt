@@ -1,6 +1,7 @@
 package com.minosai.oneclick.ui.main
 
 import android.arch.lifecycle.ViewModel
+import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.repo.OneClickRepo
 import javax.inject.Inject
 
@@ -22,5 +23,9 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     fun updateUsage(usage: String) = repo.updateUsage(usage)
 
     fun addUser(userName: String, password: String, isActiveAccount: Boolean) = repo.addAccount(userName, password, "", "", isActiveAccount)
+
+    fun setPrimaryAccount(userName: String) {
+        repo.setActiveUser(userName)
+    }
 
 }

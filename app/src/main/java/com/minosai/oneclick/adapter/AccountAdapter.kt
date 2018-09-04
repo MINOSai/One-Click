@@ -1,47 +1,89 @@
 package com.minosai.oneclick.adapter
 
-import android.arch.paging.PagedListAdapter
 import android.content.Context
-import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.minosai.oneclick.R
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.ui.main.MainViewModel
-import com.minosai.oneclick.util.inflate
+import com.minosai.oneclick.util.*
 import kotlinx.android.synthetic.main.account_row_layout.view.*
 
 class AccountAdapter(
-        private val listener: (AccountInfo) -> Unit,
-        private val context: Context,
-        private val mainViewModel: MainViewModel
-) : PagedListAdapter<AccountInfo, AccountAdapter.AccountViewHolder>(
-        object : DiffUtil.ItemCallback<AccountInfo>() {
+        private val context: Context?,
+        private val mainViewModel: MainViewModel,
+        private val listener: (AccountInfo) -> Unit
+) : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
-            override fun areItemsTheSame(oldItem: AccountInfo?, newItem: AccountInfo?) = oldItem?.username ==newItem?.username
+    private var accountList: List<AccountInfo>? = null
 
-            override fun areContentsTheSame(oldItem: AccountInfo?, newItem: AccountInfo?) = oldItem == newItem
-        }
-) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AccountViewHolder(parent.inflate(R.layout.account_row_layout))
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it, listener)
+        accountList?.get(position).let {
+            holder.bind(it, listener, mainViewModel, context)
         }
+    }
+
+    override fun getItemCount() = accountList?.size ?: 0
+
+    fun updateList(accounts: List<AccountInfo>?) {
+        accountList = accounts
+        notifyDataSetChanged()
     }
 
     class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(account: AccountInfo, listener: (AccountInfo) -> Unit) = with(itemView) {
+        fun bind(account: AccountInfo?, listener: (AccountInfo) -> Unit, mainViewModel: MainViewModel, context: Context?) = with(itemView) {
             // TODO: setup views
-            with(account) {
-                account_item_username.text = username
-                account_item_date.text = renewalDate
-                account_item_usage.text = usage
+            account?.let { accountInfo ->
+
+                account_item_username.text = accountInfo.username
+
+                if (accountInfo.usage.isBlank()) {
+                    account_item_empty_state.show()
+                    account_item_details_layout.hide()
+                } else {
+                    account_item_empty_state.hide()
+                    account_item_details_layout.show()
+//                    account_item_date.text = accountInfo.renewalDate
+                    account_item_date.text = "18th Aug 2019"
+                    account_item_usage.text = accountInfo.usage
+                }
+
+                if (accountInfo.isActiveAccount) {
+                    card_account_item.setBackgroundTint(android.R.color.holo_green_light)
+//                    account_item_primary_linearlayout.setPadding(
+//                            dpToPixels(8, context), 0, 0, 0
+//                    )
+                    accounnt_item_makeprimary_layout.visibility = View.GONE
+                    account_item_toggle_button.visibility = View.GONE
+                } else {
+                    card_account_item.setBackgroundTint(android.R.color.white)
+//                    account_item_primary_linearlayout.setPadding(
+//                            dpToPixels(0, context), 0, 0, 0
+//                    )
+                }
+
+                account_item_toggle_button.setOnClickListener {
+                    account_item_actions_layout.toggleVisibility(account_item_toggle_button)
+                }
+
+                account_item_action_primary.setOnClickListener {
+                    mainViewModel.setPrimaryAccount(accountInfo.username)
+                }
             }
-            account_item_action_primary.setOnClickListener {  }
+        }
+
+        private fun dpToPixels(sizeInDp: Int, context: Context?): Int {
+            //FIXME: This breaks the app
+            var dpAsPixels = 0
+            context?.let {
+                val scale = context.resources.getDisplayMetrics().density
+                dpAsPixels = (sizeInDp * scale + 0.5f) as Int
+            }
+            return dpAsPixels
         }
     }
 }

@@ -6,15 +6,16 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.work.WorkManager
+import android.widget.Toast
 import com.minosai.oneclick.R
+import com.minosai.oneclick.adapter.AccountAdapter
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.ui.main.bottomsheets.IncognitoBottomSheetFragment
@@ -28,8 +29,9 @@ import com.minosai.oneclick.util.listener.NewUserSheetListener
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
-import kotlinx.android.synthetic.main.fragment_bottom_sheet_incognito.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class MainFragment : Fragment(),
@@ -57,7 +59,8 @@ class MainFragment : Fragment(),
     private val incognitoSheet = IncognitoBottomSheetFragment()
     private val newUserSheet = NewUserBottomSheetFragment()
 
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var adapter: AccountAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -78,19 +81,23 @@ class MainFragment : Fragment(),
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
 
+        adapter = AccountAdapter(context!!, mainViewModel) {
+            Toast.makeText(context, it.username, Toast.LENGTH_SHORT).show()
+        }
+
+        initRecyclerView()
         addObservers()
         setClicks()
     }
 
-    override fun onDestroyView() {
-        try {
-            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun initRecyclerView() {
+        launch(UI) {
+            val linearLayoutManager = LinearLayoutManager(activity)
+            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+            rv_accounts.layoutManager = linearLayoutManager
+            rv_accounts.hasFixedSize()
+            rv_accounts.adapter = adapter
         }
-
-        unregisterWifiReceiver()
-        super.onDestroyView()
     }
 
     private fun addObservers() {
@@ -98,6 +105,7 @@ class MainFragment : Fragment(),
         mainViewModel.getAllAccounts().observe(this, Observer {
             activeAccount = mainViewModel.getActiveAccount()
             updateUi()
+            adapter.updateList(it)
         })
     }
 
@@ -128,6 +136,17 @@ class MainFragment : Fragment(),
         button_sleep_timer.setOnClickListener {
             Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onDestroyView() {
+        try {
+            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        unregisterWifiReceiver()
+        super.onDestroyView()
     }
 
     private fun registerWifiReceiver() {
