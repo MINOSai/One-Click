@@ -6,4 +6,13 @@
 
     <color name="blueGrey">#616161</color>
     <color name="blehGrey">#313131</color>
+
+    <color name="colorActionGrey">#F7F7F7</color>
+    <color name="colorSuccess">#15E6A2</color>
+    <color name="colorThemeBlue">#25CCFF</color>
+    <color name="colorYellow">#ffe043</color>
+    <color name="colorActiveAccount">#2ABF35</color>
+    <color name="colorActiveInfo">#15E6CD</color>
+    <color name="colorLoginAction">#19C0F2</color>
+
 </resources>

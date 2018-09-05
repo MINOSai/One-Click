@@ -113,4 +113,8 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     fun getActiveAccountFromDb(): AccountInfo = dao.getActiveAccount()
 
+    fun removeAccount(accountInfo: AccountInfo) = launch {
+        dao.deleteAccounts(accountInfo)
+    }
+
 }

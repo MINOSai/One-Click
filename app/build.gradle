@@ -96,4 +96,7 @@ dependencies {
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.3'
 
+    // LoadingButton
+    implementation 'br.com.simplepass:loading-button-android:1.14.0'
+
 }

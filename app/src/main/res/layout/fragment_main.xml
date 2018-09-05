@@ -6,6 +6,8 @@
     android:id="@+id/coordinator_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:animationCache="false"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +42,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="One Click"
                         android:textAppearance="@android:style/TextAppearance.Material.Large"
+                        android:textColor="@color/colorThemeBlue"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -53,6 +56,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:padding="16dp"
+                        android:tint="@color/colorThemeBlue"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -71,7 +75,7 @@
                 android:clickable="true"
                 android:drawableLeft="@drawable/ic_timer_black_24dp"
                 android:drawablePadding="8dp"
-                android:foreground="?attr/selectableItemBackground"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="center"
                 android:paddingStart="16dp"
                 android:paddingLeft="16dp"
@@ -81,6 +85,7 @@
                 android:paddingBottom="8dp"
                 android:text="Sleep Timer"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textColor="@color/colorThemeBlue"
                 app:layout_constraintEnd_toStartOf="@+id/button_incognito"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +110,7 @@
                 android:paddingBottom="8dp"
                 android:text="Incognito"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textColor="@color/colorThemeBlue"
                 app:layout_constraintBottom_toBottomOf="@+id/button_sleep_timer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -115,10 +121,11 @@
                 android:id="@+id/text_home_displayname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:text="Hello, Yaswant"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_sleep_timer" />
@@ -215,6 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="128dp"
+                android:animateLayoutChanges="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 tools:listitem="@layout/account_row_layout" />
@@ -229,9 +237,11 @@
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="false">
+        app:cardUseCompatPadding="false"
+        app:layout_dodgeInsetEdges="bottom">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -264,15 +274,19 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
-    <Button
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/button_main"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/capsule_button"
-        android:backgroundTint="@android:color/holo_blue_light"
+        android:backgroundTint="@color/colorLoginAction"
+        android:foreground="?attr/selectableItemBackground"
         android:text="connect to wifi"
         android:textColor="@android:color/white"
         app:layout_anchor="@+id/cardView3"
-        app:layout_anchorGravity="top|center" />
+        app:layout_anchorGravity="top|center"
+        app:spinning_bar_color="#FFF"
+        app:spinning_bar_padding="6dp"
+        app:spinning_bar_width="4dp" />
 
 </android.support.design.widget.CoordinatorLayout>

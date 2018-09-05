@@ -53,17 +53,21 @@ class AccountAdapter(
                 }
 
                 if (accountInfo.isActiveAccount) {
-                    card_account_item.setBackgroundTint(android.R.color.holo_green_light)
+                    card_account_item.setBackgroundTint(R.color.colorActiveAccount)
 //                    account_item_primary_linearlayout.setPadding(
 //                            dpToPixels(8, context), 0, 0, 0
 //                    )
+                    account_item_actions_layout.visibility = View.VISIBLE
                     accounnt_item_makeprimary_layout.visibility = View.GONE
                     account_item_toggle_button.visibility = View.GONE
                 } else {
                     card_account_item.setBackgroundTint(android.R.color.white)
-//                    account_item_primary_linearlayout.setPadding(
-//                            dpToPixels(0, context), 0, 0, 0
-//                    )
+                    account_item_primary_linearlayout.setPadding(
+                            dpToPixels(0, context), 0, 0, 0
+                    )
+                    account_item_actions_layout.visibility = View.GONE
+                    accounnt_item_makeprimary_layout.visibility = View.VISIBLE
+                    account_item_toggle_button.visibility = View.VISIBLE
                 }
 
                 account_item_toggle_button.setOnClickListener {
@@ -73,15 +77,19 @@ class AccountAdapter(
                 account_item_action_primary.setOnClickListener {
                     mainViewModel.setPrimaryAccount(accountInfo.username)
                 }
+
+                account_item_action_delete.setOnClickListener {
+                    mainViewModel.removeAccount(accountInfo)
+                }
             }
         }
 
         private fun dpToPixels(sizeInDp: Int, context: Context?): Int {
             //FIXME: This breaks the app
-            var dpAsPixels = 0
+            var dpAsPixels = (0.5f).toInt()
             context?.let {
-                val scale = context.resources.getDisplayMetrics().density
-                dpAsPixels = (sizeInDp * scale + 0.5f) as Int
+                val scale = context.resources.displayMetrics.density
+                dpAsPixels = (sizeInDp * scale + 0.5f).toInt()
             }
             return dpAsPixels
         }

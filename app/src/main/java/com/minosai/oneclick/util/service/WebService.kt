@@ -43,14 +43,14 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                     }
                     is Result.Success -> {
                         Log.i(TAG, "Logged in")
-                        Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
                         setSessionLink(result.value)
                         loginLogoutListener.onLoggedListener(RequestType.LOGIN, true)
                     }
                 }
             }
         } else {
-            Toast.makeText(context, "No account found", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "No account found", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -63,7 +63,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                 }
                 is Result.Success -> {
                     Log.i(TAG, "Logged out")
-                    Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
                     loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true)
                     preferences[Constants.PREF_SESSION_LINK] = null
                 }

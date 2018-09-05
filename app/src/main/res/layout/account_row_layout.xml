@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_account_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@android:color/holo_green_light"
+        android:backgroundTint="@color/colorActiveAccount"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +25,8 @@
             android:id="@+id/account_item_primary_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
+            android:animateLayoutChanges="true"
             android:background="@android:color/white"
             android:orientation="vertical">
 
@@ -40,7 +42,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
-                    android:textAppearance="@android:style/TextAppearance.Material.Large"
+                    android:paddingBottom="8dp"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -80,11 +84,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/shape_capsule_border"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
+                    android:background="@drawable/shape_round_box"
+                    android:paddingStart="8dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="6dp"
+                    android:textColor="@color/colorActiveInfo"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_item_username"
                     tools:text="18th Aug 2019" />
@@ -97,11 +103,13 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/shape_capsule_border"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="8dp"
+                    android:background="@drawable/shape_round_box"
+                    android:paddingStart="8dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="6dp"
+                    android:textColor="@color/colorActiveInfo"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/account_item_date"
                     app:layout_constraintStart_toEndOf="@+id/account_item_date"
                     app:layout_constraintTop_toTopOf="@+id/account_item_date"
@@ -113,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,13 +129,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/accounnt_item_action_copy"
+                        android:id="@+id/account_item_action_copy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:padding="16dp"
+                        android:tint="@color/colorThemeBlue"
                         app:srcCompat="@drawable/ic_content_copy_black_24dp" />
 
                     <ImageView
@@ -138,6 +147,7 @@
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:padding="16dp"
+                        android:tint="@color/colorThemeBlue"
                         app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
 
                     <ImageView
@@ -148,6 +158,7 @@
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:padding="16dp"
+                        android:tint="@color/colorYellow"
                         app:srcCompat="@drawable/ic_edit_black_24dp" />
 
                     <ImageView
@@ -158,6 +169,7 @@
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:padding="16dp"
+                        android:tint="@android:color/holo_red_light"
                         app:srcCompat="@drawable/ic_delete_sweep_black_24dp" />
                 </LinearLayout>
 

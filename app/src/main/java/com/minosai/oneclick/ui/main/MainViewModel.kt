@@ -11,6 +11,7 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var isWifiConnected = false
     var isOnline = false
     var ssid = ""
+    lateinit var state: MainFragment.ButtonAction
 
     fun getLiveActiveAccount() = repo.liveActiveAccount
 
@@ -24,8 +25,8 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
 
     fun addUser(userName: String, password: String, isActiveAccount: Boolean) = repo.addAccount(userName, password, "", "", isActiveAccount)
 
-    fun setPrimaryAccount(userName: String) {
-        repo.setActiveUser(userName)
-    }
+    fun setPrimaryAccount(userName: String) = repo.setActiveUser(userName)
+
+    fun removeAccount(accountInfo: AccountInfo) = repo.removeAccount(accountInfo)
 
 }

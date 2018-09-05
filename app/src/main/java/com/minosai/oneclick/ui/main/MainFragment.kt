@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -33,6 +34,11 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
+import android.provider.Settings.ACTION_WIFI_SETTINGS
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.provider.Settings
+
 
 class MainFragment : Fragment(),
         Injectable,
@@ -61,6 +67,12 @@ class MainFragment : Fragment(),
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: AccountAdapter
+
+    enum class ButtonAction {
+        LOGIN, LOGOUT, CONNECT
+    }
+
+    private lateinit var state: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -136,6 +148,58 @@ class MainFragment : Fragment(),
         button_sleep_timer.setOnClickListener {
             Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
         }
+
+        button_main.setOnClickListener {
+            when(mainViewModel.state) {
+                ButtonAction.CONNECT -> connectWifi()
+                ButtonAction.LOGIN -> {
+                    webService.login(this, activeAccount)
+                    button_main.startAnimation()
+                }
+                ButtonAction.LOGOUT -> {
+                    webService.logout(this)
+                    button_main.startAnimation()
+                }
+            }
+        }
+    }
+
+    private fun connectWifi() {
+        openWifiSettings()
+    }
+
+    private fun openWifiSettings() {
+        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+        if (intent.resolveActivity(context?.packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
+    private fun stopButtonAnimation(text: String) {
+        button_main.revertAnimation {
+            button_main.background = resources.getDrawable(R.drawable.shape_capsule)
+//            button_main.text = text
+        }
+    }
+
+    private fun showSuccess() {
+        context?.let {
+            val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_done_white_48dp)
+            button_main.doneLoadingAnimation(android.R.color.white, icon)
+            Handler().postDelayed({
+                stopButtonAnimation("")
+            }, 1000)
+        }
+    }
+
+    private fun showFailure() {
+        context?.let {
+            val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_close_black_24dp)
+            button_main.doneLoadingAnimation(android.R.color.white, icon)
+            Handler().postDelayed({
+                stopButtonAnimation("")
+            }, 1000)
+        }
     }
 
     override fun onDestroyView() {
@@ -146,6 +210,7 @@ class MainFragment : Fragment(),
         }
 
         unregisterWifiReceiver()
+        button_main.dispose()
         super.onDestroyView()
     }
 
@@ -202,21 +267,30 @@ class MainFragment : Fragment(),
     }
 
     override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
+//        stopButtonAnimation("")
         stopLoading()
         mainViewModel.isOnline = isLogged
         when (requestType) {
             WebService.Companion.RequestType.LOGIN -> {
                 mainViewModel.isOnline = isLogged
                 if (isLogged) {
+                    showSuccess()
                     if (mainViewModel.isAutoUpdateUsage()) {
                         startLoading()
                         webService.getUsage { usage ->
                             mainViewModel.updateUsage(usage)
                         }
                     }
+                } else {
+                    showFailure()
                 }
             }
             WebService.Companion.RequestType.LOGOUT -> {
+                if (isLogged) {
+                    showSuccess()
+                } else {
+                    showFailure()
+                }
                 if (mainViewModel.isOnline && isLogged) {
                     mainViewModel.isOnline = false
                 }
@@ -227,18 +301,24 @@ class MainFragment : Fragment(),
 
     override fun onAddNewUser(userName: String, password: String, isActiveAccount: Boolean) {
         // TODO: remove this comment to add users innto DB
-//        mainViewModel.addUser(userName, password, isActiveAccount)
+        mainViewModel.addUser(userName, password, isActiveAccount)
     }
 
     private fun updateState() {
         if (mainViewModel.isWifiConnected) {
             if (mainViewModel.isOnline) {
-                button_main.text = "Logged in"
+                button_main.text = "Logout"
+//                stopButtonAnimation("Logout")
+                mainViewModel.state = ButtonAction.LOGOUT
             } else {
-                button_main.text = "Not logged in"
+                button_main.text = "Login"
+//                stopButtonAnimation("Login")
+                mainViewModel.state = ButtonAction.LOGIN
             }
         } else {
-            button_main.text = "Not connected"
+//            button_main.text = "connnect to wifi"
+            stopButtonAnimation("Connect to wifi")
+            mainViewModel.state = ButtonAction.CONNECT
         }
     }
 

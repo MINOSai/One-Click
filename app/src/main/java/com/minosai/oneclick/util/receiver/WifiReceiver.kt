@@ -7,6 +7,8 @@ import android.content.SharedPreferences
 import android.net.wifi.WifiManager
 import android.net.NetworkInfo
 import android.util.Log
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
@@ -44,11 +46,25 @@ class WifiReceiver() : BroadcastReceiver() {
                 val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
                 Log.i(TAG, "isConnected : ${info.isConnected} to network: ${info.extraInfo}")
 
-                if (info.isConnected && info.extraInfo in SSID_LIST) {
-                    wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
-                    //TODO: auto login based on user preference
+                if (info.isConnected) {
+//                    wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
+                    //TODO: auto login based on user preference - do it in main fragment
+                    checkProntoNetworks(info.extraInfo)
                 } else {
                     wifiConnectivityListener?.onWifiStateChanged(false, "")
+                }
+            }
+        }
+    }
+
+    private fun checkProntoNetworks(ssid: String) {
+        "http://phc.prontonetworks.com/".httpGet().response { request, response, result ->
+            when(result) {
+                is Result.Failure -> {
+                    wifiConnectivityListener?.onWifiStateChanged(false, "")
+                }
+                is Result.Success -> {
+                    wifiConnectivityListener?.onWifiStateChanged(true, ssid)
                 }
             }
         }
