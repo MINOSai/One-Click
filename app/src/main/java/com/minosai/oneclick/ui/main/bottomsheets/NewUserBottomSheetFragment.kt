@@ -11,7 +11,7 @@ import com.minosai.oneclick.R
 import com.minosai.oneclick.util.listener.NewUserSheetListener
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_newuser.*
 
-class NewUserBottomSheetFragment() : BottomSheetDialogFragment() {
+class NewUserBottomSheetFragment : RoundedBottomSheetDialogFragment() {
 
     lateinit var listener: NewUserSheetListener
 
@@ -28,9 +28,9 @@ class NewUserBottomSheetFragment() : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button_newuser_cancel.setOnClickListener { dismiss() }
+        fab_newuser_cancel.setOnClickListener { dismiss() }
 
-        button_newuser_login.setOnClickListener {
+        fab_newuser_done.setOnClickListener {
             listener.onAddNewUser(input_newuser_username.text.toString(), input_newuser_password.text.toString(), false)
             dismiss()
         }

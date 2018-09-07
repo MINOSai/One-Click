@@ -14,5 +14,8 @@
     <color name="colorActiveAccount">#2ABF35</color>
     <color name="colorActiveInfo">#15E6CD</color>
     <color name="colorLoginAction">#19C0F2</color>
+    <color name="colorThemeGrey">#F7F7F7</color>
+    <color name="colorThemeInputGrey">#F5F5F5</color>
+    <color name="colorActionRed">#FF6872</color>
 
 </resources>

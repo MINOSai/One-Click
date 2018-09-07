@@ -12,7 +12,7 @@ interface OneClickDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addAccount(accountInfo: AccountInfo)
 
-    @Query("SELECT * FROM accountinfo")
+    @Query("SELECT * FROM accountinfo ORDER BY isActiveAccount DESC")
     fun getAllAccounts(): LiveData<List<AccountInfo>>
 
     @Query("SELECT * FROM accountinfo WHERE isactiveaccount= '1'")

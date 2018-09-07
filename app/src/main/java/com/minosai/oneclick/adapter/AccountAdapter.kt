@@ -1,5 +1,7 @@
 package com.minosai.oneclick.adapter
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -8,7 +10,8 @@ import com.minosai.oneclick.R
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.ui.main.MainViewModel
 import com.minosai.oneclick.util.*
-import kotlinx.android.synthetic.main.account_row_layout.view.*
+import kotlinx.android.synthetic.main.account_item_row_layout.view.*
+import org.jetbrains.anko.design.snackbar
 
 class AccountAdapter(
         private val context: Context?,
@@ -16,9 +19,11 @@ class AccountAdapter(
         private val listener: (AccountInfo) -> Unit
 ) : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
-    private var accountList: List<AccountInfo>? = null
+    companion object {
+        var accountList: List<AccountInfo>? = null
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AccountViewHolder(parent.inflate(R.layout.account_row_layout))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AccountViewHolder(parent.inflate(R.layout.account_item_row_layout))
 
     override fun onBindViewHolder(holder: AccountViewHolder, position: Int) {
         accountList?.get(position).let {
@@ -52,6 +57,10 @@ class AccountAdapter(
                     account_item_usage.text = accountInfo.usage
                 }
 
+                if (AccountAdapter.accountList?.size == 1) {
+                    account_item_action_delete.visibility = View.GONE
+                }
+
                 if (accountInfo.isActiveAccount) {
                     card_account_item.setBackgroundTint(R.color.colorActiveAccount)
 //                    account_item_primary_linearlayout.setPadding(
@@ -80,6 +89,13 @@ class AccountAdapter(
 
                 account_item_action_delete.setOnClickListener {
                     mainViewModel.removeAccount(accountInfo)
+                }
+
+                account_item_action_copy.setOnClickListener {
+                    val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("Account Info", "Username: ${accountInfo.username}\nPassword: ${accountInfo.password}")
+                    clipboard.primaryClip = clip
+                    snackbar(mainViewModel.view, "Account details copied to clipboard")
                 }
             }
         }

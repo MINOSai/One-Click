@@ -61,6 +61,7 @@ dependencies {
 
     // Anko
     implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
 
     def lifecycle_version = "1.1.1"
     def room_version = "1.1.0"

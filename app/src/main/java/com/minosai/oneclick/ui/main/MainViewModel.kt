@@ -1,6 +1,10 @@
 package com.minosai.oneclick.ui.main
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.view.View
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.repo.OneClickRepo
 import javax.inject.Inject
@@ -11,7 +15,10 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var isWifiConnected = false
     var isOnline = false
     var ssid = ""
+
     lateinit var state: MainFragment.ButtonAction
+    lateinit var context: Context
+    lateinit var view: View
 
     fun getLiveActiveAccount() = repo.liveActiveAccount
 

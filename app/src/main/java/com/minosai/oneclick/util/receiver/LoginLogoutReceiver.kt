@@ -58,7 +58,7 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
         "https://www.example.com".httpGet().timeout(500).response { _, _, result ->
             when(result) {
                 is Result.Failure -> {
-                    webService.login(this, repoInterface.activeAccount)
+                    webService.login(this, repoInterface.activeAccount.username, repoInterface.activeAccount.password)
                 }
                 is Result.Success -> {
                     webService.logout(this)

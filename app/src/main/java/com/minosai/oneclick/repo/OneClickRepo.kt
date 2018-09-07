@@ -15,27 +15,14 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     lateinit var allAccountInfo: LiveData<List<AccountInfo>>
     var liveActiveAccount: MutableLiveData<AccountInfo> = MutableLiveData()
-//    lateinit var activeAccount: AccountInfo
 
     init {
         fetchAccounts()
-//        refreshActiveAccount()
     }
 
     private fun fetchAccounts() {
         allAccountInfo = dao.getAllAccounts()
     }
-
-//    fun refreshActiveAccount() {
-//        launch {
-//            try {
-//                activeAccount = dao.getActiveAccount()
-//                liveActiveAccount.value = activeAccount
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
 
     fun addAccount(userName: String, password: String, usage: String, renewalDate: String, isActiveAccount: Boolean) {
         launch {
@@ -56,12 +43,14 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         launch {
             dao.resetAccounts()
             dao.setActiveAccount(userName)
-//            refreshActiveAccount()
         }
     }
 
-    fun setActiveUser(userName: String) = launch {
-        dao.setActiveAccount(userName)
+    fun setActiveUser(userName: String) {
+        launch {
+            dao.resetAccounts()
+            dao.setActiveAccount(userName)
+        }
     }
 
     fun changeFirstOpenBoolean() {

@@ -2,6 +2,7 @@ package com.minosai.oneclick.util.service
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.security.keystore.StrongBoxUnavailableException
 import android.util.Log
 import android.widget.Toast
 import androidx.work.*
@@ -27,12 +28,12 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
-    fun login(loginLogoutListener: LoginLogoutListener, activeAccount: AccountInfo?) {
+    fun login(loginLogoutListener: LoginLogoutListener, userName: String?, password: String?) {
         //TODO: Check if VOLSBB or VIT2.4G OR VIT5G
-        if (activeAccount != null) {
+        if (userName != null && password != null) {
             Constants.URL_LOGIN.httpPost(listOf(
-                    "userId" to activeAccount.username,
-                    "password" to activeAccount.password,
+                    "userId" to userName,
+                    "password" to password,
                     "serviceName" to "ProntoAuthentication",
                     "Submit22" to "Login"
             )).responseString { request, response, result ->

@@ -30,6 +30,7 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
+        <!--TODO: Move this inside MainActivity so that it can be version checked-->
         <service
             android:name=".util.service.OneClickTileService"
             android:icon="@drawable/ic_login"
@@ -66,7 +67,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/one_click_widget_info" />
+                android:resource="@xml/one_click_widget_info" />w
         </receiver>
 
         <activity android:name=".ui.preferences.SettinngsActivity"></activity>

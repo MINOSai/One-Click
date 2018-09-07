@@ -14,6 +14,9 @@ import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
 import dagger.android.AndroidInjection
 import javax.inject.Inject
+import android.support.v4.content.ContextCompat.getSystemService
+
+
 
 
 class WifiReceiver() : BroadcastReceiver() {
@@ -30,7 +33,7 @@ class WifiReceiver() : BroadcastReceiver() {
     private val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
     companion object {
-        val SSID_LIST = listOf("\"VIT2.4G\"", "\"VIT5G\"", "\"VOLSBB\"")
+        val SSID_LIST = listOf("\"VIT2.4G\"", "\"VIT5G\"", "\"VOLSBB\"", "\"VIT2.4\"")
     }
 
     private var wifiConnectivityListener: WifiConnectivityListener? = null
@@ -46,10 +49,22 @@ class WifiReceiver() : BroadcastReceiver() {
                 val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
                 Log.i(TAG, "isConnected : ${info.isConnected} to network: ${info.extraInfo}")
 
+                //TODO: auto login based on user preference - do it in main fragment
                 if (info.isConnected) {
-//                    wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
-                    //TODO: auto login based on user preference - do it in main fragment
-                    checkProntoNetworks(info.extraInfo)
+                    if (info.extraInfo != null) {
+                        if (info.extraInfo in SSID_LIST) {
+                            wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
+                        } else {
+                            checkProntoNetworks(info.extraInfo)
+                        }
+                    } else {
+                        val ssid = getSSID(context)
+                        if (ssid != null && ssid != "<unknown ssid>") {
+                            wifiConnectivityListener?.onWifiStateChanged(false, "")
+                        } else if (ssid in SSID_LIST) {
+                            wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
+                        }
+                    }
                 } else {
                     wifiConnectivityListener?.onWifiStateChanged(false, "")
                 }
@@ -57,14 +72,20 @@ class WifiReceiver() : BroadcastReceiver() {
         }
     }
 
-    private fun checkProntoNetworks(ssid: String) {
+    private fun getSSID(context: Context?): String? {
+        val wifiManager = context?.applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager?
+        val info = wifiManager?.connectionInfo
+        return info?.ssid
+    }
+
+    private fun checkProntoNetworks(ssid: String?) {
         "http://phc.prontonetworks.com/".httpGet().response { request, response, result ->
             when(result) {
                 is Result.Failure -> {
                     wifiConnectivityListener?.onWifiStateChanged(false, "")
                 }
                 is Result.Success -> {
-                    wifiConnectivityListener?.onWifiStateChanged(true, ssid)
+                    wifiConnectivityListener?.onWifiStateChanged(true, ssid ?: "")
                 }
             }
         }

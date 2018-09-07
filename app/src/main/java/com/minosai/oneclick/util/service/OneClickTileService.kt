@@ -72,8 +72,9 @@ class OneClickTileService :TileService(),
     }
 
     override fun onClick() {
+        // TODO: if no account found open app
         when(qsTile.state) {
-            Tile.STATE_INACTIVE -> webService.login(this, repoInterface.activeAccount)
+            Tile.STATE_INACTIVE -> webService.login(this, repoInterface.activeAccount.username, repoInterface.activeAccount.password)
             Tile.STATE_ACTIVE -> webService.logout(this)
         }
     }

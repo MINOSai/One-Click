@@ -38,6 +38,9 @@ import android.provider.Settings.ACTION_WIFI_SETTINGS
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.provider.Settings
+import com.minosai.oneclick.util.setBackgroundTint
+import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.support.v4.act
 
 
 class MainFragment : Fragment(),
@@ -93,6 +96,8 @@ class MainFragment : Fragment(),
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
 
+        mainViewModel.view = coordinator_main
+
         adapter = AccountAdapter(context!!, mainViewModel) {
             Toast.makeText(context, it.username, Toast.LENGTH_SHORT).show()
         }
@@ -126,7 +131,7 @@ class MainFragment : Fragment(),
         button_login.setOnClickListener {
             //            val userName = input_userid.text.toString()
 //            val password = input_password.text.toString()
-            webService.login(this, activeAccount)
+            webService.login(this, activeAccount?.username, activeAccount?.password)
 //            saveUser(userName,  password)
             startLoading()
         }
@@ -146,14 +151,15 @@ class MainFragment : Fragment(),
         }
 
         button_sleep_timer.setOnClickListener {
-            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
+//            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
+            snackbar(mainViewModel.view, "asdfasdf")
         }
 
         button_main.setOnClickListener {
             when(mainViewModel.state) {
                 ButtonAction.CONNECT -> connectWifi()
                 ButtonAction.LOGIN -> {
-                    webService.login(this, activeAccount)
+                    webService.login(this, activeAccount?.username, activeAccount?.password)
                     button_main.startAnimation()
                 }
                 ButtonAction.LOGOUT -> {
@@ -176,7 +182,7 @@ class MainFragment : Fragment(),
     }
 
     private fun stopButtonAnimation(text: String) {
-        button_main.revertAnimation {
+        button_main?.revertAnimation {
             button_main.background = resources.getDrawable(R.drawable.shape_capsule)
 //            button_main.text = text
         }
@@ -275,6 +281,7 @@ class MainFragment : Fragment(),
                 mainViewModel.isOnline = isLogged
                 if (isLogged) {
                     showSuccess()
+                    snackbar(mainViewModel.view, "Successfully logged in")
                     if (mainViewModel.isAutoUpdateUsage()) {
                         startLoading()
                         webService.getUsage { usage ->
@@ -283,13 +290,20 @@ class MainFragment : Fragment(),
                     }
                 } else {
                     showFailure()
+                    snackbar(mainViewModel.view, "Login failed", "retry") {
+                        webService.login(this, activeAccount?.username, activeAccount?.password)
+                    }
                 }
             }
             WebService.Companion.RequestType.LOGOUT -> {
                 if (isLogged) {
                     showSuccess()
+                    snackbar(mainViewModel.view, "Successfully logged out")
                 } else {
                     showFailure()
+                    snackbar(mainViewModel.view, "Logout failed", "retry") {
+                        webService.logout(this)
+                    }
                 }
                 if (mainViewModel.isOnline && isLogged) {
                     mainViewModel.isOnline = false
@@ -300,7 +314,6 @@ class MainFragment : Fragment(),
     }
 
     override fun onAddNewUser(userName: String, password: String, isActiveAccount: Boolean) {
-        // TODO: remove this comment to add users innto DB
         mainViewModel.addUser(userName, password, isActiveAccount)
     }
 

@@ -31,9 +31,9 @@ class CredentialsFragment : Fragment(), Injectable {
 
         button_cred_next.setOnClickListener {
 
-            val displayName = text_creds_displayname.editText?.text.toString() ?: ""
-            val userName = text_creds_username.editText?.text.toString() ?: ""
-            val password = text_creds_password.editText?.text.toString() ?: ""
+            val displayName = text_creds_displayname.text.toString()
+            val userName = text_creds_username.text.toString()
+            val password = text_creds_password.text.toString()
 
             with(credentialsViewModel) {
                 addAccount(userName, password, true)
