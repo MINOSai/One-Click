@@ -3,11 +3,13 @@ package com.minosai.oneclick.ui.main
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.Snackbar
+import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -19,28 +21,21 @@ import com.minosai.oneclick.R
 import com.minosai.oneclick.adapter.AccountAdapter
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
-import com.minosai.oneclick.ui.main.bottomsheets.IncognitoBottomSheetFragment
-import com.minosai.oneclick.ui.main.bottomsheets.NewUserBottomSheetFragment
-import com.minosai.oneclick.util.service.WebService
+import com.minosai.oneclick.ui.main.bottomsheets.InputBottomSheetFragment
 import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.listener.InputSheetListener
+import com.minosai.oneclick.util.listener.LoginLogoutListener
+import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.util.listener.LoginLogoutListener
-import com.minosai.oneclick.util.listener.NewUserSheetListener
-import com.minosai.oneclick.util.listener.WifiConnectivityListener
+import com.minosai.oneclick.util.service.WebService
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import javax.inject.Inject
-import android.provider.Settings.ACTION_WIFI_SETTINGS
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.provider.Settings
-import com.minosai.oneclick.util.setBackgroundTint
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.support.v4.act
+import javax.inject.Inject
 
 
 class MainFragment : Fragment(),
@@ -48,7 +43,7 @@ class MainFragment : Fragment(),
         InternetConnectivityListener,
         WifiConnectivityListener,
         LoginLogoutListener,
-        NewUserSheetListener {
+        InputSheetListener {
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
@@ -65,15 +60,10 @@ class MainFragment : Fragment(),
     private var activeAccount: AccountInfo? = null
     private var isLoading = false
 
-    private val incognitoSheet = IncognitoBottomSheetFragment()
-    private val newUserSheet = NewUserBottomSheetFragment()
+    private val inputBottomSheetFragment = InputBottomSheetFragment()
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: AccountAdapter
-
-    enum class ButtonAction {
-        LOGIN, LOGOUT, CONNECT
-    }
 
     private lateinit var state: String
 
@@ -142,27 +132,32 @@ class MainFragment : Fragment(),
         }
 
         button_incognito.setOnClickListener {
-            incognitoSheet.show(fragmentManager, incognitoSheet.tag)
+            inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO)
+            inputBottomSheetFragment.show(fragmentManager, inputBottomSheetFragment.tag)
         }
 
         button_newuser.setOnClickListener {
-            newUserSheet.listener = this
-            newUserSheet.show(fragmentManager, newUserSheet.tag)
+            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT)
+            inputBottomSheetFragment.show(fragmentManager, inputBottomSheetFragment.tag)
+        }
+
+        button_refresh.setOnClickListener {
+            snackbar(mainViewModel.view, "Refresh account details")
         }
 
         button_sleep_timer.setOnClickListener {
 //            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
-            snackbar(mainViewModel.view, "asdfasdf")
+            snackbar(mainViewModel.view, "Sleep timer")
         }
 
         button_main.setOnClickListener {
             when(mainViewModel.state) {
-                ButtonAction.CONNECT -> connectWifi()
-                ButtonAction.LOGIN -> {
+                Constants.ButtonAction.CONNECT -> connectWifi()
+                Constants.ButtonAction.LOGIN -> {
                     webService.login(this, activeAccount?.username, activeAccount?.password)
                     button_main.startAnimation()
                 }
-                ButtonAction.LOGOUT -> {
+                Constants.ButtonAction.LOGOUT -> {
                     webService.logout(this)
                     button_main.startAnimation()
                 }
@@ -313,8 +308,13 @@ class MainFragment : Fragment(),
         updateState()
     }
 
-    override fun onAddNewUser(userName: String, password: String, isActiveAccount: Boolean) {
-        mainViewModel.addUser(userName, password, isActiveAccount)
+    override fun onSheetResponse(userName: String, password: String, isActiveAccount: Boolean, action: Constants.SheetAction) {
+        when(action) {
+            Constants.SheetAction.NEW_ACCOUNT -> mainViewModel.addUser(userName, password, isActiveAccount)
+            else -> {
+
+            }
+        }
     }
 
     private fun updateState() {
@@ -322,16 +322,16 @@ class MainFragment : Fragment(),
             if (mainViewModel.isOnline) {
                 button_main.text = "Logout"
 //                stopButtonAnimation("Logout")
-                mainViewModel.state = ButtonAction.LOGOUT
+                mainViewModel.state = Constants.ButtonAction.LOGOUT
             } else {
                 button_main.text = "Login"
 //                stopButtonAnimation("Login")
-                mainViewModel.state = ButtonAction.LOGIN
+                mainViewModel.state = Constants.ButtonAction.LOGIN
             }
         } else {
 //            button_main.text = "connnect to wifi"
             stopButtonAnimation("Connect to wifi")
-            mainViewModel.state = ButtonAction.CONNECT
+            mainViewModel.state = Constants.ButtonAction.CONNECT
         }
     }
 

@@ -18,4 +18,12 @@ object Constants {
 
     val DB_NAME = "oneclickdatabase.db"
 
+    enum class SheetAction {
+        NEW_ACCOUNT, INCOGNITO, EDIT_ACCOUNT
+    }
+
+    enum class ButtonAction {
+        LOGIN, LOGOUT, CONNECT
+    }
+
 }

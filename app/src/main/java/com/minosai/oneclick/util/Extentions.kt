@@ -1,6 +1,8 @@
 package com.minosai.oneclick.util
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.net.wifi.WifiManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,4 +33,10 @@ fun View.toggleVisibility(imageView: ImageView) {
         this.visibility = View.VISIBLE
         imageView.setImageResource(R.drawable.ic_chevron_up)
     }
+}
+
+fun Context.getSSID(): String? {
+    val wifiManager = this.applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager?
+    val info = wifiManager?.connectionInfo
+    return info?.ssid
 }

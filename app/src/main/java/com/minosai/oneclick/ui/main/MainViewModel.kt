@@ -7,6 +7,7 @@ import android.content.Context
 import android.view.View
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.repo.OneClickRepo
+import com.minosai.oneclick.util.Constants
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
@@ -16,7 +17,7 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var isOnline = false
     var ssid = ""
 
-    lateinit var state: MainFragment.ButtonAction
+    lateinit var state: Constants.ButtonAction
     lateinit var context: Context
     lateinit var view: View
 

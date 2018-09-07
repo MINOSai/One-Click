@@ -10,14 +10,11 @@ import android.util.Log
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.getSSID
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.service.WebService
 import dagger.android.AndroidInjection
 import javax.inject.Inject
-import android.support.v4.content.ContextCompat.getSystemService
-
-
-
 
 class WifiReceiver() : BroadcastReceiver() {
 
@@ -51,31 +48,18 @@ class WifiReceiver() : BroadcastReceiver() {
 
                 //TODO: auto login based on user preference - do it in main fragment
                 if (info.isConnected) {
-                    if (info.extraInfo != null) {
-                        if (info.extraInfo in SSID_LIST) {
-                            wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
-                        } else {
-                            checkProntoNetworks(info.extraInfo)
-                        }
+                    //TODO: What if SSID is not checked?
+                    val ssid = info?.extraInfo ?: context?.getSSID()
+                    if (ssid != null && ssid in SSID_LIST) {
+                        wifiConnectivityListener?.onWifiStateChanged(true, ssid)
                     } else {
-                        val ssid = getSSID(context)
-                        if (ssid != null && ssid != "<unknown ssid>") {
-                            wifiConnectivityListener?.onWifiStateChanged(false, "")
-                        } else if (ssid in SSID_LIST) {
-                            wifiConnectivityListener?.onWifiStateChanged(true, info.extraInfo)
-                        }
+                        checkProntoNetworks(info.extraInfo)
                     }
                 } else {
                     wifiConnectivityListener?.onWifiStateChanged(false, "")
                 }
             }
         }
-    }
-
-    private fun getSSID(context: Context?): String? {
-        val wifiManager = context?.applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager?
-        val info = wifiManager?.connectionInfo
-        return info?.ssid
     }
 
     private fun checkProntoNetworks(ssid: String?) {

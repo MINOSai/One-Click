@@ -8,9 +8,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
-import com.minosai.oneclick.repo.OneClickRepo
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
+import com.minosai.oneclick.util.getSSID
 import com.minosai.oneclick.util.receiver.WifiReceiver.Companion.SSID_LIST
 import com.minosai.oneclick.util.service.WebService.Companion.RequestType
 import com.minosai.oneclick.util.listener.LoginLogoutListener
@@ -33,12 +33,14 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
 
         AndroidInjection.inject(this, context)
 
+        // TODO: start widget loading
         context?.let {
             isWifiConnected(it)
         }
     }
 
     override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
+        //TODO: stop widget loading
         if (requestType == RequestType.LOGIN && isLogged && repoInterface.isAutoUpdateUsage) {
             webService.getUsage {  usage ->
                 repoInterface.updateUsage(usage)
@@ -49,8 +51,21 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
     private fun isWifiConnected(context: Context) {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info: NetworkInfo = connectivityManager.activeNetworkInfo
-        if (info.isConnected && info.extraInfo in SSID_LIST) {
-            checkInternet()
+        if (info.isConnected) {
+            val ssid = info.extraInfo ?: context.getSSID()
+            if (ssid != null && ssid in SSID_LIST) {
+                checkInternet()
+            } else {
+                checkProntoNetworks(info.extraInfo)
+            }
+        }
+    }
+
+    private fun checkProntoNetworks(ssid: String?) {
+        "http://phc.prontonetworks.com/".httpGet().response { request, response, result ->
+            if (result is Result.Success) {
+                checkInternet()
+            }
         }
     }
 
@@ -66,5 +81,4 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
             }
         }
     }
-
 }
