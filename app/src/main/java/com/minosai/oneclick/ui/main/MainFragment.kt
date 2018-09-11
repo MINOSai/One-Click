@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.minosai.oneclick.R
 import com.minosai.oneclick.adapter.AccountAdapter
 import com.minosai.oneclick.di.Injectable
@@ -155,13 +156,17 @@ class MainFragment : Fragment(),
                 Constants.ButtonAction.CONNECT -> connectWifi()
                 Constants.ButtonAction.LOGIN -> {
                     webService.login(this, activeAccount?.username, activeAccount?.password)
-                    button_main.startAnimation()
+                    button_main?.startAnimation()
                 }
                 Constants.ButtonAction.LOGOUT -> {
                     webService.logout(this)
-                    button_main.startAnimation()
+                    button_main?.startAnimation()
                 }
             }
+        }
+
+        button_settings.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
         }
     }
 
@@ -186,7 +191,7 @@ class MainFragment : Fragment(),
     private fun showSuccess() {
         context?.let {
             val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_done_white_48dp)
-            button_main.doneLoadingAnimation(android.R.color.white, icon)
+            button_main?.doneLoadingAnimation(android.R.color.white, icon)
             Handler().postDelayed({
                 stopButtonAnimation("")
             }, 1000)
@@ -195,11 +200,16 @@ class MainFragment : Fragment(),
 
     private fun showFailure() {
         context?.let {
-            val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_close_black_24dp)
-            button_main.doneLoadingAnimation(android.R.color.white, icon)
-            Handler().postDelayed({
-                stopButtonAnimation("")
-            }, 1000)
+            //TODO: Remove this try catch
+            try {
+                val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_close_black_24dp)
+                button_main?.doneLoadingAnimation(android.R.color.white, icon)
+                Handler().postDelayed({
+                    stopButtonAnimation("")
+                }, 1000)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -211,7 +221,7 @@ class MainFragment : Fragment(),
         }
 
         unregisterWifiReceiver()
-        button_main.dispose()
+        button_main?.dispose()
         super.onDestroyView()
     }
 
@@ -320,16 +330,16 @@ class MainFragment : Fragment(),
     private fun updateState() {
         if (mainViewModel.isWifiConnected) {
             if (mainViewModel.isOnline) {
-                button_main.text = "Logout"
+                button_main?.text = "Logout"
 //                stopButtonAnimation("Logout")
                 mainViewModel.state = Constants.ButtonAction.LOGOUT
             } else {
-                button_main.text = "Login"
+                button_main?.text = "Login"
 //                stopButtonAnimation("Login")
                 mainViewModel.state = Constants.ButtonAction.LOGIN
             }
         } else {
-//            button_main.text = "connnect to wifi"
+//            button_main?.text = "connnect to wifi"
             stopButtonAnimation("Connect to wifi")
             mainViewModel.state = Constants.ButtonAction.CONNECT
         }

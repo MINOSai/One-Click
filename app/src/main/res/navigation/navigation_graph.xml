@@ -10,9 +10,16 @@
         <action
             android:id="@+id/action_mainFragment_to_credentialsFragment2"
             app:destination="@id/credentialsFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/credentialsFragment"
         android:name="com.minosai.oneclick.ui.credentials.CredentialsFragment"
         android:label="CredentialsFragment" ></fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.minosai.oneclick.ui.preferences.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
