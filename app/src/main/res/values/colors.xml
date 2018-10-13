@@ -18,4 +18,6 @@
     <color name="colorThemeInputGrey">#F5F5F5</color>
     <color name="colorActionRed">#FF6872</color>
 
+    <color name="spacer_grey">#e0e0e0</color>
+
 </resources>

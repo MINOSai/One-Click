@@ -1,7 +1,5 @@
 package com.minosai.oneclick.ui.main
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.view.View
@@ -17,7 +15,7 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var isOnline = false
     var ssid = ""
 
-    lateinit var state: Constants.ButtonAction
+    var state = Constants.ButtonAction.CONNECT
     lateinit var context: Context
     lateinit var view: View
 
