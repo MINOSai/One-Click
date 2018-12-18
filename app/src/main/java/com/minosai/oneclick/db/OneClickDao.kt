@@ -1,9 +1,7 @@
 package com.minosai.oneclick.db
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.DataSource
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.minosai.oneclick.model.AccountInfo
 
 @Dao

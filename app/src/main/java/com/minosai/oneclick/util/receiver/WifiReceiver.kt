@@ -63,7 +63,7 @@ class WifiReceiver() : BroadcastReceiver() {
     }
 
     private fun checkProntoNetworks(ssid: String?) {
-        "http://phc.prontonetworks.com/".httpGet().response { request, response, result ->
+        Constants.URL_LOGIN.httpGet().response { request, response, result ->
             when(result) {
                 is Result.Failure -> {
                     wifiConnectivityListener?.onWifiStateChanged(false, "")

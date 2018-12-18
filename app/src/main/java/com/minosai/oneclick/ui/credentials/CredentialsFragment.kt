@@ -1,13 +1,13 @@
 package com.minosai.oneclick.ui.credentials
 
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.findNavController
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import kotlinx.android.synthetic.main.fragment_credentials.*
@@ -41,7 +41,7 @@ class CredentialsFragment : Fragment(), Injectable {
                 saveDisplayNamøe(displayName)
             }
 
-            findNavController().popBackStack()
+            findNavController(it).popBackStack()
         }
 
     }

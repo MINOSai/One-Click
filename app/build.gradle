@@ -8,7 +8,7 @@ apply plugin: "androidx.navigation.safeargs"
 
 apply plugin: 'kotlin-kapt'
 
-ext.anko_version = '0.10.5'
+ext.anko_version = '0.10.8'
 
 android {
     compileSdkVersion 28
@@ -18,7 +18,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "0.2.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -26,19 +26,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     // Dagger2
-    def dagger_version = "2.12"
+    def dagger_version = "2.16"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
@@ -52,47 +55,51 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
 
     // GSON
-    implementation 'com.google.code.gson:gson:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.19.3"
 
-    // Anko
-    implementation "org.jetbrains.anko:anko:$anko_version"
-    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
+    // Anko - DOES NOT WORK WITH ANDROIDX
+//    implementation "org.jetbrains.anko:anko:$anko_version"
+//    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
 
-    def lifecycle_version = "1.1.1"
-    def room_version = "1.1.0"
-    def nav_version = "1.0.0-alpha01"
-    def paging_version = "1.0.0"
-    def work_version = "1.0.0-alpha02"
+    def lifecycle_version = "2.0.0"
+    def room_version = "2.1.0-alpha03"
+    def nav_version = "1.0.0-alpha08"
+    def paging_version = "2.1.0-rc01"
+    def work_version = "1.0.0-alpha13"
+    def futures_version = "1.0.0-alpha02"
+
+    // Futures
+    implementation "androidx.concurrent:concurrent-futures:$futures_version"
 
     // Room
-    implementation "android.arch.persistence.room:runtime:$room_version"
-    kapt "android.arch.persistence.room:compiler:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // ViewModel + LiveData
-    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-    kapt "android.arch.lifecycle:compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // Paging
-    implementation "android.arch.paging:runtime:$paging_version"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     // WorkManager
-    implementation "android.arch.work:work-runtime-ktx:$work_version"
+//    implementation "android.arch.work:work-runtime-ktx:$work_version"
 
     // Fuel
     implementation 'com.github.kittinunf.fuel:fuel-android:1.14.0'
 
     // Internet connection checker
     implementation 'com.treebo:internetavailabilitychecker:1.0.1'
-    implementation 'com.android.support:cardview-v7:28.0.0-alpha3'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.11.3'
@@ -101,3 +108,8 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
 
 }
+//kotlin {
+//    experimental {
+//        coroutines "error"
+//    }
+//}

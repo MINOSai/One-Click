@@ -1,7 +1,7 @@
 package com.minosai.oneclick.di.module
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.minosai.oneclick.di.key.ViewModelKey
 import com.minosai.oneclick.ui.FactoryViewModel
 import com.minosai.oneclick.ui.credentials.CredentialsViewModel

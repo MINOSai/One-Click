@@ -1,8 +1,8 @@
 package com.minosai.oneclick.ui.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
@@ -10,14 +10,15 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.Navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.minosai.oneclick.R
 import com.minosai.oneclick.adapter.AccountAdapter
 import com.minosai.oneclick.di.Injectable
@@ -35,7 +36,6 @@ import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.design.snackbar
 import javax.inject.Inject
 
 
@@ -99,6 +99,7 @@ class MainFragment : Fragment(),
     }
 
     private fun initRecyclerView() {
+
         launch(UI) {
             val linearLayoutManager = LinearLayoutManager(activity)
             linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -134,21 +135,23 @@ class MainFragment : Fragment(),
 
         button_incognito.setOnClickListener {
             inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO)
-            inputBottomSheetFragment.show(fragmentManager, inputBottomSheetFragment.tag)
+            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
         button_newuser.setOnClickListener {
             inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT)
-            inputBottomSheetFragment.show(fragmentManager, inputBottomSheetFragment.tag)
+            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
         button_refresh.setOnClickListener {
-            snackbar(mainViewModel.view, "Refresh account details")
+//            snackbar(mainViewModel.view, "Refresh account details")
+            Snackbar.make(mainViewModel.view, "Refresh account details", Snackbar.LENGTH_SHORT).show()
         }
 
         button_sleep_timer.setOnClickListener {
 //            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
-            snackbar(mainViewModel.view, "Sleep timer")
+//            snackbar(mainViewModel.view, "Sleep timer")
+            Snackbar.make(mainViewModel.view, "Sleep timer", Snackbar.LENGTH_SHORT).show()
         }
 
         button_main.setOnClickListener {
@@ -166,7 +169,7 @@ class MainFragment : Fragment(),
         }
 
         button_settings.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
+            findNavController(it).navigate(R.id.action_mainFragment_to_settingsFragment)
         }
     }
 
@@ -286,7 +289,8 @@ class MainFragment : Fragment(),
                 mainViewModel.isOnline = isLogged
                 if (isLogged) {
                     showSuccess()
-                    snackbar(mainViewModel.view, "Successfully logged in")
+//                    snackbar(mainViewModel.view, "Successfully logged in")
+                    Snackbar.make(mainViewModel.view, "Successfully logged in", Snackbar.LENGTH_SHORT).show()
                     if (mainViewModel.isAutoUpdateUsage()) {
                         startLoading()
                         webService.getUsage { usage ->
@@ -295,20 +299,27 @@ class MainFragment : Fragment(),
                     }
                 } else {
                     showFailure()
-                    snackbar(mainViewModel.view, "Login failed", "retry") {
+//                    snackbar(mainViewModel.view, "Login failed", "retry") {
+//                        webService.login(this, activeAccount?.username, activeAccount?.password)
+//                    }
+                    Snackbar.make(mainViewModel.view, "Login failed", Snackbar.LENGTH_SHORT).setAction("retry") {
                         webService.login(this, activeAccount?.username, activeAccount?.password)
-                    }
+                    }.show()
                 }
             }
             WebService.Companion.RequestType.LOGOUT -> {
                 if (isLogged) {
                     showSuccess()
-                    snackbar(mainViewModel.view, "Successfully logged out")
+//                    snackbar(mainViewModel.view, "Successfully logged out")
+                    Snackbar.make(mainViewModel.view, "Successfully logged out", Snackbar.LENGTH_SHORT).show()
                 } else {
                     showFailure()
-                    snackbar(mainViewModel.view, "Logout failed", "retry") {
+//                    snackbar(mainViewModel.view, "Logout failed", "retry") {
+//                        webService.logout(this)
+//                    }
+                    Snackbar.make(mainViewModel.view, "Logout failed", Snackbar.LENGTH_SHORT).setAction("retry") {
                         webService.logout(this)
-                    }
+                    }.show()
                 }
                 if (mainViewModel.isOnline && isLogged) {
                     mainViewModel.isOnline = false

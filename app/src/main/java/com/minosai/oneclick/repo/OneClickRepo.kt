@@ -1,7 +1,7 @@
 package com.minosai.oneclick.repo
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.SharedPreferences
 import com.minosai.oneclick.db.OneClickDao
 import com.minosai.oneclick.model.AccountInfo

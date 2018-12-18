@@ -1,7 +1,7 @@
 package com.minosai.oneclick.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.minosai.oneclick.model.AccountInfo
 
 @Database(entities = [AccountInfo::class], version = 1, exportSchema = false)

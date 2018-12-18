@@ -1,11 +1,11 @@
 package com.minosai.oneclick.ui.main.bottomsheets
 
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.DialogFragment
 import com.minosai.oneclick.R
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.listener.InputSheetListener
@@ -27,7 +27,7 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return inflater.inflate(R.layout.fragment_bottom_sheet_input, container, false)
     }
 

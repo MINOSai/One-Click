@@ -2,17 +2,13 @@ package com.minosai.oneclick.util.service
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.security.keystore.StrongBoxUnavailableException
 import android.util.Log
-import android.widget.Toast
-import androidx.work.*
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.Constants
-import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
+import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import com.minosai.oneclick.util.listener.LoginLogoutListener
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
@@ -23,7 +19,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
 
     companion object {
         enum class RequestType { LOGIN, LOGOUT }
-        val usageWork: OneTimeWorkRequest = OneTimeWorkRequestBuilder<UsageWorker>().build()
+//        val usageWork: OneTimeWorkRequest = OneTimeWorkRequestBuilder<UsageWorker>().build()
     }
 
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
@@ -84,7 +80,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     }
 
     fun startUsageWorker() {
-        WorkManager.getInstance().enqueue(usageWork)
+//        WorkManager.getInstance().enqueue(usageWork)
     }
 
     fun getUsage(updateUsage: (usage: String) -> Unit) {

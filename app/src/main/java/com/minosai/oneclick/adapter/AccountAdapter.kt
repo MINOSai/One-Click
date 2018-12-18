@@ -3,15 +3,15 @@ package com.minosai.oneclick.adapter
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.minosai.oneclick.R
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.ui.main.MainViewModel
 import com.minosai.oneclick.util.*
 import kotlinx.android.synthetic.main.account_item_row_layout.view.*
-import org.jetbrains.anko.design.snackbar
 
 class AccountAdapter(
         private val context: Context?,
@@ -95,7 +95,9 @@ class AccountAdapter(
                     val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip = ClipData.newPlainText("Account Info", "Username: ${accountInfo.username}\nPassword: ${accountInfo.password}")
                     clipboard.primaryClip = clip
-                    snackbar(mainViewModel.view, "Account details copied to clipboard")
+//                    snackbar(mainViewModel.view, "Account details copied to clipboard")
+                    Snackbar.make(mainViewModel.view, "Account details copied to clipboard", Snackbar.LENGTH_SHORT).show()
+
                 }
             }
         }

@@ -1,10 +1,10 @@
 package com.minosai.oneclick.ui.main.bottomsheets
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.minosai.oneclick.R
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_incognito.*
 

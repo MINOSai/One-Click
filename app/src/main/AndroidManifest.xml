@@ -60,6 +60,7 @@
                 <action android:name="com.minosai.oneclick.action.LOGIN_LOGOUT_ACTION" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".ui.widget.OneClickWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

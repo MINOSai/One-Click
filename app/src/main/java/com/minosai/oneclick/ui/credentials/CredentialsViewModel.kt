@@ -1,6 +1,6 @@
 package com.minosai.oneclick.ui.credentials
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.minosai.oneclick.repo.OneClickRepo
 import javax.inject.Inject
 

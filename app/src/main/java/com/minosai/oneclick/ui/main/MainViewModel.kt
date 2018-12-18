@@ -1,6 +1,6 @@
 package com.minosai.oneclick.ui.main
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import android.content.Context
 import android.view.View
 import com.minosai.oneclick.model.AccountInfo

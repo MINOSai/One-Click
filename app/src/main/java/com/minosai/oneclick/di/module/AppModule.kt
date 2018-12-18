@@ -1,7 +1,7 @@
 package com.minosai.oneclick.di.module
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.minosai.oneclick.db.OneClickDao
