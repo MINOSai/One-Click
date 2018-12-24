@@ -102,7 +102,8 @@ class MainFragment : Fragment(),
 
         launch(UI) {
             val linearLayoutManager = LinearLayoutManager(activity)
-            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+            //TODO: Check below commented line
+//            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
             rv_accounts.layoutManager = linearLayoutManager
             rv_accounts.hasFixedSize()
             rv_accounts.adapter = adapter

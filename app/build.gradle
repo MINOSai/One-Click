@@ -107,6 +107,9 @@ dependencies {
     // LoadingButton
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
 
+    // Android MDC
+    implementation 'com.google.android.material:material:1.0.0'
+
 }
 //kotlin {
 //    experimental {
