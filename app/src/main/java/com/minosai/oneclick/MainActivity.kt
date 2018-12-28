@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        startService(Intent(this, WifiService::class.java))
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             addAppShortcut()
         }

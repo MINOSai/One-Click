@@ -18,7 +18,7 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
             android:layout_width="0dp"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -76,6 +76,8 @@
                         android:id="@+id/linearLayout7"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -109,6 +111,8 @@
                         android:id="@+id/linearLayout6"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -135,7 +139,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingTop="8dp"
-                            android:text="Incognito"
+                            android:text="Incognito Login"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -143,6 +147,8 @@
                         android:id="@+id/linearLayout8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -161,7 +167,7 @@
                             android:padding="8dp"
                             android:tint="@android:color/white"
                             app:backgroundTint="@color/colorThemeBlue"
-                            app:srcCompat="@drawable/ic_timer_black_24dp" />
+                            app:srcCompat="@drawable/ic_refresh_black_24dp" />
 
                         <TextView
                             android:id="@+id/textView15"
@@ -169,7 +175,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:paddingTop="8dp"
-                            android:text="Sleep Timer"
+                            android:text="Refresh Data"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -177,10 +183,13 @@
                         android:id="@+id/linearLayout9"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="8dp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/linearLayout10"
                         app:layout_constraintHorizontal_bias="0.5"
@@ -211,7 +220,8 @@
                         android:id="@+id/linearLayout10"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
@@ -256,7 +266,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/item_sample_layout" />
+                tools:listitem="@layout/item_account_layout" />
         </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

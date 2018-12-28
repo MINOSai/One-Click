@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        app:key="display_name"
+        app:title="Display name"/>
+
+    <PreferenceCategory
+        app:key="login_category"
+        app:title="Login">
+
+        <SwitchPreferenceCompat
+            app:key="auto_login_app_start"
+            app:title="Login when app starts"
+            app:summary="Automatically attempt to login when app opens"/>
+
+        <SwitchPreferenceCompat
+            app:key="auto_login_quicktile"
+            app:title="Auto login in quick setting tile"
+            app:summary="Automatically attempt to login in quick setting tile"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="other_category"
+        app:title="Other">
+
+        <SwitchPreferenceCompat
+            app:key="auto_refresh"
+            app:title="Refresh after login"
+            app:summary="After successful login the account details are refreshed automatically"/>
+
+        <Preference
+            app:key="feedback"
+            app:title="Send feedback"
+            app:summary="Report technical issues or suggest new features"/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -96,7 +96,7 @@
                     tools:text="18th Aug 2019" />
 
                 <TextView
-                    android:id="@+id/account_item_usage"
+                    android:id="@+id/text_account_usage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

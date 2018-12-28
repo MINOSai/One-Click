@@ -6,8 +6,6 @@ import android.net.wifi.WifiManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import com.minosai.oneclick.R
 
 fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
@@ -25,13 +23,13 @@ fun View.show() {
     this.visibility = View.VISIBLE
 }
 
-fun View.toggleVisibility(imageView: ImageView) {
+fun View.toggleVisibility() {
     if (this.visibility == View.VISIBLE) {
         this.visibility = View.GONE
-        imageView.setImageResource(R.drawable.ic_chevron_down)
+//        imageView.setImageResource(R.drawable.ic_chevron_down)
     } else {
         this.visibility = View.VISIBLE
-        imageView.setImageResource(R.drawable.ic_chevron_up)
+//        imageView.setImageResource(R.drawable.ic_chevron_up)
     }
 }
 
