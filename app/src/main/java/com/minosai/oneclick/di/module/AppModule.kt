@@ -1,13 +1,13 @@
 package com.minosai.oneclick.di.module
 
 import android.app.Application
-import androidx.room.Room
 import android.content.SharedPreferences
+import androidx.room.Room
 import com.google.gson.Gson
 import com.minosai.oneclick.db.OneClickDao
 import com.minosai.oneclick.db.OneClickDatabase
+import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.repo.OneClickRepo
-import com.minosai.oneclick.util.service.WebService
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.helper.PreferenceHelper

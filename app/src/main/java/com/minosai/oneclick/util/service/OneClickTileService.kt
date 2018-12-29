@@ -6,24 +6,25 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import androidx.annotation.RequiresApi
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.minosai.oneclick.R
-import com.minosai.oneclick.util.service.WebService.Companion.RequestType
+import com.minosai.oneclick.network.WebService
+import com.minosai.oneclick.network.WebService.Companion.RequestType
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
-import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
-import com.minosai.oneclick.util.listener.WifiConnectivityListener
-import com.minosai.oneclick.util.receiver.WifiReceiver
 import com.minosai.oneclick.util.listener.LoginLogoutListener
+import com.minosai.oneclick.util.listener.WifiConnectivityListener
+import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
+import com.minosai.oneclick.util.receiver.WifiReceiver
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
-class OneClickTileService :TileService(),
+class OneClickTileService : TileService(),
         InternetConnectivityListener,
         WifiConnectivityListener,
         LoginLogoutListener {

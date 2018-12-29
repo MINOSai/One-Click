@@ -12,7 +12,7 @@ import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.getSSID
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
-import com.minosai.oneclick.util.service.WebService
+import com.minosai.oneclick.network.WebService
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

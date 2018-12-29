@@ -15,13 +15,10 @@ class SettingsFragment : Fragment(), Injectable {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        activity?.let {
-            it.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.settings_container, OneClickPreferencesFragment())
-                    .commit()
-
-        }
+        activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.settings_container, OneClickPreferencesFragment())
+                ?.commit()
 
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }

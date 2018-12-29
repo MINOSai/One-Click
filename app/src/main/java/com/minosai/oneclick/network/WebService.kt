@@ -1,4 +1,4 @@
-package com.minosai.oneclick.util.service
+package com.minosai.oneclick.network
 
 import android.content.Context
 import android.content.SharedPreferences

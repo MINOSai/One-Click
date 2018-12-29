@@ -6,7 +6,7 @@ import android.app.Service
 import android.content.BroadcastReceiver
 import com.minosai.oneclick.di.AppInjector
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
-import com.minosai.oneclick.util.service.WebService
+import com.minosai.oneclick.network.WebService
 import dagger.android.*
 import javax.inject.Inject
 

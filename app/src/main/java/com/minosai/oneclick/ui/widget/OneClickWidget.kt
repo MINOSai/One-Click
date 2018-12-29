@@ -7,7 +7,7 @@ import android.widget.RemoteViews
 import com.minosai.oneclick.R
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
-import com.minosai.oneclick.util.service.WebService
+import com.minosai.oneclick.network.WebService
 
 /**
  * Implementation of App Widget functionality.

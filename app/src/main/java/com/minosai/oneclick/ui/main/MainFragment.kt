@@ -30,7 +30,7 @@ import com.minosai.oneclick.util.listener.LoginLogoutListener
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.util.service.WebService
+import com.minosai.oneclick.network.WebService
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import kotlinx.android.synthetic.main.fragment_main.*
