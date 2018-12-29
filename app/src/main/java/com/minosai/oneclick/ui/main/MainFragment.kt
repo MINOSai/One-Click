@@ -1,28 +1,27 @@
 package com.minosai.oneclick.ui.main
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.minosai.oneclick.R
 import com.minosai.oneclick.adapter.AccountAdapter
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
+import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.ui.main.bottomsheets.InputBottomSheetFragment
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.listener.InputSheetListener
@@ -30,7 +29,6 @@ import com.minosai.oneclick.util.listener.LoginLogoutListener
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.minosai.oneclick.network.WebService
 import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
 import com.treebo.internetavailabilitychecker.InternetConnectivityListener
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -134,37 +132,37 @@ class MainFragment : Fragment(),
             startLoading()
         }
 
-        button_incognito.setOnClickListener {
+        fab_action_incognito.setOnClickListener {
             inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO)
             inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
-        button_newuser.setOnClickListener {
+        fab_action_newacc.setOnClickListener {
             inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT)
             inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
-        button_refresh.setOnClickListener {
+        fab_action_refresh.setOnClickListener {
 //            snackbar(mainViewModel.view, "Refresh account details")
             Snackbar.make(mainViewModel.view, "Refresh account details", Snackbar.LENGTH_SHORT).show()
         }
 
-        button_sleep_timer.setOnClickListener {
+        fab_action_sleep_timer.setOnClickListener {
 //            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
 //            snackbar(mainViewModel.view, "Sleep timer")
             Snackbar.make(mainViewModel.view, "Sleep timer", Snackbar.LENGTH_SHORT).show()
         }
 
-        button_main.setOnClickListener {
+        button_wifi.setOnClickListener {
             when(mainViewModel.state) {
                 Constants.ButtonAction.CONNECT -> connectWifi()
                 Constants.ButtonAction.LOGIN -> {
                     webService.login(this, activeAccount?.username, activeAccount?.password)
-                    button_main?.startAnimation()
+//                    button_wifi?.startAnimation()
                 }
                 Constants.ButtonAction.LOGOUT -> {
                     webService.logout(this)
-                    button_main?.startAnimation()
+//                    button_main?.startAnimation()
                 }
             }
         }
@@ -185,36 +183,36 @@ class MainFragment : Fragment(),
         }
     }
 
-    private fun stopButtonAnimation(text: String) {
-        button_main?.revertAnimation {
-            button_main.background = resources.getDrawable(R.drawable.shape_capsule)
-//            button_main.text = text
-        }
-    }
+//    private fun stopButtonAnimation(text: String) {
+//        button_main?.revertAnimation {
+//            button_main.background = resources.getDrawable(R.drawable.shape_capsule)
+////            button_main.text = text
+//        }
+//    }
 
     private fun showSuccess() {
-        context?.let {
-            val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_done_white_48dp)
-            button_main?.doneLoadingAnimation(android.R.color.white, icon)
-            Handler().postDelayed({
-                stopButtonAnimation("")
-            }, 1000)
-        }
+//        context?.let {
+//            val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_done_white_48dp)
+//            button_main?.doneLoadingAnimation(android.R.color.white, icon)
+//            Handler().postDelayed({
+//                stopButtonAnimation("")
+//            }, 1000)
+//        }
     }
 
     private fun showFailure() {
-        context?.let {
-            //TODO: Remove this try catch
-            try {
-                val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_close_black_24dp)
-                button_main?.doneLoadingAnimation(android.R.color.white, icon)
-                Handler().postDelayed({
-                    stopButtonAnimation("")
-                }, 1000)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+//        context?.let {
+//            //TODO: Remove this try catch
+//            try {
+//                val icon = BitmapFactory.decodeResource(it.resources, R.drawable.ic_close_black_24dp)
+//                button_main?.doneLoadingAnimation(android.R.color.white, icon)
+//                Handler().postDelayed({
+//                    stopButtonAnimation("")
+//                }, 1000)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
     }
 
     override fun onDestroyView() {
@@ -225,7 +223,7 @@ class MainFragment : Fragment(),
         }
 
         unregisterWifiReceiver()
-        button_main?.dispose()
+//        button_main?.dispose()
         super.onDestroyView()
     }
 
@@ -256,11 +254,11 @@ class MainFragment : Fragment(),
 
     private fun updateUi() {
 
-        activeAccount?.let {
-            text_home_username.text = it.username
-            text_home_usage.text = it.usage
-            text_home_usage.text = it.usage
-        }
+//        activeAccount?.let {
+//            text_home_username.text = it.username
+//            text_home_usage.text = it.usage
+//            text_home_usage.text = it.usage
+//        }
     }
 
     private fun saveUser(userName: String, password: String) {
@@ -342,17 +340,17 @@ class MainFragment : Fragment(),
     private fun updateState() {
         if (mainViewModel.isWifiConnected) {
             if (mainViewModel.isOnline) {
-                button_main?.text = "Logout"
+                button_wifi?.text = "Logout"
 //                stopButtonAnimation("Logout")
                 mainViewModel.state = Constants.ButtonAction.LOGOUT
             } else {
-                button_main?.text = "Login"
+                button_wifi?.text = "Login"
 //                stopButtonAnimation("Login")
                 mainViewModel.state = Constants.ButtonAction.LOGIN
             }
         } else {
 //            button_main?.text = "connnect to wifi"
-            stopButtonAnimation("Connect to wifi")
+//            stopButtonAnimation("Connect to wifi")
             mainViewModel.state = Constants.ButtonAction.CONNECT
         }
     }
