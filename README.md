@@ -1,7 +1,6 @@
 # One-Click
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/09f83c48ab694c32b858d895339f2323)](https://app.codacy.com/app/yoyaswant/One-Click?utm_source=github.com&utm_medium=referral&utm_content=MINOSai/One-Click&utm_campaign=Badge_Grade_Dashboard)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/09f83c48ab694c32b858d895339f2323)](https://app.codacy.com/app/yoyaswant/One-Click?utm_source=github.com&utm_medium=referral&utm_content=MINOSai/One-Click&utm_campaign=Badge_Grade_Dashboard)
 
 A WiFi management app for VIT students 
 
