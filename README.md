@@ -1,9 +1,7 @@
 # One-Click
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/09f83c48ab694c32b858d895339f2323)](https://app.codacy.com/app/yoyaswant/One-Click?utm_source=github.com&utm_medium=referral&utm_content=MINOSai/One-Click&utm_campaign=Badge_Grade_Dashboard)
-
 [![channel icon](https://patrolavia.github.io/telegram-badge/follow.png)](https://t.me/joinchat/AAAAAE66lc5LE8KxQZSFLg)
-
 [![chatroom icon](https://patrolavia.github.io/telegram-badge/chat.png)](https://t.me/joinchat/GRJ3QhK-ZkFPCAiOOjaCkQ)
 
 A WiFi management app for VIT students 
