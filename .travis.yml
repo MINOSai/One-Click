@@ -34,6 +34,4 @@ script :
     - ./gradlew build check
 before_install:
   - chmod +x gradlew
-  - mkdir "$ANDROID_HOME/licenses" || true
-  - cp ./licenses/* "$ANDROID_HOME/licenses/"
   - echo y | yes | sdkmanager --update --sdk_root=$ANDROID_SDK_PATH
