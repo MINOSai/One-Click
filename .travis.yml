@@ -1,39 +1,47 @@
 language: android
-jdk: oraclejdk8
-
-env:
-  - ANDROID_EMULATOR_API_LEVEL=19
 
 android:
   components:
-    - tools # to get the new `repository-11.xml`
-    - tools # to install Android SDK tools 25+, latest, cannot get more granular control than this
-    # See https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943 for more
-    # details.
-    - platform-tools #latest
-    - build-tools-25.0.2
-    - android-25
-    - extra-android-m2repository
-    - extra-android-support
-    - sys-img-armeabi-v7a-android-19
-  licenses:
-    - 'android-sdk-license-.+'
+    - tools
+    - platform-tools
+    - tools
 
-before_script:
-  - echo y | android update sdk --no-ui --all --filter extra-android-m2repository
-  - echo y | android update sdk --no-ui --all --filter extra-android-support
-  - echo y | android update sdk --no-ui --all --filter "android-$ANDROID_EMULATOR_API_LEVEL"
-  - echo y | android update sdk --no-ui --all --filter build-tools-25.0.2
-  - echo y | android update sdk --no-ui --all --filter "sys-img-armeabi-v7a-android-$ANDROID_EMULATOR_API_LEVEL"
-  - echo no | android create avd --force -n test -t "android-$ANDROID_EMULATOR_API_LEVEL" --abi armeabi-v7a
-  - emulator -avd test -no-audio -no-window &
+    # The BuildTools version used by your project
+    - build-tools-28.0.3
+
+    # The SDK version used to compile your project
+    - android-28
+
+    - extra-android-m2repository
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
+before_install:
+  # Install SDK license so Android Gradle plugin can install deps.
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" >> "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> "$ANDROID_HOME/licenses/android-sdk-license"
 
 script:
-  - ./gradlew build lint test assembleAndroidTest -PdisablePreDex;
-  - android-wait-for-emulator
-  # Unlock the device
-  - adb shell input keyevent 82
-  # Avoid having it lock itself again.
-  - adb shell svc power stayon true
-  # Make gradle output info-level logging, so the tests do not timeout
-- ./gradlew connectedCheck --info -PdisablePreDex;
+  - . ./ci/prepare_env.sh
+  - ./ci/build.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -f '*TestCoverage.xml'
+
+deploy:
+  provider: releases
+  api_key: "${GITHUB_API_KEY}"
+  file_glob: true
+  file: ./*/build/outputs/aar/*.aar
+  skip_cleanup: true
+  on:
+    tags: true
