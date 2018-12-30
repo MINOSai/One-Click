@@ -95,7 +95,7 @@
                             android:layout_height="wrap_content"
                             android:clickable="true"
                             android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorThemeBlue"
+                            app:backgroundTint="@color/colorPrimary"
                             app:fabSize="mini"
                             app:srcCompat="@drawable/ic_timer_black_24dp" />
 
@@ -132,7 +132,7 @@
                             android:clickable="true"
                             android:padding="8dp"
                             android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorThemeBlue"
+                            app:backgroundTint="@color/colorPrimary"
                             app:fabSize="mini"
                             app:srcCompat="@drawable/ic_incognito" />
 
@@ -169,7 +169,7 @@
                             android:clickable="true"
                             android:padding="8dp"
                             android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorThemeBlue"
+                            app:backgroundTint="@color/colorPrimary"
                             app:fabSize="mini"
                             app:srcCompat="@drawable/ic_refresh_black_24dp" />
 
@@ -207,7 +207,7 @@
                             android:clickable="true"
                             android:padding="8dp"
                             android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorThemeBlue"
+                            app:backgroundTint="@color/colorPrimary"
                             app:srcCompat="@drawable/ic_theme_light_dark" />
 
                         <TextView
@@ -243,7 +243,7 @@
                             android:clickable="true"
                             android:padding="8dp"
                             android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorThemeBlue"
+                            app:backgroundTint="@color/colorPrimary"
                             app:fabSize="mini"
                             app:srcCompat="@drawable/ic_add_white_24dp" />
 
@@ -302,7 +302,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/capsule_button"
-                android:backgroundTint="@color/colorThemeBlue"
+                android:backgroundTint="@color/colorPrimary"
                 android:foreground="@drawable/ripple_bg_button"
                 android:text="logout"
                 android:textColor="@android:color/white"
@@ -319,7 +319,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/capsule_button"
-                android:backgroundTint="@color/colorThemeBlue"
+                android:backgroundTint="@color/colorPrimary"
                 android:foreground="@drawable/ripple_bg_button"
                 android:text="login"
                 android:textColor="@android:color/white"
@@ -345,7 +345,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/capsule_button"
-                android:backgroundTint="@color/colorThemeBlue"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Connect to wifi"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"

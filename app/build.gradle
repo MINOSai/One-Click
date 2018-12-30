@@ -29,10 +29,11 @@ android {
     kapt {
         correctErrorTypes = true
     }
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'androidx.preference:preference:1.1.0-alpha02'
@@ -51,8 +52,8 @@ dependencies {
     kapt "com.google.dagger:dagger-android-support:$dagger_version"
 
     // RetroFit
-    implementation("com.squareup.retrofit2:retrofit:2.4.0")
-    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
 
     // GSON
@@ -61,12 +62,13 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.19.3"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.19.3'
 
     // Anko - DOES NOT WORK WITH ANDROIDX
-//    implementation "org.jetbrains.anko:anko:$anko_version"
-//    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
 
+    //    implementation "org.jetbrains.anko:anko:$anko_version"
+
+    //    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
     def lifecycle_version = "2.0.0"
     def room_version = "2.1.0-alpha03"
     def nav_version = "1.0.0-alpha08"
@@ -93,7 +95,8 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     // WorkManager
-//    implementation "android.arch.work:work-runtime-ktx:$work_version"
+
+    //    implementation "android.arch.work:work-runtime-ktx:$work_version"
 
     // Fuel
     implementation 'com.github.kittinunf.fuel:fuel-android:1.14.0'
@@ -110,7 +113,6 @@ dependencies {
 
     // Android MDC
     implementation 'com.google.android.material:material:1.0.0'
-
 }
 //kotlin {
 //    experimental {
