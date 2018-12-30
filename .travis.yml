@@ -33,4 +33,4 @@ script :
     - ./gradlew build check
 before_install:
   - chmod +x gradlew
-  - yes | sdkmanager --licenses
+  - echo y | yes | sdkmanager --licenses --sdk_root=$ANDROID_SDK_PATH
