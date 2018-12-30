@@ -18,9 +18,9 @@ android :
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
-before_script :
-        - mkdir -p "$ANDROID_HOME/licenses"
-        - cp ./licenses/* "$ANDROID_HOME/licenses"
+# before_script :
+#         - mkdir -p "$ANDROID_HOME/licenses"
+#         - cp ./licenses/* "$ANDROID_HOME/licenses"
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
