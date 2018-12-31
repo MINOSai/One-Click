@@ -2,7 +2,7 @@
 
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/09f83c48ab694c32b858d895339f2323)](https://app.codacy.com/app/yoyaswant/One-Click?utm_source=github.com&utm_medium=referral&utm_content=MINOSai/One-Click&utm_campaign=Badge_Grade_Dashboard)
-[![Kotlin](https://img.shields.io/badge/written%20in-kotlin-orange.svg)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.0-orange.svg)](https://kotlinlang.org/)
 [![Build Status](https://travis-ci.org/MINOSai/One-Click.svg?branch=master)](https://travis-ci.org/MINOSai/One-Click)
 [![channel icon](https://img.shields.io/badge/follow-Telegram-blue.svg)](https://t.me/joinchat/AAAAAE66lc5LE8KxQZSFLg)
 [![chatroom icon](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/joinchat/GRJ3QhK-ZkFPCAiOOjaCkQ)
