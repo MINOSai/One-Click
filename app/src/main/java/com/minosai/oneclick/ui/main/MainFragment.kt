@@ -24,22 +24,20 @@ import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.ui.main.bottomsheets.InputBottomSheetFragment
 import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.hide
 import com.minosai.oneclick.util.listener.InputSheetListener
 import com.minosai.oneclick.util.listener.LoginLogoutListener
 import com.minosai.oneclick.util.listener.WifiConnectivityListener
-import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import com.minosai.oneclick.util.receiver.WifiReceiver
-import com.treebo.internetavailabilitychecker.InternetAvailabilityChecker
-import com.treebo.internetavailabilitychecker.InternetConnectivityListener
+import com.minosai.oneclick.util.show
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 
 class MainFragment : Fragment(),
         Injectable,
-        InternetConnectivityListener,
+//        InternetConnectivityListener,
         WifiConnectivityListener,
         LoginLogoutListener,
         InputSheetListener {
@@ -54,57 +52,81 @@ class MainFragment : Fragment(),
     lateinit var webService: WebService
 
     private lateinit var wifiReceiver: WifiReceiver
-    private lateinit var loginLogoutReceiver: LoginLogoutReceiver
-    private lateinit var mInternetAvailabilityChecker: InternetAvailabilityChecker
+//    private lateinit var loginLogoutReceiver: LoginLogoutReceiver
+//    private lateinit var mInternetAvailabilityChecker: InternetAvailabilityChecker
     private var activeAccount: AccountInfo? = null
     private var isLoading = false
 
     private val inputBottomSheetFragment = InputBottomSheetFragment()
 
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var adapter: AccountAdapter
+    private lateinit var accountAdapter: AccountAdapter
 
     private lateinit var state: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
 
         wifiReceiver = WifiReceiver(this)
         registerWifiReceiver()
-        try {
-            mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
-            mInternetAvailabilityChecker.addInternetConnectivityListener(this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//        try {
+//            mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+//            mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
 
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
+        view.text_home_displayname?.text = "Hello, ${mainViewModel.displayName}"
 
-        mainViewModel.view = coordinator_main
+        mainViewModel.view = view.coordinator_main
 
-        adapter = AccountAdapter(context!!, mainViewModel) {
+        accountAdapter = AccountAdapter(context!!, mainViewModel) {
             Toast.makeText(context, it.username, Toast.LENGTH_SHORT).show()
         }
 
-        initRecyclerView()
+        initRecyclerView(view)
         addObservers()
-        setClicks()
+        setClicks(view)
+
+        return view
     }
 
-    private fun initRecyclerView() {
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        wifiReceiver = WifiReceiver(this)
+//        registerWifiReceiver()
+////        try {
+////            mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
+////            mInternetAvailabilityChecker.addInternetConnectivityListener(this)
+////        } catch (e: Exception) {
+////            e.printStackTrace()
+////        }
+//
+//        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+//        text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
+//
+//        mainViewModel.view = coordinator_main
+//
+//        accountAdapter = AccountAdapter(context!!, mainViewModel) {
+//            Toast.makeText(context, it.username, Toast.LENGTH_SHORT).show()
+//        }
+//
+//        initRecyclerView()
+//        addObservers()
+//        setClicks()
+//    }
 
-        launch(UI) {
-            val linearLayoutManager = LinearLayoutManager(activity)
-            //TODO: Check below commented line
+    private fun initRecyclerView(view: View) {
+
+        val linearLayoutManager = LinearLayoutManager(activity)
+        //TODO: Check below commented line
 //            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-            rv_accounts.layoutManager = linearLayoutManager
-            rv_accounts.hasFixedSize()
-            rv_accounts.adapter = adapter
+        with(view.rv_accounts) {
+            layoutManager = linearLayoutManager
+            hasFixedSize()
+            adapter = accountAdapter
         }
     }
 
@@ -113,13 +135,13 @@ class MainFragment : Fragment(),
         mainViewModel.getAllAccounts().observe(this, Observer {
             activeAccount = mainViewModel.getActiveAccount()
             updateUi()
-            adapter.updateList(it)
+            accountAdapter.updateList(it)
         })
     }
 
-    private fun setClicks() {
+    private fun setClicks(view: View) {
 
-        button_login.setOnClickListener {
+        view.button_login?.setOnClickListener {
             //            val userName = input_userid.text.toString()
 //            val password = input_password.text.toString()
             webService.login(this, activeAccount?.username, activeAccount?.password)
@@ -127,53 +149,39 @@ class MainFragment : Fragment(),
             startLoading()
         }
 
-        button_logout.setOnClickListener {
+        view.button_logout?.setOnClickListener {
             webService.logout(this)
             startLoading()
         }
 
-        fab_action_incognito.setOnClickListener {
+        view.fab_action_incognito?.setOnClickListener {
             inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO)
             inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
-        fab_action_newacc.setOnClickListener {
+        view.fab_action_newacc?.setOnClickListener {
             inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT)
             inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
-        fab_action_refresh.setOnClickListener {
+        view.fab_action_refresh?.setOnClickListener {
 //            snackbar(mainViewModel.view, "Refresh account details")
             Snackbar.make(mainViewModel.view, "Refresh account details", Snackbar.LENGTH_SHORT).show()
         }
 
-        fab_action_sleep_timer.setOnClickListener {
+        view.fab_action_sleep_timer?.setOnClickListener {
 //            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
 //            snackbar(mainViewModel.view, "Sleep timer")
             Snackbar.make(mainViewModel.view, "Sleep timer", Snackbar.LENGTH_SHORT).show()
         }
 
-        button_wifi.setOnClickListener {
-            when(mainViewModel.state) {
-                Constants.ButtonAction.CONNECT -> connectWifi()
-                Constants.ButtonAction.LOGIN -> {
-                    webService.login(this, activeAccount?.username, activeAccount?.password)
-//                    button_wifi?.startAnimation()
-                }
-                Constants.ButtonAction.LOGOUT -> {
-                    webService.logout(this)
-//                    button_main?.startAnimation()
-                }
-            }
+        view.button_wifi?.setOnClickListener {
+            openWifiSettings()
         }
 
-        button_settings.setOnClickListener {
+        view.button_settings?.setOnClickListener {
             findNavController(it).navigate(R.id.action_mainFragment_to_settingsFragment)
         }
-    }
-
-    private fun connectWifi() {
-        openWifiSettings()
     }
 
     private fun openWifiSettings() {
@@ -216,11 +224,11 @@ class MainFragment : Fragment(),
     }
 
     override fun onDestroyView() {
-        try {
-            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+//        try {
+//            mInternetAvailabilityChecker.removeInternetConnectivityChangeListener(this)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
 
         unregisterWifiReceiver()
 //        button_main?.dispose()
@@ -268,24 +276,31 @@ class MainFragment : Fragment(),
                 .apply()
     }
 
-    override fun onInternetConnectivityChanged(isConnected: Boolean) {
-        mainViewModel.isOnline = isConnected
-        updateState()
-    }
+//    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+//        mainViewModel.isOnline = isConnected
+//        updateState()
+//    }
 
     override fun onWifiStateChanged(isConnectedToWifi: Boolean, ssid: String) {
-        mainViewModel.isWifiConnected = isConnectedToWifi
-        mainViewModel.ssid = ssid
-        updateState()
+//        mainViewModel.isWifiConnected = isConnectedToWifi
+//        mainViewModel.ssid = ssid
+//        updateState()
+        if (isConnectedToWifi) {
+            layout_with_wifi.show()
+            layout_without_wifi.hide()
+        } else {
+            layout_with_wifi.hide()
+            layout_without_wifi.show()
+        }
     }
 
     override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
 //        stopButtonAnimation("")
         stopLoading()
-        mainViewModel.isOnline = isLogged
+//        mainViewModel.isOnline = isLogged
         when (requestType) {
             WebService.Companion.RequestType.LOGIN -> {
-                mainViewModel.isOnline = isLogged
+//                mainViewModel.isOnline = isLogged
                 if (isLogged) {
                     showSuccess()
 //                    snackbar(mainViewModel.view, "Successfully logged in")
@@ -320,17 +335,18 @@ class MainFragment : Fragment(),
                         webService.logout(this)
                     }.show()
                 }
-                if (mainViewModel.isOnline && isLogged) {
-                    mainViewModel.isOnline = false
-                }
+//                if (mainViewModel.isOnline && isLogged) {
+//                    mainViewModel.isOnline = false
+//                }
             }
         }
-        updateState()
+//        updateState()
     }
 
     override fun onSheetResponse(userName: String, password: String, isActiveAccount: Boolean, action: Constants.SheetAction) {
         when(action) {
             Constants.SheetAction.NEW_ACCOUNT -> mainViewModel.addUser(userName, password, isActiveAccount)
+            Constants.SheetAction.INCOGNITO -> webService.login(this, userName, password)
             else -> {
 
             }
@@ -338,21 +354,21 @@ class MainFragment : Fragment(),
     }
 
     private fun updateState() {
-        if (mainViewModel.isWifiConnected) {
-            if (mainViewModel.isOnline) {
-                button_wifi?.text = "Logout"
-//                stopButtonAnimation("Logout")
-                mainViewModel.state = Constants.ButtonAction.LOGOUT
-            } else {
-                button_wifi?.text = "Login"
-//                stopButtonAnimation("Login")
-                mainViewModel.state = Constants.ButtonAction.LOGIN
-            }
-        } else {
-//            button_main?.text = "connnect to wifi"
-//            stopButtonAnimation("Connect to wifi")
-            mainViewModel.state = Constants.ButtonAction.CONNECT
-        }
+//        if (mainViewModel.isWifiConnected) {
+//            if (mainViewModel.isOnline) {
+//                button_wifi?.text = "Logout"
+////                stopButtonAnimation("Logout")
+//                mainViewModel.state = Constants.ButtonAction.LOGOUT
+//            } else {
+//                button_wifi?.text = "Login"
+////                stopButtonAnimation("Login")
+//                mainViewModel.state = Constants.ButtonAction.LOGIN
+//            }
+//        } else {
+////            button_main?.text = "connnect to wifi"
+////            stopButtonAnimation("Connect to wifi")
+//            mainViewModel.state = Constants.ButtonAction.CONNECT
+//        }
     }
 
     private fun toggleLoading() {

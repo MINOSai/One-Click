@@ -9,10 +9,9 @@ import android.net.wifi.WifiManager
 import android.util.Log
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
-import com.minosai.oneclick.util.Constants
-import com.minosai.oneclick.util.getSSID
-import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import com.minosai.oneclick.network.WebService
+import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.listener.WifiConnectivityListener
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -46,18 +45,19 @@ class WifiReceiver() : BroadcastReceiver() {
                 val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
                 Log.i(TAG, "isConnected : ${info.isConnected} to network: ${info.extraInfo}")
 
-                //TODO: auto login based on user preference - do it in main fragment
-                if (info.isConnected) {
-                    //TODO: What if SSID is not checked?
-                    val ssid = info?.extraInfo ?: context?.getSSID()
-                    if (ssid != null && ssid in SSID_LIST) {
-                        wifiConnectivityListener?.onWifiStateChanged(true, ssid)
-                    } else {
-                        checkProntoNetworks(info.extraInfo)
-                    }
-                } else {
-                    wifiConnectivityListener?.onWifiStateChanged(false, "")
-                }
+//                //TODO: auto login based on user preference - do it in main fragment
+//                if (info.isConnected) {
+//                    //TODO: What if SSID is not checked?
+//                    val ssid = info?.extraInfo ?: context?.getSSID()
+//                    if (ssid != null && ssid in SSID_LIST) {
+//                        wifiConnectivityListener?.onWifiStateChanged(true, ssid)
+//                    } else {
+//                        checkProntoNetworks(info.extraInfo)
+//                    }
+//                } else {
+//                    wifiConnectivityListener?.onWifiStateChanged(false, "")
+//                }
+                wifiConnectivityListener?.onWifiStateChanged(info.isConnected, "")
             }
         }
     }

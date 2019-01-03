@@ -23,7 +23,7 @@ interface OneClickDao {
     fun setActiveAccount(userName: String)
 
     @Query("SELECT * FROM accountinfo WHERE username LIKE :userName")
-    fun getAccoutByUserName(userName: String): LiveData<AccountInfo>
+    fun getAccountByUserName(userName: String): LiveData<AccountInfo>
 
     @Query("UPDATE accountinfo SET usage=:usage WHERE  username LIKE :userName")
     fun updateUsage(userName: String, usage: String)

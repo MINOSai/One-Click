@@ -73,189 +73,151 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout7"
+                    <TextView
+                        android:id="@+id/text_refresh"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
+                        android:layout_marginBottom="16dp"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp"
+                        android:text="Refresh Data"
+                        android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/linearLayout6"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintEnd_toEndOf="@+id/fab_action_refresh"
+                        app:layout_constraintStart_toStartOf="@+id/fab_action_refresh"
+                        app:layout_constraintTop_toBottomOf="@+id/fab_action_refresh" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_action_sleep_timer"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorPrimary"
-                            app:fabSize="mini"
-                            app:srcCompat="@drawable/ic_timer_black_24dp" />
-
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingTop="8dp"
-                            android:text="Sleep Timer"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout6"
+                    <TextView
+                        android:id="@+id/text_timer"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
+                        android:layout_marginBottom="16dp"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp"
+                        android:text="Sleep Timer"
+                        android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/linearLayout8"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout7"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintEnd_toEndOf="@+id/fab_action_sleep_timer"
+                        app:layout_constraintStart_toStartOf="@+id/fab_action_sleep_timer"
+                        app:layout_constraintTop_toBottomOf="@+id/fab_action_sleep_timer" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_action_incognito"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:padding="8dp"
-                            android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorPrimary"
-                            app:fabSize="mini"
-                            app:srcCompat="@drawable/ic_incognito" />
-
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingTop="8dp"
-                            android:text="Incognito Login"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout8"
+                    <TextView
+                        android:id="@+id/text_newacc"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
+                        android:layout_marginBottom="16dp"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp"
+                        android:text="Add Account"
+                        android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/linearLayout9"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout6"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintEnd_toEndOf="@+id/fab_action_newacc"
+                        app:layout_constraintStart_toStartOf="@+id/fab_action_newacc"
+                        app:layout_constraintTop_toBottomOf="@+id/fab_action_newacc" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_action_refresh"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:padding="8dp"
-                            android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorPrimary"
-                            app:fabSize="mini"
-                            app:srcCompat="@drawable/ic_refresh_black_24dp" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/textView15"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center"-->
+                        <!--android:paddingTop="8dp"-->
+                        <!--android:text="Dark Theme"-->
+                        <!--android:textSize="10sp"-->
+                        <!--android:visibility="gone"-->
+                        <!--tools:layout_editor_absoluteX="275dp"-->
+                        <!--tools:layout_editor_absoluteY="55dp" />-->
 
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingTop="8dp"
-                            android:text="Refresh Data"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout9"
+                    <TextView
+                        android:id="@+id/text_incognito"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
+                        android:layout_marginBottom="16dp"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:visibility="gone"
+                        android:text="Incognito Login"
+                        android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/linearLayout10"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout8"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintEnd_toEndOf="@+id/fab_action_incognito"
+                        app:layout_constraintStart_toStartOf="@+id/fab_action_incognito"
+                        app:layout_constraintTop_toBottomOf="@+id/fab_action_incognito" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/floatingActionButton4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:padding="8dp"
-                            android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorPrimary"
-                            app:srcCompat="@drawable/ic_theme_light_dark" />
+                    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                        <!--android:id="@+id/floatingActionButton4"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:clickable="true"-->
+                        <!--android:padding="8dp"-->
+                        <!--android:tint="@android:color/white"-->
+                        <!--android:visibility="gone"-->
+                        <!--app:backgroundTint="@color/colorPrimary"-->
+                        <!--app:srcCompat="@drawable/ic_theme_light_dark"-->
+                        <!--tools:layout_editor_absoluteX="275dp"-->
+                        <!--tools:layout_editor_absoluteY="55dp" />-->
 
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingTop="8dp"
-                            android:text="Dark Theme"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout10"
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_action_newacc"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:clickable="true"
                         android:padding="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:tint="@android:color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:fabSize="mini"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/linearLayout9"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintStart_toEndOf="@+id/fab_action_refresh"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_add_white_24dp" />
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_action_newacc"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clickable="true"
-                            android:padding="8dp"
-                            android:tint="@android:color/white"
-                            app:backgroundTint="@color/colorPrimary"
-                            app:fabSize="mini"
-                            app:srcCompat="@drawable/ic_add_white_24dp" />
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_action_incognito"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:tint="@android:color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:fabSize="mini"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_action_refresh"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/fab_action_sleep_timer"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_incognito" />
 
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingTop="8dp"
-                            android:text="Add Account"
-                            android:textSize="10sp" />
-                    </LinearLayout>
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_action_sleep_timer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:tint="@android:color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:fabSize="mini"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_action_incognito"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_timer_black_24dp" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fab_action_refresh"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:tint="@android:color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:fabSize="mini"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_action_newacc"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/fab_action_incognito"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_refresh_black_24dp" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -279,14 +241,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="false"
+        android:orientation="vertical"
         app:layout_dodgeInsetEdges="bottom">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -353,6 +314,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -102,7 +102,8 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel-android:1.14.0'
 
     // Internet connection checker
-    implementation 'com.treebo:internetavailabilitychecker:1.0.1'
+//    implementation 'com.treebo:internetavailabilitychecker:1.0.1'
+    
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // Jsoup

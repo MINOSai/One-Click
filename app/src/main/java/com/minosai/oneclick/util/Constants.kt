@@ -22,8 +22,4 @@ object Constants {
         NEW_ACCOUNT, INCOGNITO, EDIT_ACCOUNT
     }
 
-    enum class ButtonAction {
-        LOGIN, LOGOUT, CONNECT
-    }
-
 }
