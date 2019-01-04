@@ -36,4 +36,7 @@ interface OneClickDao {
 
     @Delete
     fun deleteAccounts(vararg accountInfo: AccountInfo)
+
+    @Update
+    fun updateAccInfo(accountInfo: AccountInfo)
 }

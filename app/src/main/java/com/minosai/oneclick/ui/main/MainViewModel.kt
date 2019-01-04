@@ -4,12 +4,14 @@ import android.content.Context
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.minosai.oneclick.model.AccountInfo
+import com.minosai.oneclick.model.UserPrefs
 import com.minosai.oneclick.repo.OneClickRepo
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
 
     var displayName: String = repo.getDisplayName()
+    var userPrefs = UserPrefs()
 
     lateinit var context: Context
     lateinit var view: View
@@ -17,6 +19,10 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     fun getLiveActiveAccount() = repo.liveActiveAccount
 
     fun getAllAccounts() = repo.allAccountInfo
+
+    fun updateUserPrefs() {
+        userPrefs = repo.getUserPrefs()
+    }
 
     fun getActiveAccount() = repo.getActiveAccount()
 
@@ -29,5 +35,9 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     fun setPrimaryAccount(userName: String) = repo.setActiveUser(userName)
 
     fun removeAccount(accountInfo: AccountInfo) = repo.removeAccount(accountInfo)
+
+    fun updateAccInfo(accountInfo: AccountInfo) {
+        repo.updateAccountInfo(accountInfo)
+    }
 
 }

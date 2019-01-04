@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,11 +17,11 @@ import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.minosai.oneclick.R
-import com.minosai.oneclick.adapter.AccountAdapter
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.network.WebService
-import com.minosai.oneclick.ui.main.bottomsheets.InputBottomSheetFragment
+import com.minosai.oneclick.ui.adapter.AccountAdapter
+import com.minosai.oneclick.ui.dialog.bottomsheets.InputBottomSheetFragment
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.hide
 import com.minosai.oneclick.util.listener.InputSheetListener
@@ -77,12 +76,15 @@ class MainFragment : Fragment(),
 //        }
 
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        view.text_home_displayname?.text = "Hello, ${mainViewModel.displayName}"
 
         mainViewModel.view = view.coordinator_main
 
+        mainViewModel.updateUserPrefs()
+        view.text_home_displayname?.text = "Hello, ${mainViewModel.userPrefs.displayName}"
+
         accountAdapter = AccountAdapter(context!!, mainViewModel) {
-            Toast.makeText(context, it.username, Toast.LENGTH_SHORT).show()
+            inputBottomSheetFragment.init(this, Constants.SheetAction.EDIT_ACCOUNT, it)
+            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
         initRecyclerView(view)
@@ -155,12 +157,12 @@ class MainFragment : Fragment(),
         }
 
         view.fab_action_incognito?.setOnClickListener {
-            inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO)
+            inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO, mainViewModel.getActiveAccount())
             inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
         view.fab_action_newacc?.setOnClickListener {
-            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT)
+            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT, mainViewModel.getActiveAccount())
             inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
@@ -305,7 +307,7 @@ class MainFragment : Fragment(),
                     showSuccess()
 //                    snackbar(mainViewModel.view, "Successfully logged in")
                     Snackbar.make(mainViewModel.view, "Successfully logged in", Snackbar.LENGTH_SHORT).show()
-                    if (mainViewModel.isAutoUpdateUsage()) {
+                    if (mainViewModel.userPrefs.autoRefresh) {
                         startLoading()
                         webService.getUsage { usage ->
                             mainViewModel.updateUsage(usage)
@@ -343,12 +345,17 @@ class MainFragment : Fragment(),
 //        updateState()
     }
 
-    override fun onSheetResponse(userName: String, password: String, isActiveAccount: Boolean, action: Constants.SheetAction) {
+    override fun onSheetResponse(userName: String, password: String, isActiveAccount: Boolean, action: Constants.SheetAction, accountInfo: AccountInfo?) {
         when(action) {
             Constants.SheetAction.NEW_ACCOUNT -> mainViewModel.addUser(userName, password, isActiveAccount)
             Constants.SheetAction.INCOGNITO -> webService.login(this, userName, password)
-            else -> {
-
+            Constants.SheetAction.EDIT_ACCOUNT -> {
+                accountInfo?.let {
+                    it.username = userName
+                    it.password = password
+                    mainViewModel.updateAccInfo(it)
+                    addObservers()
+                }
             }
         }
     }

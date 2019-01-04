@@ -1,10 +1,11 @@
 package com.minosai.oneclick.repo
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import android.content.SharedPreferences
 import com.minosai.oneclick.db.OneClickDao
 import com.minosai.oneclick.model.AccountInfo
+import com.minosai.oneclick.model.UserPrefs
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
@@ -104,6 +105,20 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     fun removeAccount(accountInfo: AccountInfo) = launch {
         dao.deleteAccounts(accountInfo)
+    }
+
+    fun getUserPrefs() = with(UserPrefs()) {
+        displayName = preferences[Constants.PREF_DISPLAY_NAME] ?: "User"
+        loginAppStart = preferences["auto_login_app_start"] ?: false
+        loginQsTile = preferences["auto_login_quicktile"] ?: false
+        autoRefresh = preferences["auto_refresh"] ?: false
+        return@with this
+    }
+
+    fun updateAccountInfo(accountInfo: AccountInfo) {
+        launch {
+            dao.updateAccInfo(accountInfo)
+        }
     }
 
 }

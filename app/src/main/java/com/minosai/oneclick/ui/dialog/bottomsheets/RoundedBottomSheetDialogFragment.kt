@@ -1,4 +1,4 @@
-package com.minosai.oneclick.ui.main.bottomsheets
+package com.minosai.oneclick.ui.dialog.bottomsheets
 
 import android.app.Dialog
 import android.os.Bundle

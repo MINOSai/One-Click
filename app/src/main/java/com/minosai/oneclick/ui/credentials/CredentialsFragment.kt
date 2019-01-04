@@ -31,14 +31,14 @@ class CredentialsFragment : Fragment(), Injectable {
 
         button_cred_next.setOnClickListener {
 
-            val displayName = text_creds_displayname.text.toString()
-            val userName = text_creds_username.text.toString()
-            val password = text_creds_password.text.toString()
+            val displayName = input_creds_display_name.editText?.text.toString()
+            val userName = input_creds_username.editText?.text.toString()
+            val password = input_creds_password.editText?.text.toString()
 
             with(credentialsViewModel) {
                 addAccount(userName, password, true)
                 changeFirstOpenBoolean()
-                saveDisplayNamøe(displayName)
+                saveDisplayName(displayName)
             }
 
             findNavController(it).popBackStack()

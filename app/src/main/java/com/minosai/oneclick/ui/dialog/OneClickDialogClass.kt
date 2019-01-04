@@ -9,7 +9,7 @@ import android.widget.Toast
 import com.minosai.oneclick.R
 import kotlinx.android.synthetic.main.layout_dialog_oneclick.*
 
-class CustomDialogClass(context: Context) : Dialog(context) {
+class OneClickDialogClass(context: Context) : Dialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

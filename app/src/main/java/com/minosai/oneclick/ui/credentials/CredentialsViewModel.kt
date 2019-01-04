@@ -10,6 +10,6 @@ class CredentialsViewModel @Inject constructor(val repo: OneClickRepo) : ViewMod
 
     fun changeFirstOpenBoolean() = repo.changeFirstOpenBoolean()
 
-    fun saveDisplayNamøe(displayName: String) = repo.saveDisplayName(displayName)
+    fun saveDisplayName(displayName: String) = repo.saveDisplayName(displayName)
 
 }

@@ -1,4 +1,4 @@
-package com.minosai.oneclick.adapter
+package com.minosai.oneclick.ui.adapter
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -100,7 +100,7 @@ class AccountAdapter(
                 }
 
                 chip_account_edit.setOnClickListener {
-                    Snackbar.make(mainViewModel.view, "Account Edit", Snackbar.LENGTH_SHORT).show()
+                    listener(accountInfo)
                 }
             }
         }

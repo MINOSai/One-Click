@@ -10,7 +10,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.network.WebService.Companion.RequestType
-import com.minosai.oneclick.ui.dialog.CustomDialogClass
+import com.minosai.oneclick.ui.dialog.OneClickDialogClass
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
@@ -73,7 +73,7 @@ class OneClickTileService : TileService(),
 //        }
         if (qsTile.state != Tile.STATE_UNAVAILABLE) {
             unlockAndRun {
-                val dialog = CustomDialogClass(applicationContext)
+                val dialog = OneClickDialogClass(applicationContext)
                 showDialog(dialog)
             }
         }
