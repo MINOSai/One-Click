@@ -143,7 +143,7 @@ class OneClickTileService : TileService(),
     }
 
     //TODO move this to dialog
-    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean) {
+    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
         isOnline = isLogged
         when(requestType) {
 

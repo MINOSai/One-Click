@@ -4,6 +4,6 @@ import com.minosai.oneclick.network.WebService.Companion.RequestType
 
 interface LoginLogoutListener {
 
-    fun onLoggedListener(requestType: RequestType, isLogged: Boolean)
+    fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String)
 
 }

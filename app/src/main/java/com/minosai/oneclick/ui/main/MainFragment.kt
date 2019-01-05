@@ -296,7 +296,7 @@ class MainFragment : Fragment(),
         }
     }
 
-    override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
+    override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean, responseString: String) {
 //        stopButtonAnimation("")
         stopLoading()
 //        mainViewModel.isOnline = isLogged
@@ -306,7 +306,7 @@ class MainFragment : Fragment(),
                 if (isLogged) {
                     showSuccess()
 //                    snackbar(mainViewModel.view, "Successfully logged in")
-                    Snackbar.make(mainViewModel.view, "Successfully logged in", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(mainViewModel.view, responseString, Snackbar.LENGTH_SHORT).show()
                     if (mainViewModel.userPrefs.autoRefresh) {
                         startLoading()
                         webService.getUsage { usage ->
@@ -318,7 +318,7 @@ class MainFragment : Fragment(),
 //                    snackbar(mainViewModel.view, "Login failed", "retry") {
 //                        webService.login(this, activeAccount?.username, activeAccount?.password)
 //                    }
-                    Snackbar.make(mainViewModel.view, "Login failed", Snackbar.LENGTH_SHORT).setAction("retry") {
+                    Snackbar.make(mainViewModel.view, responseString, Snackbar.LENGTH_SHORT).setAction("retry") {
                         webService.login(this, activeAccount?.username, activeAccount?.password)
                     }.show()
                 }
@@ -327,13 +327,13 @@ class MainFragment : Fragment(),
                 if (isLogged) {
                     showSuccess()
 //                    snackbar(mainViewModel.view, "Successfully logged out")
-                    Snackbar.make(mainViewModel.view, "Successfully logged out", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(mainViewModel.view, responseString, Snackbar.LENGTH_SHORT).show()
                 } else {
                     showFailure()
 //                    snackbar(mainViewModel.view, "Logout failed", "retry") {
 //                        webService.logout(this)
 //                    }
-                    Snackbar.make(mainViewModel.view, "Logout failed", Snackbar.LENGTH_SHORT).setAction("retry") {
+                    Snackbar.make(mainViewModel.view, responseString, Snackbar.LENGTH_SHORT).setAction("retry") {
                         webService.logout(this)
                     }.show()
                 }

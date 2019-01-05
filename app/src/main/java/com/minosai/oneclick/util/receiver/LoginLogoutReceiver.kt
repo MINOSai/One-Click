@@ -39,7 +39,7 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
         }
     }
 
-    override fun onLoggedListener(requestType: WebService.Companion.RequestType, isLogged: Boolean) {
+    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
         //TODO: stop widget loading
         if (requestType == RequestType.LOGIN && isLogged && repoInterface.isAutoUpdateUsage) {
             webService.getUsage {  usage ->

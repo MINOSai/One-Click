@@ -32,17 +32,27 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                     "password" to password,
                     "serviceName" to "ProntoAuthentication",
                     "Submit22" to "Login"
-            )).responseString { request, response, result ->
+            )).responseString { _, _, result ->
                 when (result) {
                     is Result.Failure -> {
                         Log.i(TAG, "Did NOT log in")
-                        loginLogoutListener.onLoggedListener(RequestType.LOGIN, false)
+                        loginLogoutListener.onLoggedListener(RequestType.LOGIN, false, "Network failure")
                     }
                     is Result.Success -> {
                         Log.i(TAG, "Logged in")
 //                        Toast.makeText(context, "Logged in", Toast.LENGTH_SHORT).show()
-                        setSessionLink(result.value)
-                        loginLogoutListener.onLoggedListener(RequestType.LOGIN, true)
+                        if (result.value.contains(Constants.Response.LOGIN_SUCCESS, true)) {
+                            setSessionLink(result.value)
+                            loginLogoutListener.onLoggedListener(RequestType.LOGIN, true, Constants.Response.LOGIN_SUCCESS)
+                        } else if (result.value.contains(Constants.Response.LOGIN_ALREADY, true)) {
+                            loginLogoutListener.onLoggedListener(RequestType.LOGIN, true, Constants.Response.LOGIN_ALREADY)
+                        } else if (result.value.contains(Constants.Response.LOGIN_INVALID_CREDS1, true)
+                                || result.value.contains(Constants.Response.LOGIN_INVALID_CREDS2, true)
+                                || result.value.contains(Constants.Response.LOGIN_NO_ACCOUNT, true)) {
+                            loginLogoutListener.onLoggedListener(RequestType.LOGIN, false, "Invalid credentials")
+                        } else {
+                            loginLogoutListener.onLoggedListener(RequestType.LOGIN, false, "Login failure")
+                        }
                     }
                 }
             }
@@ -52,16 +62,22 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     }
 
     fun logout(loginLogoutListener: LoginLogoutListener) {
-        Constants.URL_LOGOUT.httpGet().response { _, _, result ->
+        Constants.URL_LOGOUT.httpGet().responseString { _, _, result ->
             when (result) {
                 is Result.Failure -> {
                     Log.i(TAG, "Did NOT Log out")
-                    loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false)
+                    loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, "Network failure")
                 }
                 is Result.Success -> {
                     Log.i(TAG, "Logged out")
 //                    Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
-                    loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true)
+                    if (result.value.contains(Constants.Response.LOGOUT_SUCCESS, true)) {
+                        loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true, Constants.Response.LOGOUT_SUCCESS)
+                    } else if (result.value.contains(Constants.Response.LOGOUT_ALREADY, true)) {
+                        loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
+                    } else {
+                        loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
+                    }
                     preferences[Constants.PREF_SESSION_LINK] = null
                 }
             }

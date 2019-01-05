@@ -22,4 +22,15 @@ object Constants {
         NEW_ACCOUNT, INCOGNITO, EDIT_ACCOUNT
     }
 
+    object Response {
+        val LOGIN_SUCCESS = "Successful Pronto Authentication"
+        val LOGIN_ALREADY = "Already logged in"
+        val LOGIN_INVALID_CREDS1 = "please check your username and password and try again"
+        val LOGIN_INVALID_CREDS2 = "password was not accepted"
+        val LOGIN_NO_ACCOUNT = "that account does not exist"
+
+        val LOGOUT_SUCCESS = "Logout successful"
+        val LOGOUT_ALREADY = "No active session"
+    }
+
 }
