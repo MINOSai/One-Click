@@ -33,9 +33,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             app:summary="After successful login the account details are refreshed automatically"/>
 
         <Preference
-            app:key="feedback"
-            app:title="Send feedback"
-            app:summary="Report technical issues or suggest new features"/>
+            app:key="about"
+            app:title="About"/>
 
     </PreferenceCategory>
 

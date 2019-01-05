@@ -6,4 +6,7 @@
     <string name="title_auto_refresh_usage">Auto refresh usage</string>
     <string name="summary_auto_refresh_usage">Automatically update usage when logging in</string>
     <string name="key_auto_refresh_usage">com.minosai.oneclick.prefs.autoRefreshUsage</string>
+
+    <!--TODO: change to DSC in future-->
+    <string name="made_in_vit">Made with ❤️ in VIT</string>
 </resources>

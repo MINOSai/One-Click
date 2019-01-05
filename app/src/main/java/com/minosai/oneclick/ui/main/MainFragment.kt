@@ -9,6 +9,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -148,11 +151,13 @@ class MainFragment : Fragment(),
 //            val password = input_password.text.toString()
             webService.login(this, activeAccount?.username, activeAccount?.password)
 //            saveUser(userName,  password)
+            it.startAnimation(getAnimation())
             startLoading()
         }
 
         view.button_logout?.setOnClickListener {
             webService.logout(this)
+            it.startAnimation(getAnimation())
             startLoading()
         }
 
@@ -302,6 +307,7 @@ class MainFragment : Fragment(),
 //        mainViewModel.isOnline = isLogged
         when (requestType) {
             WebService.Companion.RequestType.LOGIN -> {
+                button_login.clearAnimation()
 //                mainViewModel.isOnline = isLogged
                 if (isLogged) {
                     showSuccess()
@@ -324,6 +330,7 @@ class MainFragment : Fragment(),
                 }
             }
             WebService.Companion.RequestType.LOGOUT -> {
+                button_logout.clearAnimation()
                 if (isLogged) {
                     showSuccess()
 //                    snackbar(mainViewModel.view, "Successfully logged out")
@@ -378,26 +385,35 @@ class MainFragment : Fragment(),
 //        }
     }
 
-    private fun toggleLoading() {
-        if (isLoading) {
-            stopLoading()
-        } else {
-            startLoading()
-        }
-    }
+//    private fun toggleLoading() {
+//        if (isLoading) {
+//            stopLoading()
+//        } else {
+//            startLoading()
+//        }
+//    }
 
     private fun startLoading() {
-        if (!isLoading) {
-            isLoading = true
-            //TODO: Start loading animation
-        }
+//        if (!isLoading) {
+//            isLoading = true
+//            //TODO: Start loading animation
+//            progress_loading_bar.show()
+//        }
     }
 
     private fun stopLoading() {
-        if (isLoading) {
-            isLoading = false
-            //TODO: Stop loading animation
-        }
+//        if (isLoading) {
+//            isLoading = false
+//            //TODO: Stop loading animation
+//            progress_loading_bar.hide()
+//        }
+    }
+
+    private fun getAnimation() = AlphaAnimation(1f, 0.5f).apply {
+        duration = 500
+        interpolator = LinearInterpolator()
+        repeatCount = Animation.INFINITE
+        repeatMode = Animation.REVERSE
     }
 
 }

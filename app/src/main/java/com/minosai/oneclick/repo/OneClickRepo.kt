@@ -21,7 +21,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         fetchAccounts()
     }
 
-    private fun fetchAccounts() {
+    fun fetchAccounts() {
         allAccountInfo = dao.getAllAccounts()
     }
 

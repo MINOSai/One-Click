@@ -32,7 +32,10 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                     "password" to password,
                     "serviceName" to "ProntoAuthentication",
                     "Submit22" to "Login"
-            )).responseString { _, _, result ->
+            ))
+                    .timeout(Constants.REQUEST_TIMEOUT)
+                    .timeoutRead(Constants.REQUEST_TIMEOUT)
+                    .responseString { _, _, result ->
                 when (result) {
                     is Result.Failure -> {
                         Log.i(TAG, "Did NOT log in")
@@ -62,26 +65,29 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     }
 
     fun logout(loginLogoutListener: LoginLogoutListener) {
-        Constants.URL_LOGOUT.httpGet().responseString { _, _, result ->
-            when (result) {
-                is Result.Failure -> {
-                    Log.i(TAG, "Did NOT Log out")
-                    loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, "Network failure")
-                }
-                is Result.Success -> {
-                    Log.i(TAG, "Logged out")
-//                    Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
-                    if (result.value.contains(Constants.Response.LOGOUT_SUCCESS, true)) {
-                        loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true, Constants.Response.LOGOUT_SUCCESS)
-                    } else if (result.value.contains(Constants.Response.LOGOUT_ALREADY, true)) {
-                        loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
-                    } else {
-                        loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
+        Constants.URL_LOGOUT.httpGet()
+                .timeout(Constants.REQUEST_TIMEOUT)
+                .timeoutRead(Constants.REQUEST_TIMEOUT)
+                .responseString { _, _, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            Log.i(TAG, "Did NOT Log out")
+                            loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, "Network failure")
+                        }
+                        is Result.Success -> {
+                            Log.i(TAG, "Logged out")
+        //                    Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
+                            if (result.value.contains(Constants.Response.LOGOUT_SUCCESS, true)) {
+                                loginLogoutListener.onLoggedListener(RequestType.LOGOUT, true, Constants.Response.LOGOUT_SUCCESS)
+                            } else if (result.value.contains(Constants.Response.LOGOUT_ALREADY, true)) {
+                                loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
+                            } else {
+                                loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
+                            }
+                            preferences[Constants.PREF_SESSION_LINK] = null
+                        }
                     }
-                    preferences[Constants.PREF_SESSION_LINK] = null
                 }
-            }
-        }
     }
 
     fun setSessionLink(webpage: String): String? {

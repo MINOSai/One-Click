@@ -18,6 +18,8 @@ object Constants {
 
     val DB_NAME = "oneclickdatabase.db"
 
+    val REQUEST_TIMEOUT = 5000
+
     enum class SheetAction {
         NEW_ACCOUNT, INCOGNITO, EDIT_ACCOUNT
     }

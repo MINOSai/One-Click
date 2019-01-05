@@ -53,6 +53,8 @@ class OneClickTileService : TileService(),
 
         registerWifiReceiver()
 //        registerLoginLogoutReceiver()
+
+        repoInterface.updateAccounts()
     }
 
 //    override fun onStartListening() {
@@ -68,12 +70,13 @@ class OneClickTileService : TileService(),
     override fun onClick() {
         // TODO: if no account found open app
 //        when(qsTile.state) {
-//            Tile.STATE_INACTIVE -> webService.login(this, repoInterface.activeAccount.username, repoInterface.activeAccount.password)
+//            Tile.STATE_INACTIVE -> webService.login(this, repoInterface.activeAccount.username, rfepoInterface.activeAccount.password)
 //            Tile.STATE_ACTIVE -> webService.logout(this)
 //        }
         if (qsTile.state != Tile.STATE_UNAVAILABLE) {
             unlockAndRun {
-                val dialog = OneClickDialogClass(applicationContext)
+                repoInterface
+                val dialog = OneClickDialogClass(applicationContext, webService, repoInterface.activeAccount)
                 showDialog(dialog)
             }
         }

@@ -17,6 +17,7 @@
     <color name="colorThemeGrey">#F7F7F7</color>
     <color name="colorThemeInputGrey">#F5F5F5</color>
     <color name="colorActionRed">#FF6872</color>
+    <color name="colorTextSecondary">#757575</color>
 
     <color name="spacer_grey">#e0e0e0</color>
 
