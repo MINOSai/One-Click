@@ -1,5 +1,6 @@
 package com.minosai.oneclick.ui.credentials
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
+import com.minosai.oneclick.ui.credentials.slider.SliderAdapter
+import com.minosai.oneclick.ui.credentials.slider.SliderTimer
 import kotlinx.android.synthetic.main.fragment_credentials.*
+import java.util.*
 import javax.inject.Inject
 
 class CredentialsFragment : Fragment(), Injectable {
@@ -28,6 +32,22 @@ class CredentialsFragment : Fragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
         credentialsViewModel = ViewModelProviders.of(this, viewModelFactory).get(CredentialsViewModel::class.java)
+
+        val colors = arrayListOf(Color.RED, Color.GREEN, Color.BLUE)
+        val colorNames = arrayListOf("Red", "Green", "Blue")
+
+        val titles = arrayListOf("Multiple Accounts", "Quick tiles for Quickies", "Find more productivity")
+        val subTitles = arrayListOf(
+                "Add or remove accounts",
+                "Effortless login via Notification drawer and home screen widget",
+                "Limit usage using sleep timer and login privately using incognito mode"
+        )
+
+        viewpager_onboarding.adapter = SliderAdapter(requireContext(), titles, subTitles)
+        indicator_onboarding.setupWithViewPager(viewpager_onboarding, true)
+
+        val timer = Timer()
+        timer.scheduleAtFixedRate(SliderTimer(activity, viewpager_onboarding, titles.size), 4000, 6000)
 
         button_cred_next.setOnClickListener {
 
