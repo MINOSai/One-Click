@@ -87,7 +87,12 @@ class MainFragment : Fragment(),
         mainViewModel.view = view.coordinator_main
 
         mainViewModel.updateUserPrefs()
-        view.text_home_displayname?.text = "Hello, ${mainViewModel.userPrefs.displayName}"
+
+        var displayName = mainViewModel.userPrefs.displayName
+        if (displayName.isEmpty() || displayName.isBlank()) {
+            displayName = "User"
+        }
+        view.text_home_displayname?.text = "Hello, ${displayName}"
 
         accountAdapter = AccountAdapter(context!!, mainViewModel) {
 

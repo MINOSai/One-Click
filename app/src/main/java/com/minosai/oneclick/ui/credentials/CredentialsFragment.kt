@@ -18,7 +18,7 @@ class CredentialsFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var credentialsViewModel: CredentialsViewModel
+    private lateinit var credentialsViewModel: CredentialsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_credentials, container, false)
@@ -31,17 +31,33 @@ class CredentialsFragment : Fragment(), Injectable {
 
         button_cred_next.setOnClickListener {
 
+            var isValid = true
+            input_creds_display_name.error = null
+            input_creds_username.error = null
+            input_creds_password.error = null
+
             val displayName = input_creds_display_name.editText?.text.toString()
             val userName = input_creds_username.editText?.text.toString()
             val password = input_creds_password.editText?.text.toString()
 
-            with(credentialsViewModel) {
-                addAccount(userName, password, true)
-                changeFirstOpenBoolean()
-                saveDisplayName(displayName)
+            if (userName.isBlank() || userName.isEmpty()) {
+                input_creds_username.error = "Username should not be empty"
+                isValid = false
             }
 
-            findNavController(it).popBackStack()
+            if (password.isBlank() || password.isEmpty()) {
+                input_creds_password.error = "Password should not be empty"
+                isValid = false
+            }
+
+            if (isValid) {
+                with(credentialsViewModel) {
+                    addAccount(userName, password, true)
+                    changeFirstOpenBoolean()
+                    saveDisplayName(displayName)
+                }
+                findNavController(it).popBackStack()
+            }
         }
 
     }
