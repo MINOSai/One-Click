@@ -13,6 +13,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -56,10 +57,11 @@ class MainFragment : Fragment(),
     private lateinit var wifiReceiver: WifiReceiver
 //    private lateinit var loginLogoutReceiver: LoginLogoutReceiver
 //    private lateinit var mInternetAvailabilityChecker: InternetAvailabilityChecker
+    private lateinit var inputSheetListener: InputSheetListener
     private var activeAccount: AccountInfo? = null
     private var isLoading = false
 
-    private val inputBottomSheetFragment = InputBottomSheetFragment()
+//    private val inputBottomSheetFragment = InputBottomSheetFragment()
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var accountAdapter: AccountAdapter
@@ -78,6 +80,8 @@ class MainFragment : Fragment(),
 //            e.printStackTrace()
 //        }
 
+        inputSheetListener = this
+
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         mainViewModel.view = view.coordinator_main
@@ -86,8 +90,11 @@ class MainFragment : Fragment(),
         view.text_home_displayname?.text = "Hello, ${mainViewModel.userPrefs.displayName}"
 
         accountAdapter = AccountAdapter(context!!, mainViewModel) {
-            inputBottomSheetFragment.init(this, Constants.SheetAction.EDIT_ACCOUNT, it)
-            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
+
+            showBottomSheet(fragmentManager!!, Constants.SheetAction.EDIT_ACCOUNT, it)
+
+//            inputBottomSheetFragment.init(this, Constants.SheetAction.EDIT_ACCOUNT, it)
+//            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
         }
 
         initRecyclerView(view)
@@ -162,13 +169,15 @@ class MainFragment : Fragment(),
         }
 
         view.fab_action_incognito?.setOnClickListener {
-            inputBottomSheetFragment.init(this, Constants.SheetAction.INCOGNITO, mainViewModel.getActiveAccount())
-            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
+//            inputBottomSheetFragment.init(this, , mainViewModel.getActiveAccount())
+//            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
+            showBottomSheet(fragmentManager!!, Constants.SheetAction.INCOGNITO, null)
         }
 
         view.fab_action_newacc?.setOnClickListener {
-            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT, mainViewModel.getActiveAccount())
-            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
+//            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT, mainViewModel.getActiveAccount())
+//            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
+            showBottomSheet(fragmentManager!!, Constants.SheetAction.NEW_ACCOUNT, null)
         }
 
         view.fab_action_refresh?.setOnClickListener {
@@ -414,6 +423,14 @@ class MainFragment : Fragment(),
         interpolator = LinearInterpolator()
         repeatCount = Animation.INFINITE
         repeatMode = Animation.REVERSE
+    }
+
+
+    private fun showBottomSheet(fragMgr: FragmentManager, action: Constants.SheetAction, accountInfo: AccountInfo?) {
+        InputBottomSheetFragment().apply {
+            init(inputSheetListener, action, accountInfo)
+            show(fragMgr, this.tag)
+        }
     }
 
 }
