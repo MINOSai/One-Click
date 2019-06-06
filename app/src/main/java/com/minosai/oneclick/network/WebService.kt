@@ -10,7 +10,8 @@ import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import com.minosai.oneclick.util.listener.LoginLogoutListener
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import javax.inject.Inject
@@ -106,7 +107,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     }
 
     fun getUsage(updateUsage: (usage: String) -> Unit) {
-        launch {
+        GlobalScope.launch {
             try {
                 val sessionLink: String? = preferences[Constants.PREF_SESSION_LINK]
                 sessionLink?.let { link ->

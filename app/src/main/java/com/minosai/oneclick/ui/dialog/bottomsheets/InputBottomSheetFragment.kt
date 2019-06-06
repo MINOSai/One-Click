@@ -46,9 +46,9 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
             }
         }
 
-        view.fab_newuser_cancel.setOnClickListener { dismiss() }
+        view.button_newuser_cancel.setOnClickListener { dismiss() }
 
-        view.fab_newuser_done.setOnClickListener {
+        view.button_newuser_done.setOnClickListener {
             //TODO: validate inputs
             listener?.onSheetResponse(
                     view.input_newuser_username.text.toString(),

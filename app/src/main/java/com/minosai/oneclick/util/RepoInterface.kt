@@ -2,7 +2,8 @@ package com.minosai.oneclick.util
 
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.repo.OneClickRepo
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RepoInterface @Inject constructor(val repo: OneClickRepo) {
@@ -12,7 +13,7 @@ class RepoInterface @Inject constructor(val repo: OneClickRepo) {
     var isAutoUpdateUsage: Boolean = true
 
     init {
-        launch {
+        GlobalScope.launch {
             activeAccount = repo.getActiveAccountFromDb()
         }
         isAutoUpdateUsage = repo.isAutoUpdateUsage()

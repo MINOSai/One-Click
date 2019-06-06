@@ -16,7 +16,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="@dimen/theme_corner_radius">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,102 +28,41 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:gravity="center_vertical"
                 android:text="16BCE0587-yaswant"
                 android:textAppearance="@android:style/TextAppearance.Material.Large"
-                app:layout_constraintEnd_toStartOf="@+id/image_account_primary_icon"
+                app:layout_constraintEnd_toStartOf="@+id/text_account_primary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/image_account_primary_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                android:tint="@color/colorActiveInfo"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/text_account_id"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_account_id"
-                app:srcCompat="@drawable/ic_star_circle" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/account_item_details_layout"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text_account_primary"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_button_primary"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="2dp"
+                android:text="Primary"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/layout_account_actions"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_account_id">
-
-                <TextView
-                    android:id="@+id/text_account_usage_placeholder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Login and refresh to see usage"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/text_account_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:drawableLeft="@drawable/ic_cal_black_24dp"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="6dp"
-                    android:textStyle="bold"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/text_account_usage"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="18th Aug 2019" />
-
-                <TextView
-                    android:id="@+id/text_account_usage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:drawableLeft="@drawable/ic_chart_line_black_24"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="6dp"
-                    android:textStyle="bold"
-                    android:visibility="visible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/text_account_date"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="23 GB used" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/layout_account_actions"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_item_details_layout">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_account_id">
 
                 <HorizontalScrollView
                     android:id="@+id/horizontalScrollView"
@@ -132,6 +71,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:scrollbars="none"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/button_account_make_primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -176,14 +116,105 @@
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
 
-                <Button
-                    android:id="@+id/button_account_make_primary"
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="make primary"
-                    android:visibility="visible" />
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButton"
+                        style="@style/FabActionSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:clickable="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_content_copy_black_24dp" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButton2"
+                        style="@style/FabActionSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton3"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
+                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+                        app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButton3"
+                        style="@style/FabActionSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton2"
+                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton4"
+                        app:layout_constraintStart_toEndOf="@+id/floatingActionButton2"
+                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton2"
+                        app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/floatingActionButton4"
+                        style="@style/FabActionSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/floatingActionButton3"
+                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton3"
+                        app:srcCompat="@drawable/ic_delete_sweep_black_24dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_account_actions">
+
+                <TextView
+                    android:id="@+id/button_account_make_primary"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_account_login"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/button_account_login"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Login"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button_account_make_primary"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -11,36 +11,40 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinator_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/curve_bottom_bg"
-                android:paddingBottom="64dp">
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:id="@+id/text_home_displayname"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:text="Hello, minosai"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
-                    android:textColor="@android:color/white"
+                    android:textSize="24sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/button_settings"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,185 +54,160 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:padding="16dp"
-                    android:tint="@android:color/white"
+                    android:tint="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/text_home_displayname"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_home_displayname"
                     app:srcCompat="@drawable/ic_settings" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView4"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="5dp"
-                app:layout_anchor="@+id/constraintLayout"
-                app:layout_anchorGravity="bottom|center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/text_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Settings"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/fab_action_refresh"
+                    app:layout_constraintStart_toStartOf="@+id/fab_action_refresh"
+                    app:layout_constraintTop_toBottomOf="@+id/fab_action_refresh" />
 
-                    <TextView
-                        android:id="@+id/text_refresh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:gravity="center"
-                        android:text="Refresh Data"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/fab_action_refresh"
-                        app:layout_constraintStart_toStartOf="@+id/fab_action_refresh"
-                        app:layout_constraintTop_toBottomOf="@+id/fab_action_refresh" />
+                <TextView
+                    android:id="@+id/text_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Sleep Timer"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/fab_action_sleep_timer"
+                    app:layout_constraintStart_toStartOf="@+id/fab_action_sleep_timer"
+                    app:layout_constraintTop_toBottomOf="@+id/fab_action_sleep_timer" />
 
-                    <TextView
-                        android:id="@+id/text_timer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:gravity="center"
-                        android:text="Sleep Timer"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/fab_action_sleep_timer"
-                        app:layout_constraintStart_toStartOf="@+id/fab_action_sleep_timer"
-                        app:layout_constraintTop_toBottomOf="@+id/fab_action_sleep_timer" />
+                <TextView
+                    android:id="@+id/text_newacc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Add Account"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/fab_action_newacc"
+                    app:layout_constraintStart_toStartOf="@+id/fab_action_newacc"
+                    app:layout_constraintTop_toBottomOf="@+id/fab_action_newacc" />
 
-                    <TextView
-                        android:id="@+id/text_newacc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:gravity="center"
-                        android:text="Add Account"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/fab_action_newacc"
-                        app:layout_constraintStart_toStartOf="@+id/fab_action_newacc"
-                        app:layout_constraintTop_toBottomOf="@+id/fab_action_newacc" />
+                <!--<TextView-->
+                <!--android:id="@+id/textView15"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingTop="8dp"-->
+                <!--android:text="Dark Theme"-->
+                <!--android:textSize="10sp"-->
+                <!--android:visibility="gone"-->
+                <!--tools:layout_editor_absoluteX="275dp"-->
+                <!--tools:layout_editor_absoluteY="55dp" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/textView15"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:gravity="center"-->
-                        <!--android:paddingTop="8dp"-->
-                        <!--android:text="Dark Theme"-->
-                        <!--android:textSize="10sp"-->
-                        <!--android:visibility="gone"-->
-                        <!--tools:layout_editor_absoluteX="275dp"-->
-                        <!--tools:layout_editor_absoluteY="55dp" />-->
+                <TextView
+                    android:id="@+id/text_incognito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Incognito"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/fab_action_incognito"
+                    app:layout_constraintStart_toStartOf="@+id/fab_action_incognito"
+                    app:layout_constraintTop_toBottomOf="@+id/fab_action_incognito" />
 
-                    <TextView
-                        android:id="@+id/text_incognito"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:gravity="center"
-                        android:text="Incognito Login"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/fab_action_incognito"
-                        app:layout_constraintStart_toStartOf="@+id/fab_action_incognito"
-                        app:layout_constraintTop_toBottomOf="@+id/fab_action_incognito" />
+                <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--android:id="@+id/floatingActionButton4"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:clickable="true"-->
+                <!--android:padding="8dp"-->
+                <!--android:tint="@android:color/white"-->
+                <!--android:visibility="gone"-->
+                <!--app:backgroundTint="@color/colorPrimary"-->
+                <!--app:srcCompat="@drawable/ic_theme_light_dark"-->
+                <!--tools:layout_editor_absoluteX="275dp"-->
+                <!--tools:layout_editor_absoluteY="55dp" />-->
 
-                    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
-                        <!--android:id="@+id/floatingActionButton4"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:clickable="true"-->
-                        <!--android:padding="8dp"-->
-                        <!--android:tint="@android:color/white"-->
-                        <!--android:visibility="gone"-->
-                        <!--app:backgroundTint="@color/colorPrimary"-->
-                        <!--app:srcCompat="@drawable/ic_theme_light_dark"-->
-                        <!--tools:layout_editor_absoluteX="275dp"-->
-                        <!--tools:layout_editor_absoluteY="55dp" />-->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_newacc"
+                    style="@style/FabAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:clickable="true"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/fab_action_refresh"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/fab_action_incognito"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_add_white_24dp" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_newacc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="32dp"
-                        android:clickable="true"
-                        android:padding="8dp"
-                        android:tint="@android:color/white"
-                        app:backgroundTint="@color/colorPrimary"
-                        app:fabSize="mini"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/fab_action_refresh"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_add_white_24dp" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_incognito"
+                    style="@style/FabAction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toStartOf="@+id/fab_action_newacc"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/fab_action_sleep_timer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_incognito" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_incognito"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:clickable="true"
-                        android:tint="@android:color/white"
-                        app:backgroundTint="@color/colorPrimary"
-                        app:fabSize="mini"
-                        app:layout_constraintEnd_toStartOf="@+id/fab_action_refresh"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/fab_action_sleep_timer"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_incognito" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_sleep_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:clickable="true"
+                    android:tint="@color/colorPrimary"
+                    android:visibility="gone"
+                    app:backgroundTint="@color/colorBlueMuted"
+                    app:fabSize="mini"
+                    app:layout_constraintEnd_toStartOf="@+id/fab_action_incognito"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_timer_black_24dp" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_sleep_timer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="16dp"
-                        android:clickable="true"
-                        android:tint="@android:color/white"
-                        app:backgroundTint="@color/colorPrimary"
-                        app:fabSize="mini"
-                        app:layout_constraintEnd_toStartOf="@+id/fab_action_incognito"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_timer_black_24dp" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_action_refresh"
+                    style="@style/FabAction"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:clickable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/fab_action_newacc"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_settings" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fab_action_refresh"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:clickable="true"
-                        android:tint="@android:color/white"
-                        app:backgroundTint="@color/colorPrimary"
-                        app:fabSize="mini"
-                        app:layout_constraintEnd_toStartOf="@+id/fab_action_newacc"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/fab_action_incognito"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_refresh_black_24dp" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout">
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_accounts"
@@ -237,9 +216,10 @@
                 android:clipToPadding="false"
                 android:paddingBottom="75dp"
                 tools:listitem="@layout/item_account_layout" />
-        </androidx.core.widget.NestedScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/cardView3"
@@ -248,25 +228,24 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:orientation="vertical"
+        android:paddingBottom="8dp"
         app:layout_dodgeInsetEdges="bottom">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_with_wifi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <Button
+            <TextView
                 android:id="@+id/button_logout"
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
+                style="@style/ButtonPrimary"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/capsule_button"
-                android:backgroundTint="@color/colorPrimary"
-                android:foreground="@drawable/ripple_bg_button"
-                android:text="logout"
-                android:textColor="@android:color/white"
+                android:text="Logout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button_login"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -275,15 +254,12 @@
 
             <Button
                 android:id="@+id/button_login"
-                android:layout_width="125dp"
-                android:layout_height="wrap_content"
+                style="@style/ButtonPrimary"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/capsule_button"
-                android:backgroundTint="@color/colorPrimary"
-                android:foreground="@drawable/ripple_bg_button"
-                android:text="login"
-                android:textColor="@android:color/white"
+                android:text="Login"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -295,20 +271,19 @@
             android:id="@+id/layout_without_wifi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:visibility="visible"
+            tools:visibility="gone">
 
-            <Button
+            <TextView
                 android:id="@+id/button_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/ButtonPrimary"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/capsule_button"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Connect to wifi"
-                android:textColor="@android:color/white"
+                android:text="Connect to WiFi"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

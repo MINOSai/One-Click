@@ -9,7 +9,8 @@ import com.minosai.oneclick.model.UserPrefs
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import com.minosai.oneclick.util.helper.PreferenceHelper.set
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: SharedPreferences) {
@@ -26,7 +27,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     }
 
     fun addAccount(userName: String, password: String, usage: String, renewalDate: String, isActiveAccount: Boolean) {
-        launch {
+        GlobalScope.launch {
             dao.addAccount(AccountInfo(userName, password, usage, renewalDate, isActiveAccount))
         }
         if (isActiveAccount) {
@@ -41,14 +42,14 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
                 .putString(Constants.PREF_PASSWORD, password)
                 .apply()
 
-        launch {
+        GlobalScope.launch {
             dao.resetAccounts()
             dao.setActiveAccount(userName)
         }
     }
 
     fun setActiveUser(userName: String) {
-        launch {
+        GlobalScope.launch {
             dao.resetAccounts()
             dao.setActiveAccount(userName)
         }
@@ -67,7 +68,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     }
 
     fun updateUsage(usage: String) {
-        launch {
+        GlobalScope.launch {
             val userName = getActiveAccount()?.username ?: ""
             try {
                 dao.updateUsage(userName, usage)
@@ -103,7 +104,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
     fun getActiveAccountFromDb(): AccountInfo = dao.getActiveAccount()
 
-    fun removeAccount(accountInfo: AccountInfo) = launch {
+    fun removeAccount(accountInfo: AccountInfo) = GlobalScope.launch {
         dao.deleteAccounts(accountInfo)
     }
 
@@ -116,7 +117,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     }
 
     fun updateAccountInfo(accountInfo: AccountInfo) {
-        launch {
+        GlobalScope.launch {
             dao.updateAccInfo(accountInfo)
         }
     }

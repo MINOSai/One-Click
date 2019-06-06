@@ -49,17 +49,17 @@ class AccountAdapter(
 
                 text_account_id.text = accountInfo.username
 
-                if (accountInfo.usage.isBlank()) {
-                    text_account_usage_placeholder.show()
-                    text_account_usage.hide()
-                    text_account_date.hide()
-                } else {
-                    text_account_usage_placeholder.hide()
-                    text_account_usage.show()
-                    text_account_date.show()
-                    text_account_date.text = "18th Aug 2019"
-                    text_account_usage.text = accountInfo.usage
-                }
+//                if (accountInfo.usage.isBlank()) {
+//                    text_account_usage_placeholder.show()
+//                    text_account_usage.hide()
+//                    text_account_date.hide()
+//                } else {
+//                    text_account_usage_placeholder.hide()
+//                    text_account_usage.show()
+//                    text_account_date.show()
+//                    text_account_date.text = "18th Aug 2019"
+//                    text_account_usage.text = accountInfo.usage
+//                }
 
 //                if (AccountAdapter.accountList?.size == 1) {
 //                    chip_account_delete.hide()
@@ -67,13 +67,13 @@ class AccountAdapter(
 
                 if (accountInfo.isActiveAccount) {
                     layout_account_actions.show()
-                    image_account_primary_icon.show()
+                    text_account_primary.show()
                     button_account_make_primary.hide()
                     chip_account_delete.hide()
 
                 } else {
                     layout_account_actions.hide()
-                    image_account_primary_icon.hide()
+                    text_account_primary.hide()
                     button_account_make_primary.show()
                     chip_account_delete.show()
                 }

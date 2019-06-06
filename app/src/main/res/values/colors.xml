@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#44A8FF</color>
+    <!--<color name="colorPrimary">#44A8FF</color>-->
+    <color name="colorPrimary">#0D70E1</color>
     <color name="colorPrimaryDark">#0D70E1</color>
     <color name="colorAccent">#15C78D</color>
 
@@ -18,6 +19,7 @@
     <color name="colorThemeInputGrey">#F5F5F5</color>
     <color name="colorActionRed">#FF6872</color>
     <color name="colorTextSecondary">#757575</color>
+    <color name="colorBlueMuted">#E3F2FD</color>
 
     <color name="spacer_grey">#e0e0e0</color>
 

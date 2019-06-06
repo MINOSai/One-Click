@@ -11,4 +11,6 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="bottom_sheet_corner_radius">16dp</dimen>
     <dimen name="bottom_sheet_top_padding">8dp</dimen>
 
+    <dimen name="theme_corner_radius">10dp</dimen>
+
 </resources>

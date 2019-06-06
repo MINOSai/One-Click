@@ -3,14 +3,16 @@ package com.minosai.oneclick.util.service
 import android.annotation.TargetApi
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.graphics.drawable.Icon
 import android.os.Build
+import android.os.Handler
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.minosai.oneclick.R
 import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.network.WebService.Companion.RequestType
-import com.minosai.oneclick.ui.dialog.OneClickDialogClass
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.RepoInterface
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
@@ -75,9 +77,11 @@ class OneClickTileService : TileService(),
 //        }
         if (qsTile.state != Tile.STATE_UNAVAILABLE) {
             unlockAndRun {
-                repoInterface
-                val dialog = OneClickDialogClass(applicationContext, webService, repoInterface.activeAccount)
-                showDialog(dialog)
+//                repoInterface
+//                val dialog = OneClickDialogClass(applicationContext, webService, repoInterface.activeAccount)
+//                showDialog(dialog)
+                webService.login(this, repoInterface.activeAccount.username, repoInterface.activeAccount.password)
+                changeStateLoading()
             }
         }
     }
@@ -145,29 +149,49 @@ class OneClickTileService : TileService(),
         updateState(isConnectedToWifi)
     }
 
-    //TODO move this to dialog
-    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
-        isOnline = isLogged
-        when(requestType) {
+//    //TODO move this to dialog
+//    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
+//        isOnline = isLogged
+//        when(requestType) {
+//
+//            RequestType.LOGIN -> {
+//                isOnline = isLogged
+//                if (isLogged) {
+//                    if (repoInterface.isAutoUpdateUsage) {
+//                        webService.getUsage { usage ->
+//                            repoInterface.updateUsage(usage)
+//                        }
+//                    }
+//                }
+//            }
+//
+//            RequestType.LOGOUT -> {
+//                if (isOnline && isLogged) {
+//                    isOnline = false
+//                }
+//            }
+//        }
+//        updateState(true)
+//    }
 
-            RequestType.LOGIN -> {
-                isOnline = isLogged
-                if (isLogged) {
-                    if (repoInterface.isAutoUpdateUsage) {
-                        webService.getUsage { usage ->
-                            repoInterface.updateUsage(usage)
-                        }
+    override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
+
+        if (requestType == RequestType.LOGIN) {
+            if (isLogged) {
+                if (repoInterface.isAutoUpdateUsage) {
+                    webService.getUsage { usage ->
+                        repoInterface.updateUsage(usage)
                     }
                 }
-            }
-
-            RequestType.LOGOUT -> {
-                if (isOnline && isLogged) {
-                    isOnline = false
-                }
+                changeStateSuccess()
+            } else {
+                changeStateFailure()
             }
         }
-        updateState(true)
+
+        Handler().postDelayed({
+            updateState(true)
+        }, 1500)
     }
 
 
@@ -178,9 +202,40 @@ class OneClickTileService : TileService(),
 //            changeStateDisable()
 //        }
         with(qsTile) {
-            state = if (isWifiConnected) Tile.STATE_INACTIVE else Tile.STATE_UNAVAILABLE
+
+            icon = Icon.createWithResource(this@OneClickTileService, R.drawable.ic_login)
+
+            if (isWifiConnected) {
+                state = Tile.STATE_INACTIVE
+                label = "Login"
+            } else {
+                state = Tile.STATE_UNAVAILABLE
+                label = "One Click"
+            }
+
             updateTile()
         }
+    }
+
+    private fun changeStateLoading() = with(qsTile) {
+        state = Tile.STATE_UNAVAILABLE
+        label = "Loading"
+        icon = Icon.createWithResource(this@OneClickTileService, R.drawable.ic_dots_horizontal)
+        updateTile()
+    }
+
+    private fun changeStateSuccess() = with(qsTile) {
+        state = Tile.STATE_ACTIVE
+        label = "Succuess"
+        icon = Icon.createWithResource(this@OneClickTileService, R.drawable.ic_done_white_48dp)
+        updateTile()
+    }
+
+    private fun changeStateFailure() = with(qsTile) {
+        state = Tile.STATE_ACTIVE
+        label = "Failed"
+        icon = Icon.createWithResource(this@OneClickTileService, R.drawable.ic_error_outline_black_24dp)
+        updateTile()
     }
 
 //    private fun changeStateDisable() = with(qsTile) {

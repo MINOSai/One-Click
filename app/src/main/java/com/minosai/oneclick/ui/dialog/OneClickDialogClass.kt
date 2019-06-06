@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -33,14 +32,15 @@ class OneClickDialogClass(
 
         text_dialog_status.hide()
 
-        button_dialog_logout.setOnClickListener {
+        button_dialog_login.setOnClickListener {
             it.startAnimation(getAnimation())
             webService.login(this, accountInfo.username, accountInfo.password)
         }
-        button_dialog_login.setOnClickListener {
+        button_dialog_logout.setOnClickListener {
             it.startAnimation(getAnimation())
             webService.logout(this)
         }
+
         image_dialog_close.setOnClickListener {
             dismiss()
         }
@@ -80,13 +80,13 @@ class OneClickDialogClass(
         text_dialog_status.text = "Success"
         text_dialog_status.setTextColor(context.resources.getColor(android.R.color.holo_green_light))
 
-        Handler().postDelayed({
-            dismiss()
-        }, 1500)
+//        Handler().postDelayed({
+//            dismiss()
+//        }, 1500)
     }
 
     private fun showFailure() {
-        text_dialog_status.text = "Failure"
+        text_dialog_status.text = "Failed"
         text_dialog_status.setTextColor(context.resources.getColor(android.R.color.holo_red_light))
     }
 
