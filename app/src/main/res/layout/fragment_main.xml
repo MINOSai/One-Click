@@ -78,9 +78,9 @@
                     android:text="Settings"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/fab_action_refresh"
-                    app:layout_constraintStart_toStartOf="@+id/fab_action_refresh"
-                    app:layout_constraintTop_toBottomOf="@+id/fab_action_refresh" />
+                    app:layout_constraintEnd_toEndOf="@+id/fab_action_settings"
+                    app:layout_constraintStart_toStartOf="@+id/fab_action_settings"
+                    app:layout_constraintTop_toBottomOf="@+id/fab_action_settings" />
 
                 <TextView
                     android:id="@+id/text_timer"
@@ -158,7 +158,7 @@
                     android:layout_marginTop="16dp"
                     android:clickable="true"
                     android:padding="8dp"
-                    app:layout_constraintEnd_toStartOf="@+id/fab_action_refresh"
+                    app:layout_constraintEnd_toStartOf="@+id/fab_action_settings"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/fab_action_incognito"
                     app:layout_constraintTop_toTopOf="parent"
@@ -195,7 +195,7 @@
                     app:srcCompat="@drawable/ic_timer_black_24dp" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_action_refresh"
+                    android:id="@+id/fab_action_settings"
                     style="@style/FabAction"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
@@ -208,6 +208,14 @@
                     app:srcCompat="@drawable/ic_settings" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/main_view_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_accounts"

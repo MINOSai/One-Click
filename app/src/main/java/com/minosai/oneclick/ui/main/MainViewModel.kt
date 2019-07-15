@@ -2,6 +2,7 @@ package com.minosai.oneclick.ui.main
 
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.model.UserPrefs
@@ -12,6 +13,7 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
 
     var displayName: String = repo.getDisplayName()
     var userPrefs = UserPrefs()
+    val isLoading = MutableLiveData<Boolean>()
 
     lateinit var context: Context
     lateinit var view: View
@@ -40,4 +42,11 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
         repo.updateAccountInfo(accountInfo)
     }
 
+    fun startLoading() {
+        isLoading.value = true
+    }
+
+    fun stopLoading() {
+        isLoading.value = false
+    }
 }

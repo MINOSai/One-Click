@@ -45,7 +45,7 @@ class MainFragment : Fragment(),
         LoginLogoutListener,
         InputSheetListener {
 
-    val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
+    val TAG = javaClass.simpleName
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -55,7 +55,7 @@ class MainFragment : Fragment(),
     lateinit var webService: WebService
 
     private lateinit var wifiReceiver: WifiReceiver
-//    private lateinit var loginLogoutReceiver: LoginLogoutReceiver
+    //    private lateinit var loginLogoutReceiver: LoginLogoutReceiver
 //    private lateinit var mInternetAvailabilityChecker: InternetAvailabilityChecker
     private lateinit var inputSheetListener: InputSheetListener
     private var activeAccount: AccountInfo? = null
@@ -68,8 +68,14 @@ class MainFragment : Fragment(),
 
     private lateinit var state: String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_main, container, false)
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ) = inflater.inflate(R.layout.fragment_main, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         wifiReceiver = WifiReceiver(this)
         registerWifiReceiver()
@@ -105,35 +111,7 @@ class MainFragment : Fragment(),
         initRecyclerView(view)
         addObservers()
         setClicks(view)
-
-        return view
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        wifiReceiver = WifiReceiver(this)
-//        registerWifiReceiver()
-////        try {
-////            mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance()
-////            mInternetAvailabilityChecker.addInternetConnectivityListener(this)
-////        } catch (e: Exception) {
-////            e.printStackTrace()
-////        }
-//
-//        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-//        text_home_displayname.text = "Hello, ${mainViewModel.displayName}"
-//
-//        mainViewModel.view = coordinator_main
-//
-//        accountAdapter = AccountAdapter(context!!, mainViewModel) {
-//            Toast.makeText(context, it.username, Toast.LENGTH_SHORT).show()
-//        }
-//
-//        initRecyclerView()
-//        addObservers()
-//        setClicks()
-//    }
 
     private fun initRecyclerView(view: View) {
 
@@ -153,6 +131,14 @@ class MainFragment : Fragment(),
             activeAccount = mainViewModel.getActiveAccount()
             updateUi()
             accountAdapter.updateList(it)
+        })
+
+        mainViewModel.isLoading.observe(this, Observer { isLoading ->
+            if (isLoading) {
+                startLoading()
+            } else {
+                stopLoading()
+            }
         })
     }
 
@@ -174,24 +160,25 @@ class MainFragment : Fragment(),
         }
 
         view.fab_action_incognito?.setOnClickListener {
-//            inputBottomSheetFragment.init(this, , mainViewModel.getActiveAccount())
+            //            inputBottomSheetFragment.init(this, , mainViewModel.getActiveAccount())
 //            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
             showBottomSheet(fragmentManager!!, Constants.SheetAction.INCOGNITO, null)
         }
 
         view.fab_action_newacc?.setOnClickListener {
-//            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT, mainViewModel.getActiveAccount())
+            //            inputBottomSheetFragment.init(this, Constants.SheetAction.NEW_ACCOUNT, mainViewModel.getActiveAccount())
 //            inputBottomSheetFragment.show(fragmentManager!!, inputBottomSheetFragment.tag)
             showBottomSheet(fragmentManager!!, Constants.SheetAction.NEW_ACCOUNT, null)
         }
 
-        view.fab_action_refresh?.setOnClickListener {
-//            snackbar(mainViewModel.view, "Refresh account details")
-            Snackbar.make(mainViewModel.view, "Refresh account details", Snackbar.LENGTH_SHORT).show()
+        view.fab_action_settings?.setOnClickListener {
+            //            snackbar(mainViewModel.view, "Refresh account details")
+//            Snackbar.make(mainViewModel.view, "Refresh account details", Snackbar.LENGTH_SHORT).show()
+            findNavController(it).navigate(R.id.action_mainFragment_to_settingsFragment)
         }
 
         view.fab_action_sleep_timer?.setOnClickListener {
-//            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
+            //            Snackbar.make(coordinator_main, "Snack Bar", Snackbar.LENGTH_SHORT).show()
 //            snackbar(mainViewModel.view, "Sleep timer")
             Snackbar.make(mainViewModel.view, "Sleep timer", Snackbar.LENGTH_SHORT).show()
         }
@@ -207,17 +194,17 @@ class MainFragment : Fragment(),
 
     private fun openWifiSettings() {
         val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
-        if (intent.resolveActivity(context?.packageManager) != null) {
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
             startActivity(intent)
         }
     }
 
-//    private fun stopButtonAnimation(text: String) {
-//        button_main?.revertAnimation {
-//            button_main.background = resources.getDrawable(R.drawable.shape_capsule)
-////            button_main.text = text
-//        }
-//    }
+/*    private fun stopButtonAnimation(text: String) {
+        button_main?.revertAnimation {
+            button_main.background = resources.getDrawable(R.drawable.shape_capsule)
+//            button_main.text = text
+        }
+    }*/
 
     private fun showSuccess() {
 //        context?.let {
@@ -297,10 +284,10 @@ class MainFragment : Fragment(),
                 .apply()
     }
 
-//    override fun onInternetConnectivityChanged(isConnected: Boolean) {
-//        mainViewModel.isOnline = isConnected
-//        updateState()
-//    }
+/*    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        mainViewModel.isOnline = isConnected
+        updateState()
+    }*/
 
     override fun onWifiStateChanged(isConnectedToWifi: Boolean, ssid: String) {
 //        mainViewModel.isWifiConnected = isConnectedToWifi
@@ -367,7 +354,7 @@ class MainFragment : Fragment(),
     }
 
     override fun onSheetResponse(userName: String, password: String, isActiveAccount: Boolean, action: Constants.SheetAction, accountInfo: AccountInfo?) {
-        when(action) {
+        when (action) {
             Constants.SheetAction.NEW_ACCOUNT -> mainViewModel.addUser(userName, password, isActiveAccount)
             Constants.SheetAction.INCOGNITO -> webService.login(this, userName, password)
             Constants.SheetAction.EDIT_ACCOUNT -> {
@@ -399,28 +386,20 @@ class MainFragment : Fragment(),
 //        }
     }
 
-//    private fun toggleLoading() {
-//        if (isLoading) {
-//            stopLoading()
-//        } else {
-//            startLoading()
-//        }
-//    }
+/*    private fun toggleLoading() {
+        if (isLoading) {
+            stopLoading()
+        } else {
+            startLoading()
+        }
+    }*/
 
     private fun startLoading() {
-//        if (!isLoading) {
-//            isLoading = true
-//            //TODO: Start loading animation
-//            progress_loading_bar.show()
-//        }
+        main_view_loading.show()
     }
 
     private fun stopLoading() {
-//        if (isLoading) {
-//            isLoading = false
-//            //TODO: Stop loading animation
-//            progress_loading_bar.hide()
-//        }
+        main_view_loading.hide()
     }
 
     private fun getAnimation() = AlphaAnimation(1f, 0.5f).apply {

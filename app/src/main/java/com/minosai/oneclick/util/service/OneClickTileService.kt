@@ -5,12 +5,13 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.drawable.Icon
 import android.os.Build
-import android.os.Handler
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
 import com.minosai.oneclick.R
+import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.network.WebService.Companion.RequestType
 import com.minosai.oneclick.util.Constants
@@ -41,8 +42,10 @@ class OneClickTileService : TileService(),
     private lateinit var wifiReceiver: WifiReceiver
     private lateinit var loginLogoutReceiver: LoginLogoutReceiver
 
-    private var isWifiConnected = false
-    private var isOnline = false
+    private var activeAccount: AccountInfo? = null
+    private val observer = Observer<AccountInfo> {
+        activeAccount = it
+    }
 
 
     override fun onCreate() {
@@ -57,6 +60,8 @@ class OneClickTileService : TileService(),
 //        registerLoginLogoutReceiver()
 
         repoInterface.updateAccounts()
+
+        repoInterface.activeAccount.observeForever(observer)
     }
 
 //    override fun onStartListening() {
@@ -75,12 +80,16 @@ class OneClickTileService : TileService(),
 //            Tile.STATE_INACTIVE -> webService.login(this, repoInterface.activeAccount.username, rfepoInterface.activeAccount.password)
 //            Tile.STATE_ACTIVE -> webService.logout(this)
 //        }
-        if (qsTile.state != Tile.STATE_UNAVAILABLE) {
+        if (qsTile.state != Tile.STATE_UNAVAILABLE && activeAccount != null) {
             unlockAndRun {
 //                repoInterface
 //                val dialog = OneClickDialogClass(applicationContext, webService, repoInterface.activeAccount)
 //                showDialog(dialog)
-                webService.login(this, repoInterface.activeAccount.username, repoInterface.activeAccount.password)
+                webService.login(
+                        this,
+                        activeAccount!!.username,
+                        activeAccount!!.password
+                )
                 changeStateLoading()
             }
         }
@@ -99,6 +108,7 @@ class OneClickTileService : TileService(),
         unregisterWifiReceiver()
 //        unregisterLoginLogoutReceiver()
         super.onDestroy()
+        repoInterface.activeAccount.removeObserver(observer)
     }
 
 
@@ -189,9 +199,9 @@ class OneClickTileService : TileService(),
             }
         }
 
-        Handler().postDelayed({
-            updateState(true)
-        }, 1500)
+//        Handler().postDelayed({
+//            updateState(true)
+//        }, 1500)
     }
 
 
