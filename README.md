@@ -29,7 +29,7 @@ A WiFi management app for VIT students
 
 ## How is this built?
 
-This app is 100% written in **Kotlin**. It uses **MVVM** architecture with **Android Architecture Components**, **Dagger 2** for dependency injeciton and **Android MDC** Material Design 2.0 for latest UI components. 
+This app is 100% written in **Kotlin**. Used **MVVM** architecture with **Android Architecture Components**, **Dagger 2** for dependency injeciton and **Android MDC** for latest UI components. 
 
 
 
