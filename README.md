@@ -18,17 +18,12 @@ A WiFi management app for VIT students
 
 ## What does this app do?
 
-• User's login credentials are stored locally.
-
-• Easily login from your notification panel using Quick Setting Tile
-
-• Easily login from your home screen using Home Screen Widgets
-
-• Add more than one account to use later
-
-• Log in using your friend's account in Incognito mode
-
-• Dark Theme !!
+* User's login credentials are stored locally.
+* Easily login from your notification panel using Quick Setting Tile
+* Easily login from your home screen using Home Screen Widgets
+* Add more than one account to use later
+* Log in using your friend's account in Incognito mode
+* Dark Theme !!
 
 
 
