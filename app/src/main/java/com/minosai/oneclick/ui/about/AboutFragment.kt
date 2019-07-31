@@ -1,71 +1,83 @@
 package com.minosai.oneclick.ui.about
 
 import android.content.Intent
+import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.Navigation
 import com.minosai.oneclick.R
+import com.minosai.oneclick.util.Constants
 import kotlinx.android.synthetic.main.fragment_about.view.*
 
 
 class AboutFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_about, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+            = inflater.inflate(R.layout.fragment_about, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         view.toolbar_about_fragment.setNavigationOnClickListener {
-            findNavController(it).popBackStack()
+            Navigation.findNavController(it).popBackStack()
         }
 
         with(view) {
 
             about_social_telegram.setOnClickListener {
-
+                openUrl("https://t.me/joinchat/GRJ3QhK-ZkFPCAiOOjaCkQ")
             }
 
-            about_social_discord.setOnClickListener {
-
+            about_other_telegram.setOnClickListener {
+                openUrl("https://t.me/joinchat/AAAAAE66lc5LE8KxQZSFLg")
             }
 
             about_dev_github.setOnClickListener {
-
+                openUrl("https://github.com/MINOSai/One-Click")
             }
 
             about_dev_store.setOnClickListener {
-                val appPackageName = context.packageName
                 try {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+                    startActivity(Intent(
+                            ACTION_VIEW,
+                            Uri.parse("market://details?id=${Constants.PACKAGE_NAME}")
+                    ))
                 } catch (anfe: android.content.ActivityNotFoundException) {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+                    startActivity(Intent(
+                            ACTION_VIEW,
+                            Uri.parse(Constants.PLAY_STORE_URL)
+                    ))
                 }
             }
 
             about_dev_share.setOnClickListener {
+                val shareBody = "Hey check out this app which I use to login to VIT WiFi " +
+                        Constants.PLAY_STORE_URL
 
-            }
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_SUBJECT, "OneClick - WiFi login app")
+                    putExtra(Intent.EXTRA_TEXT, shareBody)
+                }
 
-            about_other_telegram.setOnClickListener {
-
-            }
-
-            about_other_license.setOnClickListener {
-
+                startActivity(Intent.createChooser(intent, "Share using"))
             }
 
             about_member_yaswant.setOnClickListener {
-
+                openUrl("https://www.linkedin.com/in/yaswant-narayan/")
             }
 
             about_member_somesh.setOnClickListener {
-
+                openUrl("https://www.linkedin.com/in/someshks/")
             }
         }
-
-        return view
     }
+
+    private fun openUrl(url: String) =
+        startActivity(Intent(ACTION_VIEW, Uri.parse(url)))
 
 }

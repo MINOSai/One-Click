@@ -36,7 +36,7 @@ class AppModule {
             application,
             OneClickDatabase::class.java,
             Constants.DB_NAME
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton

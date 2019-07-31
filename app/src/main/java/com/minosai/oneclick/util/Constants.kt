@@ -3,6 +3,7 @@ package com.minosai.oneclick.util
 object Constants {
 
     val PACKAGE_NAME = "com.minosai.oneclick"
+    val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=$PACKAGE_NAME"
 
     val PREF_KEY = "$PACKAGE_NAME.pref"
 
@@ -12,6 +13,11 @@ object Constants {
     val PREF_DISPLAY_NAME = "display_name"
     val PREF_SESSION_LINK = "$PACKAGE_NAME.pref.sessionlink"
     val PREF_AUTOUPDATE_USAGE = "$PACKAGE_NAME.pref.autoupdateusage"
+    val PREF_LOGIN_APP_START = "auto_login_app_start"
+    val PREF_LOGIN_QS_TILE = "auto_login_quicktile"
+    val PREF_DARK_THEME = "dark_theme"
+
+    val EXTRA_TYPE = "${Constants.PACKAGE_NAME}.extra.REQUEST_TYPE"
 
     val URL_LOGIN = "http://phc.prontonetworks.com/cgi-bin/authlogin"
     val URL_LOGOUT = "http://phc.prontonetworks.com/cgi-bin/authlogout"
@@ -22,6 +28,10 @@ object Constants {
 
     enum class SheetAction {
         NEW_ACCOUNT, INCOGNITO, EDIT_ACCOUNT
+    }
+
+    enum class AccountAction {
+        COPY_PASSWORD, VIEW_PASSWORD, EDIT_ACCOUNT, DELETE_ACCOUNT, SET_PRIMARY, LOGIN
     }
 
     object Response {

@@ -64,64 +64,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_account_id">
 
-                <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:scrollbars="none"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toTopOf="@+id/button_account_make_primary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_item_details_layout">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        app:singleLine="true">
-
-                        <!-- Chips can be declared here, or added dynamically. -->
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_account_view_password"
-                            style="@style/Widget.MaterialComponents.Chip.Action"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="view password"
-                            app:chipIcon="@drawable/ic_remove_red_eye_black_24dp"
-                            app:chipIconSize="16dp"
-                            app:iconStartPadding="8dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_account_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="edit account"
-                            app:chipIcon="@drawable/ic_edit_black_24dp"
-                            app:chipIconSize="16dp"
-                            app:iconStartPadding="8dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_account_delete"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="delete account"
-                            app:chipIcon="@drawable/ic_delete_sweep_black_24dp"
-                            app:chipIconSize="16dp"
-                            app:iconStartPadding="8dp" />
-                    </com.google.android.material.chip.ChipGroup>
-                </HorizontalScrollView>
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton"
+                        android:id="@+id/fab_account_password_copy"
                         style="@style/FabActionSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -130,47 +78,47 @@
                         android:clickable="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_account_password_view"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_content_copy_black_24dp" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton2"
+                        android:id="@+id/fab_account_password_view"
                         style="@style/FabActionSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
-                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton3"
+                        app:layout_constraintBottom_toBottomOf="@+id/fab_account_password_copy"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_account_edit"
                         app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
-                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+                        app:layout_constraintStart_toEndOf="@+id/fab_account_password_copy"
+                        app:layout_constraintTop_toTopOf="@+id/fab_account_password_copy"
                         app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton3"
+                        android:id="@+id/fab_account_edit"
                         style="@style/FabActionSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton2"
-                        app:layout_constraintEnd_toStartOf="@+id/floatingActionButton4"
-                        app:layout_constraintStart_toEndOf="@+id/floatingActionButton2"
-                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton2"
+                        app:layout_constraintBottom_toBottomOf="@+id/fab_account_password_view"
+                        app:layout_constraintEnd_toStartOf="@+id/fab_account_delete"
+                        app:layout_constraintStart_toEndOf="@+id/fab_account_password_view"
+                        app:layout_constraintTop_toTopOf="@+id/fab_account_password_view"
                         app:srcCompat="@drawable/ic_edit_black_24dp" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton4"
+                        android:id="@+id/fab_account_delete"
                         style="@style/FabActionSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton3"
+                        app:layout_constraintBottom_toBottomOf="@+id/fab_account_edit"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/floatingActionButton3"
-                        app:layout_constraintTop_toTopOf="@+id/floatingActionButton3"
+                        app:layout_constraintStart_toEndOf="@+id/fab_account_edit"
+                        app:layout_constraintTop_toTopOf="@+id/fab_account_edit"
                         app:srcCompat="@drawable/ic_delete_sweep_black_24dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

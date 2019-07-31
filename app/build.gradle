@@ -1,12 +1,10 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: "androidx.navigation.safeargs"
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply plugin: 'io.fabric'
 
 ext.anko_version = '0.10.8'
 
@@ -19,6 +17,9 @@ android {
         versionCode 1
         versionName "0.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions.annotationProcessorOptions {
+            arguments['dagger.android.experimentalUseStringKeys'] = 'true'
+        }
     }
     buildTypes {
         release {
@@ -28,21 +29,24 @@ android {
     }
     kapt {
         correctErrorTypes = true
+        arguments {
+            arg('dagger.android.experimentalUseStringKeys')
+        }
     }
     buildToolsVersion '28.0.3'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
-    implementation 'androidx.preference:preference:1.1.0-alpha02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.preference:preference:1.1.0-rc01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // Dagger2
-    def dagger_version = "2.16"
+    def dagger_version = "2.21"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
@@ -94,15 +98,22 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     // WorkManager
+    //implementation "android.arch.work:work-runtime-ktx:$work_version"
 
-    //    implementation "android.arch.work:work-runtime-ktx:$work_version"
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    // Play
+    implementation 'com.google.android.play:core:1.6.1'
 
     // Fuel
     implementation 'com.github.kittinunf.fuel:fuel-android:1.14.0'
 
     // Internet connection checker
 //    implementation 'com.treebo:internetavailabilitychecker:1.0.1'
-    
+
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // Jsoup
@@ -114,9 +125,17 @@ dependencies {
     // Android MDC
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.android.support:design:29.0.0'
+
+    // OSS Notices
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:3.0.7"
+
 }
 //kotlin {
 //    experimental {
 //        coroutines "error"
 //    }
 //}
+apply plugin: 'com.google.gms.google-services'

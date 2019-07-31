@@ -14,6 +14,7 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var displayName: String = repo.getDisplayName()
     var userPrefs = UserPrefs()
     val isLoading = MutableLiveData<Boolean>()
+    var loginAttempted = false
 
     lateinit var context: Context
     lateinit var view: View
@@ -32,9 +33,14 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
 
     fun updateUsage(usage: String) = repo.updateUsage(usage)
 
-    fun addUser(userName: String, password: String, isActiveAccount: Boolean) = repo.addAccount(userName, password, "", "", isActiveAccount)
+    fun addUser(userName: String, password: String, isActiveAccount: Boolean) =
+            repo.addAccount(
+                    userName, password,
+                    "", "",
+                    isActiveAccount
+            )
 
-    fun setPrimaryAccount(userName: String) = repo.setActiveUser(userName)
+    fun setPrimaryAccount(id: Int) = repo.setActiveUser(id)
 
     fun removeAccount(accountInfo: AccountInfo) = repo.removeAccount(accountInfo)
 

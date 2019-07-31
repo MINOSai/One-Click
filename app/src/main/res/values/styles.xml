@@ -1,17 +1,43 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 
-    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
+    <style name="AppTheme.LightTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="primaryActionColor">@color/colorPrimary</item>
+        <item name="secondaryActionColor">@color/colorThemeInputGrey</item>
+        <item name="aboutIconColor">@color/colorTextSecondary</item>
+        <item name="settingsIconColor">#000000</item>
+
+        <item name="fabActionTintColor">@color/colorBlueMuted50</item>
+        <item name="fabActionIconColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.DarkTheme" parent="Theme.MaterialComponents.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorBlueMuted</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+
+        <item name="primaryActionColor">@color/colorBlueMuted</item>
+        <item name="secondaryActionColor">?android:attr/colorButtonNormal</item>
+        <item name="aboutIconColor">?android:attr/textColorSecondary</item>
+        <item name="settingsIconColor">#ffffff</item>
+
+        <item name="fabActionTintColor">?android:attr/colorButtonNormal</item>
+        <item name="fabActionIconColor">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="OneclickInputStyle">
@@ -26,7 +52,7 @@
         <item name="android:layout_marginBottom">8dp</item>
 
         <item name="android:background">@drawable/shape_round_box</item>
-        <item name="android:backgroundTint">@color/colorThemeInputGrey</item>
+        <item name="android:backgroundTint">?attr/secondaryActionColor</item>
     </style>
 
     <style name="ButtonAction">
@@ -48,26 +74,58 @@
     </style>
 
     <style name="FabAction" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="backgroundTint">@color/colorBlueMuted</item>
-        <item name="android:tint">@color/colorPrimary</item>
+        <!--<item name="backgroundTint">@color/colorBlueMuted50</item>
+        <item name="android:tint">@color/colorPrimary</item>-->
+        <item name="backgroundTint">?attr/fabActionTintColor</item>
+        <item name="android:tint">?attr/fabActionIconColor</item>
     </style>
 
     <style name="FabActionSmall" parent="FabAction">
         <item name="fabSize">mini</item>
     </style>
 
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogTheme">
+        <item name="android:background">@drawable/bg_bottom_sheet_dialog_fragment</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+    <style name="BottomSheetDialogTheme.Light" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
         <!--<item name="android:navigationBarColor">@android:color/white</item>-->
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme.Dark" parent="@style/Theme.Design.BottomSheetDialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorBlueMuted</item>
+
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
 </resources>

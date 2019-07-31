@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="primaryActionColor" format="color" />
+    <attr name="secondaryActionColor" format="color"/>
+    <attr name="aboutIconColor" format="color"/>
+    <attr name="settingsIconColor" format="color"/>
+    <attr name="fabActionTintColor" format="color"/>
+    <attr name="fabActionIconColor" format="color"/>
+</resources>

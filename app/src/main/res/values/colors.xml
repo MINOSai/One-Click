@@ -3,7 +3,7 @@
     <!--<color name="colorPrimary">#44A8FF</color>-->
     <color name="colorPrimary">#0D70E1</color>
     <color name="colorPrimaryDark">#0D70E1</color>
-    <color name="colorAccent">#15C78D</color>
+    <color name="colorAccent">#0D70E1</color>
 
     <color name="blueGrey">#616161</color>
     <color name="blehGrey">#313131</color>
@@ -11,6 +11,7 @@
     <color name="colorActionGrey">#F7F7F7</color>
     <color name="colorSuccess">#15E6A2</color>
     <color name="colorThemeBlue">#25CCFF</color>
+    <color name="colorThemeGreen">#15C78D</color>
     <color name="colorYellow">#ffe043</color>
     <color name="colorActiveAccount">#2ABF35</color>
     <color name="colorActiveInfo">#15E6CD</color>
@@ -19,7 +20,8 @@
     <color name="colorThemeInputGrey">#F5F5F5</color>
     <color name="colorActionRed">#FF6872</color>
     <color name="colorTextSecondary">#757575</color>
-    <color name="colorBlueMuted">#E3F2FD</color>
+    <color name="colorBlueMuted50">#E3F2FD</color>
+    <color name="colorBlueMuted">#649EFF</color>
 
     <color name="spacer_grey">#e0e0e0</color>
 

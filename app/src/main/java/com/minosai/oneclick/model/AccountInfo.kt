@@ -5,9 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class AccountInfo (
-        @PrimaryKey var username: String,
+        var username: String,
         var password: String,
         var usage: String,
         var renewalDate: String,
         var isActiveAccount: Boolean
-)
+) {
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
+}

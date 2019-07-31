@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -16,10 +15,11 @@ import androidx.navigation.findNavController
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
-import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+
+
 
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -33,14 +33,25 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setTheme()
         setContentView(R.layout.activity_main)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            addAppShortcut()
+//            addAppShortcut()
         }
 
         checkFirstTime()
 
+    }
+
+    private fun setTheme() {
+        val isDarkTheme = preferences[Constants.PREF_DARK_THEME, false] ?: false
+        if (isDarkTheme) {
+            setTheme(R.style.AppTheme_DarkTheme)
+        } else {
+            setTheme(R.style.AppTheme_LightTheme)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -49,7 +60,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 .setShortLabel("Login/Logout")
                 .setLongLabel("Login or Logout")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_login))
-                .setIntent(Intent(LoginLogoutBroadcastHelper.LOGIN_LOGOUT_ACTION, Uri.EMPTY, this, LoginLogoutReceiver::class.java))
+                .setIntent(Intent(LoginLogoutBroadcastHelper.LOGIN_LOGOUT_ACTION))
                 .build()
 
         val shortcutManager = getSystemService(ShortcutManager::class.java)
@@ -89,5 +100,14 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             }
         }
         super.onBackPressed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        supportFragmentManager.findFragmentById(R.id.fragment_nav_host)
+                ?.childFragmentManager
+                ?.fragments?.forEach {
+            it.onActivityResult(requestCode, resultCode, data)
+        }
     }
 }

@@ -27,15 +27,16 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     }
 
     fun addAccount(userName: String, password: String, usage: String, renewalDate: String, isActiveAccount: Boolean) {
+        val newAccount = AccountInfo(userName, password, usage, renewalDate, isActiveAccount)
         GlobalScope.launch {
-            dao.addAccount(AccountInfo(userName, password, usage, renewalDate, isActiveAccount))
+             dao.addAccount(newAccount)
         }
-        if (isActiveAccount) {
-            setUser(userName, password)
-        }
+//        if (isActiveAccount) {
+//            setUser(userName, password, newAccount.id)
+//        }
     }
 
-    fun setUser(userName: String, password: String) {
+    fun setUser(userName: String, password: String, id: Int) {
 
         preferences.edit()
                 .putString(Constants.PREF_USERNAME, userName)
@@ -44,14 +45,14 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
 
         GlobalScope.launch {
             dao.resetAccounts()
-            dao.setActiveAccount(userName)
+            dao.setActiveAccount(id)
         }
     }
 
-    fun setActiveUser(userName: String) {
+    fun setActiveUser(id: Int) {
         GlobalScope.launch {
             dao.resetAccounts()
-            dao.setActiveAccount(userName)
+            dao.setActiveAccount(id)
         }
     }
 
@@ -108,12 +109,11 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         dao.deleteAccounts(accountInfo)
     }
 
-    fun getUserPrefs() = with(UserPrefs()) {
+    fun getUserPrefs() = UserPrefs().apply {
         displayName = preferences[Constants.PREF_DISPLAY_NAME] ?: "User"
-        loginAppStart = preferences["auto_login_app_start"] ?: false
-        loginQsTile = preferences["auto_login_quicktile"] ?: false
+        loginAppStart = preferences[Constants.PREF_LOGIN_APP_START] ?: false
+        loginQsTile = preferences[Constants.PREF_LOGIN_QS_TILE] ?: false
         autoRefresh = preferences["auto_refresh"] ?: false
-        return@with this
     }
 
     fun updateAccountInfo(accountInfo: AccountInfo) {

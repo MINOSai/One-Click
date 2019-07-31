@@ -6,6 +6,7 @@
     android:id="@+id/coordinator_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,29 +39,44 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:lines="1"
                     android:maxLines="1"
-                    android:text="Hello, minosai"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/button_settings"
+                    app:layout_constraintEnd_toStartOf="@+id/main_icon_inappupdate"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Hello, Minosai" />
 
-                <ImageView
-                    android:id="@+id/button_settings"
+                <com.minosai.oneclick.util.InAppUpdateImageView
+                    android:id="@+id/main_icon_inappupdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    android:tint="@color/black"
+                    android:foreground="@drawable/bg_ripple"
+                    android:padding="8dp"
+                    android:tint="?android:attr/textColorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_home_displayname"
+                    app:layout_constraintEnd_toStartOf="@+id/main_icon_info"
+                    app:layout_constraintTop_toTopOf="@+id/text_home_displayname"
+                    app:srcCompat="@drawable/ic_google_play" />
+
+                <ImageView
+                    android:id="@+id/main_icon_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:foreground="@drawable/bg_ripple"
+                    android:padding="8dp"
+                    android:tint="?android:attr/textColorPrimary"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/text_home_displayname"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/text_home_displayname"
-                    app:srcCompat="@drawable/ic_settings" />
+                    app:srcCompat="@drawable/ic_information" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,7 +94,6 @@
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
                     android:text="Settings"
-                    android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/fab_action_settings"
                     app:layout_constraintStart_toStartOf="@+id/fab_action_settings"
@@ -105,7 +122,6 @@
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
                     android:text="Add Account"
-                    android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/fab_action_newacc"
                     app:layout_constraintStart_toStartOf="@+id/fab_action_newacc"
@@ -131,7 +147,6 @@
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
                     android:text="Incognito"
-                    android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/fab_action_incognito"
                     app:layout_constraintStart_toStartOf="@+id/fab_action_incognito"
@@ -185,7 +200,7 @@
                     android:clickable="true"
                     android:tint="@color/colorPrimary"
                     android:visibility="gone"
-                    app:backgroundTint="@color/colorBlueMuted"
+                    app:backgroundTint="@color/colorBlueMuted50"
                     app:fabSize="mini"
                     app:layout_constraintEnd_toStartOf="@+id/fab_action_incognito"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -209,12 +224,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/main_view_loading"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/main_wifi_loading_anim"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Loading"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
                 android:visibility="gone"
+                app:lottie_autoPlay="false"
+                app:lottie_colorFilter="?attr/fabActionIconColor"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading_animation"
                 tools:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -235,6 +255,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:paddingBottom="8dp"
         app:layout_dodgeInsetEdges="bottom">

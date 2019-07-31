@@ -4,10 +4,12 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import android.content.BroadcastReceiver
+import android.content.SharedPreferences
 import com.minosai.oneclick.di.AppInjector
-import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
-import com.minosai.oneclick.network.WebService
-import dagger.android.*
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.HasBroadcastReceiverInjector
+import dagger.android.HasServiceInjector
 import javax.inject.Inject
 
 class OneClickApp : Application(), HasActivityInjector, HasBroadcastReceiverInjector, HasServiceInjector {
@@ -18,6 +20,8 @@ class OneClickApp : Application(), HasActivityInjector, HasBroadcastReceiverInje
     lateinit var broadcastReceiverInjector: DispatchingAndroidInjector<BroadcastReceiver>
     @Inject
     lateinit var serviceInjector: DispatchingAndroidInjector<Service>
+    @Inject
+    lateinit var preferences: SharedPreferences
 
     override fun activityInjector() = dispatchingAndroidInjector
 
@@ -30,7 +34,7 @@ class OneClickApp : Application(), HasActivityInjector, HasBroadcastReceiverInje
 //        initDagger()
         AppInjector.init(this)
 
-        LoginLogoutBroadcastHelper.sendLoginLogoutBroadcast(this, WebService.Companion.RequestType.LOGOUT)
+//        LoginLogoutBroadcastHelper.sendLoginLogoutBroadcast(this, WebService.Companion.RequestType.LOGOUT)
     }
 
 }

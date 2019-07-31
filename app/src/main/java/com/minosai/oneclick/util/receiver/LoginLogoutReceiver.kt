@@ -4,19 +4,22 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
+import android.net.wifi.WifiManager
+import androidx.core.app.NotificationCompat
 import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.network.WebService.Companion.RequestType
-import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.Constants.EXTRA_TYPE
 import com.minosai.oneclick.util.RepoInterface
-import com.minosai.oneclick.util.getSSID
 import com.minosai.oneclick.util.listener.LoginLogoutListener
-import com.minosai.oneclick.util.receiver.WifiReceiver.Companion.SSID_LIST
+import com.minosai.oneclick.util.notification.NotificationUtil
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+
 
 class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
 
@@ -27,58 +30,88 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
     @Inject
     lateinit var repoInterface: RepoInterface
 
-    val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
+    lateinit var builder: NotificationCompat.Builder
+    lateinit var context: Context
+
+    val TAG = javaClass.simpleName
+
+    val listener: LoginLogoutListener = object : LoginLogoutListener {
+        override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
+            builder.setContentText(responseString)
+                    .setProgress(0, 0, false)
+            NotificationUtil.notify(context, builder.build(), NotificationUtil.LOGIN_NOTIF_TAG)
+        }
+    }
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
         AndroidInjection.inject(this, context)
 
+        var requestType: RequestType? = null
+
+        try {
+            requestType = intent?.getSerializableExtra(EXTRA_TYPE) as RequestType
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         // TODO: start widget loading
         context?.let {
-            isWifiConnected(it)
+            this.context = it
+
+            if (isWifiConnected(it)) {
+
+                var title = "WiFi login"
+                var message = "Logging in..."
+
+
+                if (requestType != null && requestType == RequestType.LOGOUT) {
+                    logout()
+                    title = "WiFI logout"
+                    message = "Logging out..."
+                } else {
+                    login()
+                }
+
+                builder =  NotificationUtil.getBaseBuilder(it, title, message)
+                builder.setProgress(0, 0, true)
+                NotificationUtil.notify(it, builder.build(), NotificationUtil.LOGIN_NOTIF_TAG)
+            }
         }
+    }
+
+    private fun isWifiConnected(context: Context): Boolean {
+        val wifiMgr = context.applicationContext
+                ?.getSystemService(Context.WIFI_SERVICE) as WifiManager?
+
+        return if (wifiMgr?.isWifiEnabled == true) {
+            val wifiInfo = wifiMgr.connectionInfo
+            wifiInfo.networkId != -1
+        } else {
+            false
+        }
+    }
+
+    private fun login() {
+        GlobalScope.launch {
+            val account = repoInterface.getActiveAccount()
+            withContext(Dispatchers.Main) {
+                webService.login(listener, account.username, account.password)
+            }
+        }
+    }
+
+    private fun logout() {
+        webService.logout(listener)
     }
 
     override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
-        //TODO: stop widget loading
-        if (requestType == RequestType.LOGIN && isLogged && repoInterface.isAutoUpdateUsage) {
-            webService.getUsage {  usage ->
-                repoInterface.updateUsage(usage)
-            }
-        }
+        showNotification(responseString)
     }
 
-    private fun isWifiConnected(context: Context) {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info: NetworkInfo = connectivityManager.activeNetworkInfo
-        if (info.isConnected) {
-            val ssid = info.extraInfo ?: context.getSSID()
-            if (ssid != null && ssid in SSID_LIST) {
-                checkInternet()
-            } else {
-                checkProntoNetworks(info.extraInfo)
-            }
-        }
-    }
-
-    private fun checkProntoNetworks(ssid: String?) {
-        "http://phc.prontonetworks.com/".httpGet().response { request, response, result ->
-            if (result is Result.Success) {
-                checkInternet()
-            }
-        }
-    }
-
-    private fun checkInternet() {
-//        "https://www.example.com".httpGet().timeout(500).response { _, _, result ->
-//            when(result) {
-//                is Result.Failure -> {
-//                    webService.login(this, repoInterface.activeAccount.username, repoInterface.activeAccount.password)
-//                }
-//                is Result.Success -> {
-//                    webService.logout(this)
-//                }
-//            }
-//        }
+    private fun showNotification(responseString: String) {
+        builder.setContentText(responseString)
+                .setProgress(0, 0, false)
+        NotificationUtil.notify(context, builder.build(), NotificationUtil.LOGIN_NOTIF_TAG)
     }
 }

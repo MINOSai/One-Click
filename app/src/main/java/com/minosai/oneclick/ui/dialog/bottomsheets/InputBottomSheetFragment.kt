@@ -36,47 +36,69 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
-        when(action) {
+        when (action) {
             Constants.SheetAction.NEW_ACCOUNT -> view.text_input_sheet.text = "New account"
             Constants.SheetAction.INCOGNITO -> view.text_input_sheet.text = "Incognito"
             Constants.SheetAction.EDIT_ACCOUNT -> {
                 view.text_input_sheet.text = "Edit account"
-                view.input_newuser_username.setText(accountInfo?.username)
-                view.input_newuser_password.setText(accountInfo?.password)
+                view.input_newuser_username.editText?.setText(accountInfo?.username)
+                view.input_newuser_password.editText?.setText(accountInfo?.password)
             }
         }
 
         view.button_newuser_cancel.setOnClickListener { dismiss() }
 
         view.button_newuser_done.setOnClickListener {
-            //TODO: validate inputs
-            listener?.onSheetResponse(
-                    view.input_newuser_username.text.toString(),
-                    view.input_newuser_password.text.toString(),
-                    false, action, accountInfo
-            )
-            view.input_newuser_username.setText("")
-            view.input_newuser_password.setText("")
-            dismiss()
+            val userName = view.input_newuser_username.editText?.text.toString()
+            val password = view.input_newuser_password.editText?.text.toString()
+
+            if (isValidInput(view, userName, password)) {
+                listener?.onSheetResponse(userName, password,
+                        false, action, accountInfo
+                )
+                view.input_newuser_username.editText?.setText("")
+                view.input_newuser_password.editText?.setText("")
+                dismiss()
+            }
         }
 
         return view
     }
 
+    private fun isValidInput(view: View, userName: String, password: String): Boolean {
+        var valid = true
+
+        if (userName.isBlank()) {
+            view.input_newuser_username.error = "Cannot be blank"
+            valid = false
+        } else {
+            view.input_newuser_username.error = null
+        }
+
+        if (password.isBlank()) {
+            view.input_newuser_password.error = "Cannot be blank"
+            valid = false
+        } else {
+            view.input_newuser_password.error = null
+        }
+
+        return valid
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (action == Constants.SheetAction.EDIT_ACCOUNT && input_newuser_username.text.isNullOrEmpty()) {
-            input_newuser_username.setText(accountInfo?.username)
-            input_newuser_password.setText(accountInfo?.password)
+        if (action == Constants.SheetAction.EDIT_ACCOUNT && input_newuser_username.editText?.text.isNullOrEmpty()) {
+            input_newuser_username.editText?.setText(accountInfo?.username)
+            input_newuser_password.editText?.setText(accountInfo?.password)
         }
     }
 
     override fun onDestroyView() {
         accountInfo = null
         listener = null
-        view?.input_newuser_username?.setText("")
-        view?.input_newuser_password?.setText("")
+        view?.input_newuser_username?.editText?.setText("")
+        view?.input_newuser_password?.editText?.setText("")
         super.onDestroyView()
     }
 }

@@ -2,12 +2,12 @@ package com.minosai.oneclick.ui.widget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
-import android.content.*
+import android.content.Context
+import android.content.SharedPreferences
 import android.widget.RemoteViews
 import com.minosai.oneclick.R
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
-import com.minosai.oneclick.network.WebService
 
 /**
  * Implementation of App Widget functionality.
@@ -15,10 +15,9 @@ import com.minosai.oneclick.network.WebService
 class OneClickWidget :
         AppWidgetProvider() {
 
-    val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
+    val TAG = javaClass.simpleName
 
     private lateinit var preferences: SharedPreferences
-    private lateinit var webService: WebService
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
