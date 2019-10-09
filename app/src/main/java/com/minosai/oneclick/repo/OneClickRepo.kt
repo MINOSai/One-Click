@@ -86,8 +86,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     fun getSessionLink(): String? = preferences[Constants.PREF_SESSION_LINK]
 
     fun isAutoUpdateUsage(): Boolean {
-        // TODO: Change default value to false
-        return preferences[Constants.PREF_AUTOUPDATE_USAGE, true] ?: true
+        return preferences[Constants.PREF_AUTOUPDATE_USAGE, true] ?: false
     }
 
     fun setAutoUpdateUsage(boolean: Boolean) {
@@ -110,7 +109,7 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
     }
 
     fun getUserPrefs() = UserPrefs().apply {
-        displayName = preferences[Constants.PREF_DISPLAY_NAME] ?: "User"
+        displayName = preferences[Constants.PREF_DISPLAY_NAME] ?: "VITian"
         loginAppStart = preferences[Constants.PREF_LOGIN_APP_START] ?: false
         loginQsTile = preferences[Constants.PREF_LOGIN_QS_TILE] ?: false
         autoRefresh = preferences["auto_refresh"] ?: false

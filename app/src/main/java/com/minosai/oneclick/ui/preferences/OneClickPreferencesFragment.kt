@@ -7,9 +7,9 @@ import androidx.navigation.Navigation.findNavController
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.minosai.oneclick.MainActivity
 import com.minosai.oneclick.R
+import com.minosai.oneclick.util.Constants
 
 class OneClickPreferencesFragment : PreferenceFragmentCompat() {
 
@@ -26,6 +26,37 @@ class OneClickPreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
+//        val ratePreference = findPreference<Preference>("rate")
+//        ratePreference?.setOnPreferenceClickListener {
+//            try {
+//                startActivity(Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse("market://details?id=${Constants.PACKAGE_NAME}")
+//                ))
+//            } catch (anfe: android.content.ActivityNotFoundException) {
+//                startActivity(Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse(Constants.PLAY_STORE_URL)
+//                ))
+//            }
+//            true
+//        }
+
+        val sharePreference = findPreference<Preference>("share")
+        sharePreference?.setOnPreferenceClickListener {
+            val shareBody = "Hey check out this app which I use to login to VIT WiFi " +
+                    Constants.PLAY_STORE_URL
+
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "OneClick - WiFi login app")
+                putExtra(Intent.EXTRA_TEXT, shareBody)
+            }
+
+            startActivity(Intent.createChooser(intent, "Share using"))
+            true
+        }
+
         val aboutPreference = findPreference<Preference>("about")
         aboutPreference?.setOnPreferenceClickListener {
             findNavController(
@@ -35,11 +66,11 @@ class OneClickPreferencesFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val licensePreference = findPreference<Preference>("license")
-        licensePreference?.setOnPreferenceClickListener {
-            startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
-            true
-        }
+//        val licensePreference = findPreference<Preference>("license")
+//        licensePreference?.setOnPreferenceClickListener {
+//            startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
+//            true
+//        }
     }
 
 }

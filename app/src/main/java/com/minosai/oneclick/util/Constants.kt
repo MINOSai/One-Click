@@ -2,29 +2,31 @@ package com.minosai.oneclick.util
 
 object Constants {
 
-    val PACKAGE_NAME = "com.minosai.oneclick"
-    val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=$PACKAGE_NAME"
+    const val PACKAGE_NAME = "com.minosai.oneclick"
+    const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=$PACKAGE_NAME"
 
-    val PREF_KEY = "$PACKAGE_NAME.pref"
+    const val PREF_KEY = "$PACKAGE_NAME.pref"
 
-    val PREF_USERNAME = "$PACKAGE_NAME.pref.username"
-    val PREF_PASSWORD = "$PACKAGE_NAME.pref.password"
-    val PREF_IS_FIRST_TIME = "$PACKAGE_NAME.pref.isfirsttime"
-    val PREF_DISPLAY_NAME = "display_name"
-    val PREF_SESSION_LINK = "$PACKAGE_NAME.pref.sessionlink"
-    val PREF_AUTOUPDATE_USAGE = "$PACKAGE_NAME.pref.autoupdateusage"
-    val PREF_LOGIN_APP_START = "auto_login_app_start"
-    val PREF_LOGIN_QS_TILE = "auto_login_quicktile"
-    val PREF_DARK_THEME = "dark_theme"
+    const val PREF_USERNAME = "$PACKAGE_NAME.pref.username"
+    const val PREF_PASSWORD = "$PACKAGE_NAME.pref.password"
+    const val PREF_IS_FIRST_TIME = "$PACKAGE_NAME.pref.isfirsttime"
+    const val PREF_DISPLAY_NAME = "display_name"
+    const val PREF_SESSION_LINK = "$PACKAGE_NAME.pref.sessionlink"
+    const val PREF_AUTOUPDATE_USAGE = "$PACKAGE_NAME.pref.autoupdateusage"
+    const val PREF_LOGIN_APP_START = "auto_login_app_start"
+    const val PREF_LOGIN_QS_TILE = "auto_login_quicktile"
+    const val PREF_DARK_THEME = "dark_theme"
 
-    val EXTRA_TYPE = "${Constants.PACKAGE_NAME}.extra.REQUEST_TYPE"
+    const val EXTRA_TYPE = "$PACKAGE_NAME.extra.REQUEST_TYPE"
 
-    val URL_LOGIN = "http://phc.prontonetworks.com/cgi-bin/authlogin"
-    val URL_LOGOUT = "http://phc.prontonetworks.com/cgi-bin/authlogout"
+    const val URL_LOGIN = "http://phc.prontonetworks.com/cgi-bin/authlogin"
+    const val URL_LOGOUT = "http://phc.prontonetworks.com/cgi-bin/authlogout"
 
-    val DB_NAME = "oneclickdatabase.db"
+    const val DB_NAME = "oneclickdatabase.db"
 
-    val REQUEST_TIMEOUT = 5000
+    const val REQUEST_TIMEOUT = 5000
+
+    const val LOGIN_LOGOUT_ACTION = "$PACKAGE_NAME.action.LOGIN_LOGOUT_ACTION"
 
     enum class SheetAction {
         NEW_ACCOUNT, INCOGNITO, EDIT_ACCOUNT
@@ -35,14 +37,14 @@ object Constants {
     }
 
     object Response {
-        val LOGIN_SUCCESS = "Successful Pronto Authentication"
-        val LOGIN_ALREADY = "Already logged in"
-        val LOGIN_INVALID_CREDS1 = "please check your username and password and try again"
-        val LOGIN_INVALID_CREDS2 = "password was not accepted"
-        val LOGIN_NO_ACCOUNT = "that account does not exist"
+        const val LOGIN_SUCCESS = "Successful Pronto Authentication"
+        const val LOGIN_ALREADY = "Already logged in"
+        const val LOGIN_INVALID_CREDS1 = "please check your username and password and try again"
+        const val LOGIN_INVALID_CREDS2 = "password was not accepted"
+        const val LOGIN_NO_ACCOUNT = "that account does not exist"
 
-        val LOGOUT_SUCCESS = "Logout successful"
-        val LOGOUT_ALREADY = "No active session"
+        const val LOGOUT_SUCCESS = "Logout successful"
+        const val LOGOUT_ALREADY = "No active session"
     }
 
 }

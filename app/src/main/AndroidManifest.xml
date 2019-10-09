@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
 
     <application
         android:name=".OneClickApp"
@@ -35,11 +36,10 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
-        <!-- TODO: Move this inside MainActivity so that it can be version checked -->
         <service
             android:name=".util.service.OneClickTileService"
             android:icon="@drawable/ic_login"
-            android:label="One Click"
+            android:label="Login"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">

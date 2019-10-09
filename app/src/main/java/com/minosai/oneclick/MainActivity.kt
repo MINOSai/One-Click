@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.minosai.oneclick.util.Constants
-import com.minosai.oneclick.util.helper.LoginLogoutBroadcastHelper
 import com.minosai.oneclick.util.helper.PreferenceHelper.get
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 .setShortLabel("Login/Logout")
                 .setLongLabel("Login or Logout")
                 .setIcon(Icon.createWithResource(this, R.drawable.ic_login))
-                .setIntent(Intent(LoginLogoutBroadcastHelper.LOGIN_LOGOUT_ACTION))
+                .setIntent(Intent(Constants.LOGIN_LOGOUT_ACTION))
                 .build()
 
         val shortcutManager = getSystemService(ShortcutManager::class.java)

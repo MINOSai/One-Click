@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.minosai.oneclick.R
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.util.Constants
+import com.minosai.oneclick.util.hideKeyboard
 import com.minosai.oneclick.util.listener.InputSheetListener
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_input.*
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_input.view.*
@@ -37,16 +38,26 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         when (action) {
-            Constants.SheetAction.NEW_ACCOUNT -> view.text_input_sheet.text = "New account"
-            Constants.SheetAction.INCOGNITO -> view.text_input_sheet.text = "Incognito"
+            Constants.SheetAction.NEW_ACCOUNT -> {
+                view.text_input_sheet.text = "New account"
+                view.button_newuser_done.text = "Add"
+            }
+            Constants.SheetAction.INCOGNITO -> {
+                view.text_input_sheet.text = "Incognito"
+                view.button_newuser_done.text = "Login"
+            }
             Constants.SheetAction.EDIT_ACCOUNT -> {
                 view.text_input_sheet.text = "Edit account"
+                view.button_newuser_done.text = "Save"
                 view.input_newuser_username.editText?.setText(accountInfo?.username)
                 view.input_newuser_password.editText?.setText(accountInfo?.password)
             }
         }
 
-        view.button_newuser_cancel.setOnClickListener { dismiss() }
+        view.button_newuser_cancel.setOnClickListener {
+            hideKeyboard()
+            dismiss()
+        }
 
         view.button_newuser_done.setOnClickListener {
             val userName = view.input_newuser_username.editText?.text.toString()
@@ -58,6 +69,7 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
                 )
                 view.input_newuser_username.editText?.setText("")
                 view.input_newuser_password.editText?.setText("")
+                hideKeyboard()
                 dismiss()
             }
         }

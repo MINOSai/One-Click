@@ -45,9 +45,7 @@ class WifiReceiver() : BroadcastReceiver() {
                 val info = intent.getParcelableExtra<NetworkInfo>(WifiManager.EXTRA_NETWORK_INFO)
                 Log.i(TAG, "isConnected : ${info.isConnected} to network: ${info.extraInfo}")
 
-//                //TODO: auto login based on user preference - do it in main fragment
 //                if (info.isConnected) {
-//                    //TODO: What if SSID is not checked?
 //                    val ssid = info?.extraInfo ?: context?.getSSID()
 //                    if (ssid != null && ssid in SSID_LIST) {
 //                        wifiConnectivityListener?.onWifiStateChanged(true, ssid)

@@ -1,7 +1,7 @@
 package com.minosai.oneclick.ui.dialog.bottomsheets
 
-import android.app.Dialog
 import android.os.Bundle
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.minosai.oneclick.R
@@ -25,6 +25,12 @@ open class RoundedBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?)
+            = BottomSheetDialog(requireContext(), theme)
 
 }

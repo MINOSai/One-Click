@@ -29,7 +29,7 @@ class InfoFragment : Fragment() {
 
         val qsTileAdapter = InfoNumberAdapter(listOf(
                 "Open Quick Settings (Expand notification panel).",
-                "Tap the PENCIL icon (or if you’re using a Samsung device, the 3 vertical dot icon -> edit/reorder).",
+                "Tap the PENCIL icon (This will vary for different manufacturers).",
                 "Tap and drag 'One Click' setting to where you want it."
         ))
 

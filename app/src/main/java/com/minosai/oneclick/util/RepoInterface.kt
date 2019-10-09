@@ -30,7 +30,7 @@ class RepoInterface @Inject constructor(val repo: OneClickRepo) {
 
     fun updateUsage(usage: String) = repo.updateUsage(usage)
 
-    fun updateAccounts() = repo.fetchAccounts()
+//    fun updateAccounts() = repo.fetchAccounts()
 
     fun getActiveAccount() = repo.getActiveAccountFromDb()
 

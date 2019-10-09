@@ -55,7 +55,7 @@ class LoginLogoutReceiver : BroadcastReceiver(), LoginLogoutListener {
             e.printStackTrace()
         }
 
-        // TODO: start widget loading
+//         TODO: start widget loading
         context?.let {
             this.context = it
 

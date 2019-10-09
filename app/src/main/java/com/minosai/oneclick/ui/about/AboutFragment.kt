@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.minosai.oneclick.R
 import com.minosai.oneclick.util.Constants
 import kotlinx.android.synthetic.main.fragment_about.view.*
@@ -65,6 +66,10 @@ class AboutFragment : Fragment() {
                 }
 
                 startActivity(Intent.createChooser(intent, "Share using"))
+            }
+
+            about_license.setOnClickListener {
+                startActivity(Intent(activity, OssLicensesMenuActivity::class.java))
             }
 
             about_member_yaswant.setOnClickListener {
