@@ -455,6 +455,14 @@
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="@string/made_in_vit" />
+
+            <TextView
+                android:id="@+id/text_about_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                android:text="Version: 0.9.2" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

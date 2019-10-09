@@ -23,20 +23,18 @@ class InAppUpdateImageView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : AppCompatImageView(context, attrs, defStyleAttr), View.OnClickListener {
 
-    private val requestCode = 1234
+    private val requestCode = 4599
     private val tag = this.javaClass.simpleName
 
     private var isUpdateAvailable = false
 
-    private var appUpdateManager: AppUpdateManager? = null
-    private var appUpdateInfoTask: Task<AppUpdateInfo>? = null
+    private lateinit var appUpdateManager: AppUpdateManager
+    private lateinit var appUpdateInfoTask: Task<AppUpdateInfo>
 
     private val listener = InstallStateUpdatedListener { state ->
         Log.d(tag, "InstallState: $state")
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
-            if (appUpdateManager != null) {
-                requestUserToInstallUpdate()
-            }
+            requestUserToInstallUpdate()
         }
     }
 
@@ -52,17 +50,14 @@ class InAppUpdateImageView @JvmOverloads constructor(
             return null
         }
 
-    init {
-        appUpdateManager = AppUpdateManagerFactory.create(context)
-    }
-
     private fun checkForUpdate() {
-        appUpdateInfoTask = appUpdateManager!!.appUpdateInfo
+        appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        appUpdateInfoTask!!.addOnSuccessListener { appUpdateInfo ->
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             Log.d(tag, "checkForUpdate: $appUpdateInfo")
 
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
                 // Request the update.
                 showUpdateAnimation()
             }
@@ -85,8 +80,8 @@ class InAppUpdateImageView @JvmOverloads constructor(
 
     private fun startFlexibleUpdateFlow() {
         try {
-            appUpdateManager!!.startUpdateFlowForResult(
-                    appUpdateInfoTask!!.result,
+            appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfoTask.result,
                     AppUpdateType.FLEXIBLE,
                     activity,
                     requestCode
@@ -103,7 +98,7 @@ class InAppUpdateImageView @JvmOverloads constructor(
         alertDialog.setTitle("Update available")
         alertDialog.setMessage("An update is available. Install now?")
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES") { _, _ ->
-            appUpdateManager!!.completeUpdate()
+            appUpdateManager.completeUpdate()
         }
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No") { dialog, _ ->
             dialog.dismiss()
@@ -113,7 +108,7 @@ class InAppUpdateImageView @JvmOverloads constructor(
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        appUpdateManager!!.unregisterListener(listener)
+        appUpdateManager.unregisterListener(listener)
     }
 
     override fun onAttachedToWindow() {
@@ -122,10 +117,9 @@ class InAppUpdateImageView @JvmOverloads constructor(
         visibility = View.GONE
         setOnClickListener(this)
 
-        if (appUpdateManager != null) {
-            appUpdateManager!!.registerListener(listener)
-            checkForUpdate()
-        }
+        appUpdateManager = AppUpdateManagerFactory.create(context)
+        appUpdateManager.registerListener(listener)
+        checkForUpdate()
     }
 
     /**
@@ -137,9 +131,7 @@ class InAppUpdateImageView @JvmOverloads constructor(
             if (resultCode != Activity.RESULT_OK) {
                 // update cancelled or failed
                 visibility = View.GONE
-                if (appUpdateManager != null) {
-                    appUpdateManager!!.unregisterListener(listener)
-                }
+                appUpdateManager.unregisterListener(listener)
             }
         }
     }

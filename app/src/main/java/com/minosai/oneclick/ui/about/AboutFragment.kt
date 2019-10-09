@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
+import com.minosai.oneclick.BuildConfig
 import com.minosai.oneclick.R
 import com.minosai.oneclick.util.Constants
 import kotlinx.android.synthetic.main.fragment_about.view.*
@@ -23,11 +24,14 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.toolbar_about_fragment.setNavigationOnClickListener {
-            Navigation.findNavController(it).popBackStack()
-        }
 
         with(view) {
+
+            toolbar_about_fragment.setNavigationOnClickListener {
+                Navigation.findNavController(it).popBackStack()
+            }
+
+            text_about_version.text = "Version: ${BuildConfig.VERSION_NAME}"
 
             about_social_telegram.setOnClickListener {
                 openUrl("https://t.me/joinchat/GRJ3QhK-ZkFPCAiOOjaCkQ")
