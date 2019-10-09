@@ -7,10 +7,10 @@ import com.minosai.oneclick.util.notification.NotificationUtil
 
 class FcmService : FirebaseMessagingService() {
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        remoteMessage?.let {
+        remoteMessage.let {
             val body = it.notification?.body ?: ""
             val title = it.notification?.title ?: "One Click"
 

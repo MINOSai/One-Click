@@ -10,7 +10,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
         <EditTextPreference
             app:key="display_name"
             app:icon="@drawable/ic_account_outline"
-            app:title="Display name"/>
+            app:title="Nickname"/>
 
         <SwitchPreferenceCompat
             app:key="dark_theme"
@@ -21,35 +21,45 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         app:key="login_category"
-        app:title="Login">
+        app:title="Quick login">
 
         <SwitchPreferenceCompat
             app:key="auto_login_app_start"
-            app:title="Login when app starts"
+            app:title="Auto-Login"
             app:icon="@drawable/ic_login"
-            app:summary="Automatically attempt to login when app opens"/>
+            app:summary="Automatically login when you open the app"/>
 
         <SwitchPreferenceCompat
             app:key="auto_login_quicktile"
-            app:title="Auto login in quick setting tile"
+            app:title="Quick setting tile"
             app:icon="@drawable/ic_login"
-            app:summary="Automatically attempt to login in quick setting tile"/>
+            app:summary="Automatically login within your notification drawer"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="other_category"
-        app:title="Other">
+        app:key="other_category">
+
+        <!--<Preference-->
+            <!--app:key="rate"-->
+            <!--app:icon="@drawable/ic_google_play"-->
+            <!--app:title="Rate us"-->
+            <!--app:summary="Share your love and support on Google Play Store"/>-->
+
+        <Preference
+            app:key="share"
+            app:icon="@drawable/ic_share_variant"
+            app:title="Share this app"/>
 
         <Preference
             app:key="about"
             app:icon="@drawable/ic_about_outline"
             app:title="About"/>
 
-        <Preference
-            app:key="license"
-            app:icon="@drawable/ic_code_braces"
-            app:title="License"/>
+        <!--<Preference-->
+            <!--app:key="license"-->
+            <!--app:icon="@drawable/ic_code_braces"-->
+            <!--app:title="License"/>-->
 
 
     </PreferenceCategory>

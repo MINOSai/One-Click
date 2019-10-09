@@ -224,6 +224,33 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <LinearLayout
+                android:id="@+id/main_layout_alert"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="24dp"
+                android:background="?attr/fabActionTintColor"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/main_text_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_signal_off"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="Please trun off mobile data"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="?attr/fabActionIconColor" />
+            </LinearLayout>
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/main_wifi_loading_anim"
                 android:layout_width="match_parent"
@@ -242,8 +269,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingBottom="75dp"
+                tools:itemCount="1"
                 tools:listitem="@layout/item_account_layout" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="100dp"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="64dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Before you login," />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="• Turn off mobile data" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="• Check if you are connected to VIT WiFi" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -24,31 +24,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Note"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_info_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="4" />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider" />
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <TextView
                 android:id="@+id/textView12"
@@ -68,7 +45,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                app:srcCompat="@drawable/img_qstile" />
+                app:srcCompat="@drawable/quick_setting_tile" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_info_qstile"
@@ -108,6 +85,31 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 tools:itemCount="4" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Note"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_info_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="4" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

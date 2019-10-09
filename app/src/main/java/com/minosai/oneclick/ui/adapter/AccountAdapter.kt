@@ -38,7 +38,6 @@ class AccountAdapter(
                 account: AccountInfo?,
                 listener: (Constants.AccountAction, AccountInfo) -> Unit
         ) = with(itemView) {
-            // TODO: setup views
             account?.let { accountInfo ->
 
                 text_account_id.text = accountInfo.username

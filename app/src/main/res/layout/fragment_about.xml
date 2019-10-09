@@ -238,7 +238,8 @@
                         android:id="@+id/about_dev_share"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="?attr/selectableItemBackground">
+                        android:background="?attr/selectableItemBackground"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/imageView3333"
@@ -279,6 +280,52 @@
                                 android:text="Share this app with your friends" />
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/about_license"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:id="@+id/imageView444"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:tint="?attr/aboutIconColor"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_code_braces" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/imageView444"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/textView999"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Licenses"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textView878787"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Open source licenses" />
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -292,7 +339,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="0dp"
                 android:paddingLeft="16dp"
-                android:text="Members"
+                android:text="Creators"
                 android:textAppearance="@android:style/TextAppearance.Material.Medium"
                 android:textStyle="bold" />
 
@@ -387,7 +434,7 @@
                                 android:id="@+id/textView8"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Somesh"
+                                android:text="Somesh KS"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 

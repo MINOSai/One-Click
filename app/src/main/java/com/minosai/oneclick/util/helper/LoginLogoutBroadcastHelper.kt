@@ -4,13 +4,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.minosai.oneclick.network.WebService.Companion.RequestType
-import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.Constants.EXTRA_TYPE
+import com.minosai.oneclick.util.Constants.LOGIN_LOGOUT_ACTION
 import com.minosai.oneclick.util.receiver.LoginLogoutReceiver
 
 object LoginLogoutBroadcastHelper {
-
-    val LOGIN_LOGOUT_ACTION = "${Constants.PACKAGE_NAME}.action.LOGIN_LOGOUT_ACTION"
 
     fun sendLoginLogoutBroadcast(context: Context, type: RequestType) {
 

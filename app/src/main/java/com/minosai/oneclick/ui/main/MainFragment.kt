@@ -2,13 +2,18 @@ package com.minosai.oneclick.ui.main
 
 import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -81,7 +86,7 @@ class MainFragment : Fragment(),
 
         var displayName = mainViewModel.userPrefs.displayName
         if (displayName.isEmpty() || displayName.isBlank()) {
-            displayName = "User"
+            displayName = "VITian"
         }
         view.text_home_displayname?.text = "Hello, ${displayName}"
 
@@ -124,6 +129,7 @@ class MainFragment : Fragment(),
             hasFixedSize()
             adapter = accountAdapter
         }
+        ViewCompat.setNestedScrollingEnabled(view.rv_accounts, false)
     }
 
     private fun showDialogToPrimary(account: AccountInfo) {
@@ -131,7 +137,6 @@ class MainFragment : Fragment(),
                 .setTitle("Make primary")
                 .setMessage("Make the account with username '${account.username}' as primary account?")
                 .setPositiveButton("YES") { dialog, _ ->
-                    //TODO: Pass id instead of username
                     mainViewModel.setPrimaryAccount(account.id)
                     dialog.dismiss()
                 }
@@ -170,7 +175,7 @@ class MainFragment : Fragment(),
                 .getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("account password", password)
         clipboard.setPrimaryClip(clip)
-        showSnackBar("Password copied to clipboard")
+        showSnackBar(R.drawable.ic_check_circle, "Password copied to clipboard")
     }
 
     private fun addObservers() {
@@ -218,41 +223,76 @@ class MainFragment : Fragment(),
         }
 
         view.fab_action_settings?.setOnClickListener {
-            findNavController(it).navigate(R.id.action_mainFragment_to_settingsFragment)
+            findNavController(it).navigate(com.minosai.oneclick.R.id.action_mainFragment_to_settingsFragment)
         }
 
         view.fab_action_sleep_timer?.setOnClickListener {
-            showSnackBar("Sleep timer")
+//            showSnackBar("Sleep timer")
         }
 
         view.button_wifi?.setOnClickListener {
-            openWifiSettings()
+            //            openWifiSettings()
+            expandNotification()
         }
 
         view.main_icon_info.setOnClickListener {
-            findNavController(it).navigate(R.id.action_mainFragment_to_infoFragment)
+            findNavController(it).navigate(com.minosai.oneclick.R.id.action_mainFragment_to_infoFragment)
         }
     }
 
     private fun login(userName: String, password: String) {
         if (isConnectedToWifi) {
-            if (!isLoading) {
-                webService.login(this, userName, password)
-                mainViewModel.startLoading()
+            if (!isConnectedToMobileData()) {
+                if (!isLoading) {
+                    webService.login(this, userName, password)
+                    mainViewModel.startLoading()
+                }
+            } else {
+                showSnackBar(R.drawable.ic_signal_off, "Please turn off mobile data")
             }
         } else {
-            showSnackBar("Not connected to WiFi")
+            showSnackBar(R.drawable.ic_wifi_off, "Not connected to WiFi")
         }
     }
 
     private fun logout() {
         if (isConnectedToWifi) {
-            if (!isLoading) {
-                webService.logout(this)
-                mainViewModel.startLoading()
+            if (!isConnectedToMobileData()) {
+                if (!isLoading) {
+                    webService.logout(this)
+                    mainViewModel.startLoading()
+                }
+            } else {
+                showSnackBar(R.drawable.ic_signal_off, "Please turn off mobile data")
             }
         } else {
-            showSnackBar("Not connected to WiFi")
+            showSnackBar(R.drawable.ic_wifi_off, "Not connected to WiFi")
+        }
+    }
+
+    private fun isConnectedToMobileData(): Boolean {
+        val cm = context?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        if (activeNetwork != null) {
+            if (activeNetwork.type == ConnectivityManager.TYPE_MOBILE) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun expandNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startActivity(Intent(Settings.Panel.ACTION_WIFI))
+        } else {
+            try {
+                val service = requireContext().getSystemService("statusbar")
+                val statusbarManager = Class.forName("android.app.StatusBarManager")
+                val expand = statusbarManager.getMethod("expandNotificationsPanel")
+                expand.invoke(service)
+            } catch (e: Exception) {
+                openWifiSettings()
+            }
         }
     }
 
@@ -315,7 +355,10 @@ class MainFragment : Fragment(),
                                   isLogged: Boolean,
                                   responseString: String) {
         mainViewModel.stopLoading()
-        showSnackBar(responseString)
+        showSnackBar(
+                if (isLogged) R.drawable.ic_check_circle else R.drawable.ic_alert_circle,
+                responseString
+        )
     }
 
     override fun onSheetResponse(userName: String,
@@ -342,6 +385,7 @@ class MainFragment : Fragment(),
     }
 
     private fun startLoading() {
+        main_layout_alert?.hide()
         main_wifi_loading_anim.apply {
             show()
             playAnimation()
@@ -365,8 +409,18 @@ class MainFragment : Fragment(),
         }
     }
 
-    private fun showSnackBar(message: String) =
-            getSnackBar(message).show()
+    private fun showSnackBar(drawable: Int, message: String) {
+//        getSnackBar(message).show()
+        main_layout_alert?.show()
+        main_text_alert?.apply {
+            text = message
+            setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
+        }
+
+        Handler().postDelayed({
+            main_layout_alert?.hide()
+        }, 1500)
+    }
 
     private fun getSnackBar(message: String) =
             Snackbar.make(mainViewModel.view, message, Snackbar.LENGTH_SHORT)

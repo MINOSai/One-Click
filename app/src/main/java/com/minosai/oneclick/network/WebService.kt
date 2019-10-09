@@ -26,7 +26,6 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
     val TAG = javaClass.simpleName ?: Constants.PACKAGE_NAME
 
     fun login(loginLogoutListener: LoginLogoutListener, userName: String?, password: String?) {
-        //TODO: Check if VOLSBB or VIT2.4G OR VIT5G
         if (userName != null && password != null) {
             Constants.URL_LOGIN.httpPost(listOf(
                     "userId" to userName,
