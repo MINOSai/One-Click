@@ -38,7 +38,7 @@
 
         <service
             android:name=".util.service.OneClickTileService"
-            android:icon="@drawable/ic_login"
+            android:icon="@drawable/ic_qstile"
             android:label="Login"
             android:enabled="true"
             android:exported="true"
