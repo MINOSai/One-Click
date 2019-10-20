@@ -8,3 +8,9 @@
 /build
 /captures
 .externalNativeBuild
+
+.idea/
+
+app/google-services.json
+
+app/release/
