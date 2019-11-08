@@ -13,6 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -21,7 +24,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.minosai.oneclick.R
 import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
@@ -62,6 +64,9 @@ class MainFragment : Fragment(),
     private lateinit var mainViewModel: MainViewModel
     private lateinit var accountAdapter: AccountAdapter
 
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -93,6 +98,9 @@ class MainFragment : Fragment(),
         initRecyclerView(view)
         addObservers()
         setClicks(view)
+
+        initBiometricPrompt()
+        initPromptInfo()
     }
 
     private fun initRecyclerView(view: View) {
@@ -106,17 +114,23 @@ class MainFragment : Fragment(),
                     login(account.username, account.password)
                 }
                 Constants.AccountAction.COPY_PASSWORD -> {
-                    copyToClipboard(account.password)
+                    runWithAuth {
+                        copyToClipboard(account.password)
+                    }
                 }
                 Constants.AccountAction.VIEW_PASSWORD -> {
-                    showDialog(account.password)
+                    runWithAuth {
+                        showDialog(account.password)
+                    }
                 }
                 Constants.AccountAction.EDIT_ACCOUNT -> {
-                    showBottomSheet(
-                            fragmentManager!!,
-                            Constants.SheetAction.EDIT_ACCOUNT,
-                            account
-                    )
+                    runWithAuth {
+                        showBottomSheet(
+                                fragmentManager!!,
+                                Constants.SheetAction.EDIT_ACCOUNT,
+                                account
+                        )
+                    }
                 }
                 Constants.AccountAction.DELETE_ACCOUNT -> {
                     showDialogToDelete(account)
@@ -227,7 +241,7 @@ class MainFragment : Fragment(),
         }
 
         view.fab_action_sleep_timer?.setOnClickListener {
-//            showSnackBar("Sleep timer")
+            //            showSnackBar("Sleep timer")
         }
 
         view.button_wifi?.setOnClickListener {
@@ -333,13 +347,6 @@ class MainFragment : Fragment(),
         }
     }
 
-    private fun saveUser(userName: String, password: String) {
-        preferences.edit()
-                .putString(Constants.PREF_USERNAME, userName)
-                .putString(Constants.PREF_PASSWORD, password)
-                .apply()
-    }
-
     override fun onWifiStateChanged(isConnectedToWifi: Boolean, ssid: String) {
         this.isConnectedToWifi = isConnectedToWifi
         if (isConnectedToWifi) {
@@ -410,7 +417,6 @@ class MainFragment : Fragment(),
     }
 
     private fun showSnackBar(drawable: Int, message: String) {
-//        getSnackBar(message).show()
         main_layout_alert?.show()
         main_text_alert?.apply {
             text = message
@@ -422,11 +428,60 @@ class MainFragment : Fragment(),
         }, 1500)
     }
 
-    private fun getSnackBar(message: String) =
-            Snackbar.make(mainViewModel.view, message, Snackbar.LENGTH_SHORT)
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         main_icon_inappupdate.onActivityResult(requestCode, resultCode)
+    }
+
+    private fun runWithAuth(action: () -> Unit) {
+        mainViewModel.authAction = action
+        if (mainViewModel.isAuthenticated.value == true) {
+            mainViewModel.authAction?.invoke()
+        } else {
+            val biometricManager = BiometricManager.from(requireContext())
+            if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+                biometricPrompt.authenticate(promptInfo)
+                mainViewModel.isAuthenticated.observe(this, Observer { isAuthenticated ->
+                    if (isAuthenticated) {
+                        mainViewModel.authAction?.invoke()
+                        mainViewModel.isAuthenticated.removeObservers(this)
+                    }
+                })
+            } else {
+                showSnackBar(R.drawable.ic_lock_black_24dp, "Could not authenticate")
+            }
+        }
+    }
+
+    private fun initPromptInfo() {
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle("My App's Authentication")
+                .setSubtitle("Please login to get access")
+                .setDescription("My App is using Android biometric authentication")
+                .setDeviceCredentialAllowed(true)
+                .build()
+    }
+
+    private fun initBiometricPrompt() {
+        val executor = ContextCompat.getMainExecutor(requireContext())
+
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                showSnackBar(R.drawable.ic_lock_black_24dp, "Authentication failed")
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                showSnackBar(R.drawable.ic_lock_black_24dp, "Authentication failed")
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                mainViewModel.isAuthenticated.value = true
+            }
+        }
+
+        biometricPrompt = BiometricPrompt(this, executor, callback)
     }
 }

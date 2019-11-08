@@ -15,6 +15,8 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     var userPrefs = UserPrefs()
     val isLoading = MutableLiveData<Boolean>()
     var loginAttempted = false
+    var isAuthenticated = MutableLiveData<Boolean>()
+    var authAction: (() -> Unit)? = null
 
     lateinit var context: Context
     lateinit var view: View

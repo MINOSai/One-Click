@@ -132,6 +132,10 @@ dependencies {
     // Lottie
     implementation "com.airbnb.android:lottie:3.0.7"
 
+    //AndroidX Biometric
+    def biometric_version= '1.0.0'
+    implementation "androidx.biometric:biometric:$biometric_version"
+
 }
 //kotlin {
 //    experimental {
