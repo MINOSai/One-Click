@@ -32,7 +32,11 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_bottom_sheet_input, container, false)
+        return inflater.inflate(R.layout.fragment_bottom_sheet_input, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
@@ -54,6 +58,11 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
             }
         }
 
+        if (action == Constants.SheetAction.EDIT_ACCOUNT && input_newuser_username.editText?.text.isNullOrEmpty()) {
+            input_newuser_username.editText?.setText(accountInfo?.username)
+            input_newuser_password.editText?.setText(accountInfo?.password)
+        }
+
         view.button_newuser_cancel.setOnClickListener {
             hideKeyboard()
             dismiss()
@@ -73,8 +82,6 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
                 dismiss()
             }
         }
-
-        return view
     }
 
     private fun isValidInput(view: View, userName: String, password: String): Boolean {
@@ -95,15 +102,6 @@ class InputBottomSheetFragment : RoundedBottomSheetDialogFragment() {
         }
 
         return valid
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if (action == Constants.SheetAction.EDIT_ACCOUNT && input_newuser_username.editText?.text.isNullOrEmpty()) {
-            input_newuser_username.editText?.setText(accountInfo?.username)
-            input_newuser_password.editText?.setText(accountInfo?.password)
-        }
     }
 
     override fun onDestroyView() {

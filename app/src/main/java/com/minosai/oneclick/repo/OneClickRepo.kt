@@ -79,11 +79,11 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         }
     }
 
-    fun setSessionLink(sessionLink: String?) {
-        preferences[Constants.PREF_SESSION_LINK] = sessionLink
-    }
+//    fun setSessionLink(sessionLink: String?) {
+//        preferences[Constants.PREF_SESSION_LINK] = sessionLink
+//    }
 
-    fun getSessionLink(): String? = preferences[Constants.PREF_SESSION_LINK]
+//    fun getSessionLink(): String? = preferences[Constants.PREF_SESSION_LINK]
 
     fun isAutoUpdateUsage(): Boolean {
         return preferences[Constants.PREF_AUTOUPDATE_USAGE, true] ?: false
@@ -119,6 +119,14 @@ class OneClickRepo @Inject constructor(val dao: OneClickDao, val preferences: Sh
         GlobalScope.launch {
             dao.updateAccInfo(accountInfo)
         }
+    }
+
+    fun getHasOpenedInfo(): Boolean {
+        return preferences[Constants.PREF_OPENED_INFO, false] ?: false
+    }
+
+    fun setHasOpenedInfo(state: Boolean) {
+        preferences[Constants.PREF_OPENED_INFO] = state
     }
 
 }

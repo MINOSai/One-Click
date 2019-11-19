@@ -22,58 +22,58 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.N)
 @TargetApi(Build.VERSION_CODES.N)
 class OneClickTileService : TileService(),
-//        WifiConnectivityListener,
         LoginLogoutListener {
 
-//    val TAG = javaClass.simpleName
-    val TAG = "oneclicktileservice"
+    val TAG = "oneclicktileservice_log"
 
-//    @Inject
-//    lateinit var preferences: SharedPreferences
     @Inject
     lateinit var webService: WebService
     @Inject
     lateinit var repoInterface: RepoInterface
 
-//    private lateinit var wifiReceiver: WifiReceiver
-
     private var activeAccount: AccountInfo? = null
 
     private val observer = Observer<AccountInfo> {
+        Log.d(TAG, "accountObserver")
         activeAccount = it
         if (repoInterface.userPrefs.loginQsTile) {
             login()
         }
     }
 
+//    override fun onCreate() {
+//        super.onCreate()
+//
+//        AndroidInjection.inject(this)
+//        Log.d(TAG, "onCreate")
+//    }
+
 //    override fun onTileAdded() {
 //        super.onTileAdded()
+//        AndroidInjection.inject(this)
+//        repoInterface.activeAccount.observeForever(observer)
 //        changeStateNormal()
 //        Log.d(TAG, "onTileAdded")
 //    }
-
-    override fun onCreate() {
-        super.onCreate()
-
-        AndroidInjection.inject(this)
-
-//        wifiReceiver = WifiReceiver(this)
-//        changeStateNormal()
-
-//        registerWifiReceiver()
-
-//        repoInterface.updateAccounts()
-
-//        repoInterface.activeAccount.observeForever(observer)
-
-        Log.d(TAG, "onCreate")
-    }
+//
+//    override fun onTileRemoved() {
+//        super.onTileRemoved()
+//        repoInterface.activeAccount.removeObserver(observer)
+//        Log.d(TAG, "onTileRemoved")
+//    }
 
     override fun onStartListening() {
         super.onStartListening()
+        Log.d(TAG, "onStartListening")
+        AndroidInjection.inject(this)
         repoInterface.activeAccount.observeForever(observer)
         changeStateNormal()
-        Log.d(TAG, "onStartListening")
+    }
+
+    override fun onStopListening() {
+        super.onStopListening()
+        Log.d(TAG, "onStopListening")
+        repoInterface.activeAccount.removeObserver(observer)
     }
 
     override fun onClick() {
@@ -96,49 +96,6 @@ class OneClickTileService : TileService(),
         }
     }
 
-    override fun onStopListening() {
-        super.onStopListening()
-        repoInterface.activeAccount.removeObserver(observer)
-        Log.d(TAG, "onStopListening")
-    }
-
-//    override fun onDestroy() {
-//        unregisterWifiReceiver()
-//        super.onDestroy()
-//        repoInterface.activeAccount.removeObserver(observer)
-//        Log.d(TAG, "onDestroy")
-//
-//    }
-
-//    private fun registerWifiReceiver() {
-//        try {
-//            val intentFilter = with(IntentFilter()) {
-//                addAction("android.net.wifi.WIFI_SATE_CHANGED")
-//                addAction("android.net.conn.CONNECTIVITY_CHANGE")
-//                addAction("android.net.wifi.supplicant.CONNECTION_CHANGE")
-//                addAction("android.net.wifi.STATE_CHANGE")
-//                return@with this
-//            }
-//            registerReceiver(wifiReceiver, intentFilter)
-//            Log.d(TAG, "WifiReceiver registered")
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            Log.d(TAG, "WifiReceiver already registered")
-//        }
-//    }
-
-//    private fun unregisterWifiReceiver() {
-//        try {
-//            unregisterReceiver(wifiReceiver)
-//        } catch (e: Exception) {
-//             already unregistered
-//        }
-//    }
-
-//    override fun onWifiStateChanged(isConnectedToWifi: Boolean, ssid: String) {
-//        updateState(isConnectedToWifi)
-//    }
-
     override fun onLoggedListener(requestType: RequestType, isLogged: Boolean, responseString: String) {
 
         Log.d(TAG, "loginResponse")
@@ -152,27 +109,9 @@ class OneClickTileService : TileService(),
         }
 
         Handler().postDelayed({
-//            updateState(true)
             changeStateNormal()
         }, 1500)
     }
-
-//    private fun updateState(isWifiConnected: Boolean) {
-//        with(qsTile) {
-//
-//            icon = Icon.createWithResource(this@OneClickTileService, R.drawable.ic_login)
-//
-//            if (isWifiConnected) {
-//                state = Tile.STATE_INACTIVE
-//                label = "Login"
-//            } else {
-//                state = Tile.STATE_UNAVAILABLE
-//                label = "One Click"
-//            }
-//
-//            updateTile()
-//        }
-//    }
 
     private fun changeStateNormal() = with(qsTile) {
         state = Tile.STATE_INACTIVE

@@ -1,22 +1,16 @@
 package com.minosai.oneclick.network
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.minosai.oneclick.util.Constants
-import com.minosai.oneclick.util.helper.PreferenceHelper.get
-import com.minosai.oneclick.util.helper.PreferenceHelper.set
 import com.minosai.oneclick.util.listener.LoginLogoutListener
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import javax.inject.Inject
 
-class WebService @Inject constructor(val context: Context, val preferences: SharedPreferences) {
+class WebService @Inject constructor(val context: Context/*, val preferences: SharedPreferences*/) {
 
     companion object {
         enum class RequestType { LOGIN, LOGOUT }
@@ -84,7 +78,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
                             } else {
                                 loginLogoutListener.onLoggedListener(RequestType.LOGOUT, false, Constants.Response.LOGOUT_ALREADY)
                             }
-                            preferences[Constants.PREF_SESSION_LINK] = null
+//                            preferences[Constants.PREF_SESSION_LINK] = null
                         }
                     }
                 }
@@ -94,7 +88,7 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
         if (webpage.contains("Check Your Account Details", true)) {
             val sessionLink = Jsoup.parse(webpage).getElementsByClass("orangeText10")[1].attr("href")
             Log.d(TAG, "HTML String : $sessionLink")
-            preferences[Constants.PREF_SESSION_LINK] = sessionLink
+//            preferences[Constants.PREF_SESSION_LINK] = sessionLink
             return sessionLink
         } else {
             return null
@@ -105,21 +99,21 @@ class WebService @Inject constructor(val context: Context, val preferences: Shar
 //        WorkManager.getInstance().enqueue(usageWork)
     }
 
-    fun getUsage(updateUsage: (usage: String) -> Unit) {
-        GlobalScope.launch {
-            try {
-                val sessionLink: String? = preferences[Constants.PREF_SESSION_LINK]
-                sessionLink?.let { link ->
-                    val document = Jsoup.connect(link).get()
-                    val subTexts: Elements = document.getElementsByClass("subTextRight")
-                    val usageElement = subTexts[subTexts.size -1]
-                    val usage: String = usageElement.child(0).text()
-                    updateUsage(usage)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
+//    fun getUsage(updateUsage: (usage: String) -> Unit) {
+//        GlobalScope.launch {
+//            try {
+//                val sessionLink: String? = preferences[Constants.PREF_SESSION_LINK]
+//                sessionLink?.let { link ->
+//                    val document = Jsoup.connect(link).get()
+//                    val subTexts: Elements = document.getElementsByClass("subTextRight")
+//                    val usageElement = subTexts[subTexts.size -1]
+//                    val usage: String = usageElement.child(0).text()
+//                    updateUsage(usage)
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
 }

@@ -28,7 +28,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideWebService(application: Application, preferences: SharedPreferences): WebService = WebService(application, preferences)
+    fun provideWebService(application: Application, preferences: SharedPreferences): WebService = WebService(application/*, preferences*/)
 
     @Provides
     @Singleton

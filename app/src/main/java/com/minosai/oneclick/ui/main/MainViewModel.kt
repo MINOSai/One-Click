@@ -57,4 +57,8 @@ class MainViewModel @Inject constructor(val repo: OneClickRepo) : ViewModel() {
     fun stopLoading() {
         isLoading.value = false
     }
+
+    fun getHasOpenedInfo() = repo.getHasOpenedInfo()
+
+    fun setHasOpenedInfo(state: Boolean) = repo.setHasOpenedInfo(state)
 }

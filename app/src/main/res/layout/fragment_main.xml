@@ -41,6 +41,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
+                    android:ellipsize="end"
                     android:lines="1"
                     android:maxLines="1"
                     android:textAppearance="@android:style/TextAppearance.Material.Large"
@@ -51,17 +52,45 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Hello, Minosai" />
 
-                <com.minosai.oneclick.util.InAppUpdateImageView
+                <com.minosai.oneclick.util.InAppUpdateLayout
                     android:id="@+id/main_icon_inappupdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:foreground="@drawable/bg_ripple"
-                    android:padding="8dp"
-                    android:tint="?android:attr/textColorPrimary"
                     app:layout_constraintBottom_toBottomOf="@+id/text_home_displayname"
                     app:layout_constraintEnd_toStartOf="@+id/main_icon_info"
-                    app:layout_constraintTop_toTopOf="@+id/text_home_displayname"
-                    app:srcCompat="@drawable/ic_google_play" />
+                    app:layout_constraintTop_toTopOf="@+id/text_home_displayname">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_button_secondary"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:tint="?android:attr/textColorTertiary"
+                            app:srcCompat="@drawable/ic_google_play" />
+
+                        <TextView
+                            android:id="@+id/textView22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:text="Update"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </com.minosai.oneclick.util.InAppUpdateLayout>
 
                 <ImageView
                     android:id="@+id/main_icon_info"
@@ -70,7 +99,6 @@
                     android:layout_marginEnd="24dp"
                     android:foreground="@drawable/bg_ripple"
                     android:padding="8dp"
-                    android:tint="?android:attr/textColorPrimary"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/text_home_displayname"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -4,18 +4,19 @@ object Constants {
 
     const val PACKAGE_NAME = "com.minosai.oneclick"
     const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=$PACKAGE_NAME"
-
     const val PREF_KEY = "$PACKAGE_NAME.pref"
 
     const val PREF_USERNAME = "$PACKAGE_NAME.pref.username"
+
     const val PREF_PASSWORD = "$PACKAGE_NAME.pref.password"
     const val PREF_IS_FIRST_TIME = "$PACKAGE_NAME.pref.isfirsttime"
     const val PREF_DISPLAY_NAME = "display_name"
-    const val PREF_SESSION_LINK = "$PACKAGE_NAME.pref.sessionlink"
+    //    const val PREF_SESSION_LINK = "$PACKAGE_NAME.pref.sessionlink"
     const val PREF_AUTOUPDATE_USAGE = "$PACKAGE_NAME.pref.autoupdateusage"
     const val PREF_LOGIN_APP_START = "auto_login_app_start"
     const val PREF_LOGIN_QS_TILE = "auto_login_quicktile"
     const val PREF_DARK_THEME = "dark_theme"
+    const val PREF_OPENED_INFO = "$PACKAGE_NAME.pref.opened_info"
 
     const val EXTRA_TYPE = "$PACKAGE_NAME.extra.REQUEST_TYPE"
 

@@ -53,7 +53,7 @@ class CredentialsFragment : Fragment(), Injectable {
             }
 
             if (isValid) {
-                showDialog(userName, password, displayName)
+                saveUserAndNavigate(userName, password, displayName)
             }
         }
 
@@ -62,18 +62,23 @@ class CredentialsFragment : Fragment(), Injectable {
     private fun showDialog(userName: String, password: String, displayName: String) {
         AlertDialog.Builder(requireContext())
                 .setTitle("Privacy")
-                .setMessage("We value your privacy. All your data is stored locally in the device and not sent to cloud.")
+                .setMessage("We value your privacy. All your data is stored locally on the device and not sent to cloud.")
                 .setPositiveButton("GOT IT") { dialog, _ ->
-                    with(credentialsViewModel) {
-                        addAccount(userName, password, true)
-                        changeFirstOpenBoolean()
-                        saveDisplayName(displayName)
-                    }
-                    hideKeyboard()
-                    findNavController(button_cred_next).popBackStack()
+                    saveUserAndNavigate(userName, password, displayName)
                     dialog.dismiss()
                 }
                 .show()
+    }
+
+    private fun saveUserAndNavigate(userName: String, password: String, displayName: String) {
+
+        with(credentialsViewModel) {
+            addAccount(userName, password, true)
+            changeFirstOpenBoolean()
+            saveDisplayName(displayName)
+        }
+        hideKeyboard()
+        findNavController(button_cred_next).popBackStack()
     }
 
 }

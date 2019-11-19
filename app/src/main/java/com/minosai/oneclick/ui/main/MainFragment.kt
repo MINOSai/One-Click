@@ -29,6 +29,7 @@ import com.minosai.oneclick.di.Injectable
 import com.minosai.oneclick.model.AccountInfo
 import com.minosai.oneclick.network.WebService
 import com.minosai.oneclick.ui.adapter.AccountAdapter
+import com.minosai.oneclick.ui.dialog.bottomsheets.InfoBottomSheetFragment
 import com.minosai.oneclick.ui.dialog.bottomsheets.InputBottomSheetFragment
 import com.minosai.oneclick.util.Constants
 import com.minosai.oneclick.util.hide
@@ -101,6 +102,17 @@ class MainFragment : Fragment(),
 
         initBiometricPrompt()
         initPromptInfo()
+
+        checkAndOpenInfo()
+    }
+
+    private fun checkAndOpenInfo() {
+        if (!mainViewModel.getHasOpenedInfo()) {
+            Handler().postDelayed({
+                showInfoButtonSheet()
+                mainViewModel.setHasOpenedInfo(true)
+            }, 1000)
+        }
     }
 
     private fun initRecyclerView(view: View) {
@@ -250,7 +262,8 @@ class MainFragment : Fragment(),
         }
 
         view.main_icon_info.setOnClickListener {
-            findNavController(it).navigate(com.minosai.oneclick.R.id.action_mainFragment_to_infoFragment)
+//            findNavController(it).navigate(R.id.action_mainFragment_to_infoFragment)
+            showInfoButtonSheet()
         }
     }
 
@@ -416,9 +429,15 @@ class MainFragment : Fragment(),
         }
     }
 
+    private fun showInfoButtonSheet() {
+        val fragment = InfoBottomSheetFragment()
+        fragment.show(requireFragmentManager(), fragment.tag)
+    }
+
     private fun showSnackBar(drawable: Int, message: String) {
         main_layout_alert?.show()
         main_text_alert?.apply {
+            show()
             text = message
             setCompoundDrawablesWithIntrinsicBounds(drawable, 0, 0, 0)
         }
@@ -455,9 +474,9 @@ class MainFragment : Fragment(),
 
     private fun initPromptInfo() {
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle("My App's Authentication")
-                .setSubtitle("Please login to get access")
-                .setDescription("My App is using Android biometric authentication")
+                .setTitle("One Click Authentication")
+                .setSubtitle("Please authenticate to proceed")
+                .setDescription("In order to view or edit account details you need to be authenticated")
                 .setDeviceCredentialAllowed(true)
                 .build()
     }

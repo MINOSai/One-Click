@@ -7,8 +7,8 @@ import android.content.IntentSender
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -19,9 +19,9 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
 
 
-class InAppUpdateImageView @JvmOverloads constructor(
+class InAppUpdateLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : AppCompatImageView(context, attrs, defStyleAttr), View.OnClickListener {
+) : FrameLayout(context, attrs, defStyleAttr), View.OnClickListener {
 
     private val requestCode = 4599
     private val tag = this.javaClass.simpleName

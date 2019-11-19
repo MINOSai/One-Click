@@ -21,13 +21,6 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
-        <action
-            android:id="@+id/action_mainFragment_to_infoFragment"
-            app:destination="@id/infoFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/credentialsFragment"
@@ -44,16 +37,9 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
-        <action
-            android:id="@+id/action_settingsFragment_to_infoFragment"
-            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.minosai.oneclick.ui.about.AboutFragment"
         android:label="AboutFragment" />
-    <fragment
-        android:id="@+id/infoFragment"
-        android:name="com.minosai.oneclick.ui.info.InfoFragment"
-        android:label="InfoFragment" />
 </navigation>
